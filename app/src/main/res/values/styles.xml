@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -16,5 +17,16 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="boldTextVerde">
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textColor">@color/green</item>
+    </style>
+
+    <style name="normalText">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/branco</item>
+    </style>
 
 </resources>
