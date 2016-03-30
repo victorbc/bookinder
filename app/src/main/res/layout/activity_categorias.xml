@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/greenBB">
+    android:background="@color/greenBB"
+    android:fitsSystemWindows="true">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,8 +17,9 @@
        android:text="Escolha seus gêneros favoritos"
        android:textColor="#FFF"
         android:id="@+id/textView"
-        android:layout_margin="5dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="5dp" />
 
 
 
@@ -29,7 +31,8 @@
         android:layout_gravity="center_horizontal"
         android:numColumns="3"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp" />
 
 
 </LinearLayout>
@@ -50,6 +53,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="15dp"
         android:layout_marginEnd="23dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="50dp"/>
 </RelativeLayout>
 

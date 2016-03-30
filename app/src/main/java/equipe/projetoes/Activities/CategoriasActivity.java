@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -25,7 +26,7 @@ import equipe.projetoes.Adapters.CategoriasGridViewAdapter;
 import equipe.projetoes.Models.Categoria;
 import equipe.projetoes.R;
 
-public class CategoriasActivity extends Activity{
+public class CategoriasActivity extends AppCompatActivity{
     private static List<Categoria> mCategorias;
     private List<Categoria> isCategoriaSelecionada = new ArrayList<>();
 
@@ -36,6 +37,10 @@ public class CategoriasActivity extends Activity{
         mCategorias = Arrays.asList(Categoria.values());
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
 
         GridView gridview = (GridView) findViewById(R.id.itens_categorias);
         gridview.setAdapter(new CategoriasGridViewAdapter(this, mCategorias));
