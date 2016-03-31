@@ -21,6 +21,10 @@
             android:name=".Activities.CategoriasActivity"
             android:label="@string/title_activity_categorias">
         </activity>
+        <activity
+            android:name=".Activities.MainActivity"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

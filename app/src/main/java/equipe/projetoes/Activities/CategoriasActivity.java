@@ -2,6 +2,7 @@ package equipe.projetoes.Activities;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -67,6 +68,10 @@ public class CategoriasActivity extends AppCompatActivity{
             }
         });
 
+    }
+
+    public void next(View v){
+        startActivity(new Intent(CategoriasActivity.this,MainActivity.class));
     }
 
 
