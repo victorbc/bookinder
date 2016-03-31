@@ -1,30 +1,25 @@
-package equipe.projetoes.Activities;
+package equipe.projetoes.activities;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.siyamed.shapeimageview.CircularImageView;
-import com.github.siyamed.shapeimageview.ShapeImageView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import equipe.projetoes.Adapters.CategoriasGridViewAdapter;
-import equipe.projetoes.Models.Categoria;
+import equipe.projetoes.adapters.CategoriasGridViewAdapter;
+import equipe.projetoes.models.Categoria;
 import equipe.projetoes.R;
 
 public class CategoriasActivity extends AppCompatActivity{

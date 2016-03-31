@@ -1,10 +1,9 @@
-package equipe.projetoes.Activities;
+package equipe.projetoes.activities;
 
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,17 +16,45 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import equipe.projetoes.R;
+import equipe.projetoes.models.Livro;
+import equipe.projetoes.utilis.OnSwipeTouchListener;
 
-public class MainActivity extends AppCompatActivity     implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private ImageView livroView;
+    private ImageView livroView2;
+    private ImageView livroView3;
+    private Livro livro;
+    private Livro livro2;
+    private Livro livro3;
+    private TextView nome;
+    private TextView autor;
+    private TextView editora;
+    private TextView paginas;
+    private List<Livro> livros;
+    private Random rnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        livros = new ArrayList<Livro>();
+        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
+        livros.add(new Livro(R.drawable.livro1, "Harry Potter e a pedra filosofal", "J.K. Rowling", "Racco", 372));
+        livros.add(new Livro(R.drawable.livro2, "The Hunger Games", "Suzanne Collins", "Casa da Palavra", 429));
+        livros.add(new Livro(R.drawable.livro3, "The Martian", "Matt Damon", "Escreva LTDA", 160));
+        rnd = new Random();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow(); // in Activity's onCreate() for instance
@@ -40,7 +67,7 @@ public class MainActivity extends AppCompatActivity     implements NavigationVie
         toolbar.setTitle("");
         Resources r = getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, r.getDisplayMetrics());
-        toolbar.setPadding(0,(int)px,0,0);
+        toolbar.setPadding(0, (int) px, 0, 0);
         //toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
         setSupportActionBar(toolbar);
         // getSupportActionBar().setElevation(0);
@@ -53,6 +80,86 @@ public class MainActivity extends AppCompatActivity     implements NavigationVie
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        livroView = (ImageView) findViewById(R.id.livro);
+        livroView2 = (ImageView) findViewById(R.id.livro2);
+        livroView3 = (ImageView) findViewById(R.id.livro3);
+
+        nome = (TextView) findViewById(R.id.text_nome);
+        autor = (TextView) findViewById(R.id.text_autor);
+        editora = (TextView) findViewById(R.id.text_editora);
+        paginas = (TextView) findViewById(R.id.text_pg);
+
+        livroView.setImageResource(nextLivro(1).getResId());
+        livroView2.setImageResource(nextLivro(2).getResId());
+        livroView3.setImageResource(nextLivro(3).getResId());
+
+        updateLivroInfo();
+
+
+        View.OnTouchListener swipeListner = new OnSwipeTouchListener(MainActivity.this) {
+            public void onSwipeTop() {
+                //Toast.makeText(MainActivity.this, "top", Toast.LENGTH_SHORT).show();
+                shiftBooks();
+            }
+
+            public void onSwipeRight() {
+               // Toast.makeText(MainActivity.this, "right", Toast.LENGTH_SHORT).show();
+                shiftBooks();
+            }
+
+            public void onSwipeLeft() {
+               // Toast.makeText(MainActivity.this, "left", Toast.LENGTH_SHORT).show();
+                shiftBooks();
+            }
+
+            public void onSwipeBottom() {
+                //Toast.makeText(MainActivity.this, "bottom", Toast.LENGTH_SHORT).show();
+            }
+
+        };
+
+
+        livroView.setOnTouchListener(swipeListner);
+        livroView2.setOnTouchListener(swipeListner);
+        livroView3.setOnTouchListener(swipeListner);
+
+
+    }
+
+    private void updateLivroInfo() {
+        nome.setText(livro.getNome());
+        autor.setText(livro.getAutor());
+        editora.setText(livro.getEditora());
+        paginas.setText(livro.getPg()+"");
+    }
+
+
+    private void shiftBooks() {
+        livroView.setImageDrawable(livroView2.getDrawable());
+        livro = livro2;
+        livroView2.setImageDrawable(livroView3.getDrawable());
+        livro2 = livro3;
+        livroView3.setImageResource(nextLivro(3).getResId());
+
+        updateLivroInfo();
+    }
+
+    private Livro nextLivro(int pos) {
+        Livro temp = livros.get(rnd.nextInt(livros.size()));
+        switch (pos) {
+            case 1:
+                livro = temp;
+                break;
+            case 2:
+                livro2 = temp;
+                break;
+            case 3:
+                livro3 = temp;
+                break;
+        }
+        return temp;
     }
 
     @Override
@@ -125,6 +232,7 @@ public class MainActivity extends AppCompatActivity     implements NavigationVie
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     public final void updateHotCount() {
 //        if (notifCountTxt == null) { return; }
 //        runOnUiThread(new Runnable() {

@@ -1,9 +1,8 @@
-package equipe.projetoes.Models;
+package equipe.projetoes.models;
 
 import android.app.Activity;
 import android.content.res.Resources;
 
-import java.security.AccessControlContext;
 import java.text.Normalizer;
 
 /**
