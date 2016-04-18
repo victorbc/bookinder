@@ -8,4 +8,6 @@
     <color name="branco">#FFF</color>
     <color name="laranja">#ffcc31</color>
     <color name="accent">#dc1e2a</color>
+    <color name="fade">#9a000000</color>
+
 </resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp">
+
+    <ImageView
+        android:id="@+id/livro"
+        android:layout_width="80dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/livro"
+        android:elevation="15dp"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="35dp"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/livro"
+        android:layout_alignRight="@+id/livro"
+        android:layout_alignEnd="@+id/livro"
+        android:background="@color/fade"
+        android:id="@+id/menu_info"
+        android:elevation="20dp">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/bt_trade"
+            android:src="@drawable/ic_trade"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center_horizontal"
+            android:onClick="infoAction"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/bt_fav"
+            android:src="@drawable/ic_fav"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center_horizontal"
+            android:onClick="infoAction"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15 / 235"
+            android:id="@+id/bt_read"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:onClick="infoAction"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

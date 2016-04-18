@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         setContentView(R.layout.activity_matched);
         this.init();
 
+        if(!this.hasNavBar(getResources()))
+            findViewById(R.id.navspace).setVisibility(View.GONE);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_matches);
 

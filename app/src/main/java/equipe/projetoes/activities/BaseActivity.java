@@ -110,4 +110,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
+    public boolean hasNavBar (Resources resources)
+    {
+        int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
+        return id > 0 && resources.getBoolean(id);
+    }
 }

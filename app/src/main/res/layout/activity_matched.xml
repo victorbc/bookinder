@@ -16,9 +16,9 @@
         tools:openDrawer="start">
 
 
-        <include layout="@layout/layout_toolbar" />
 
         <include layout="@layout/content_matched" />
+        <include layout="@layout/layout_toolbar" />
 
 
         <android.support.design.widget.NavigationView
