@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="equipe.projetoes.MainActivity"
-    android:background="@drawable/background_match"
-    android:visibility="visible">
+    android:background="@drawable/background_matched"
+    android:visibility="visible"
+    tools:context="equipe.projetoes.activities.MatchListActivity">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -16,12 +16,9 @@
         tools:openDrawer="start">
 
 
-        <include
-            layout="@layout/layout_toolbar"/>
+        <include layout="@layout/layout_toolbar" />
 
-
-        <include
-            layout="@layout/content_main"/>
+        <include layout="@layout/content_matched" />
 
 
         <android.support.design.widget.NavigationView
@@ -30,14 +27,11 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
+            android:visibility="visible"
             app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/activity_main_drawer"
-            android:visibility="visible" />
+            app:menu="@menu/activity_main_drawer" />
 
     </android.support.v4.widget.DrawerLayout>
-
-
-
 
 
 </android.support.design.widget.CoordinatorLayout>

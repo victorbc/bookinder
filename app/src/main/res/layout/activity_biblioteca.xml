@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="equipe.projetoes.MainActivity"
-    android:background="@drawable/background_match"
+    tools:context="equipe.projetoes.activities.BibliotecaActivity"
+    android:background="@drawable/background_biblioteca"
     android:visibility="visible">
 
     <android.support.v4.widget.DrawerLayout
@@ -21,7 +21,7 @@
 
 
         <include
-            layout="@layout/content_main"/>
+            layout="@layout/content_biblioteca"/>
 
 
         <android.support.design.widget.NavigationView

@@ -7,7 +7,7 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="125dp"
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/logo"
@@ -35,7 +35,7 @@
         android:id="@+id/editText2"
         android:layout_gravity="center_horizontal"
         android:textAlignment="center"
-        android:hint="password"
+        android:hint="Password"
         android:textColor="@android:color/white"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="25dp"
@@ -43,7 +43,7 @@
 
     <Button
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:text="Login"
         android:id="@+id/bt_login"
         android:layout_gravity="center_horizontal"
@@ -95,7 +95,7 @@
 
     <ImageView
         android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:id="@+id/imageView3"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/gplus"
@@ -104,7 +104,7 @@
 
     <ImageView
         android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_height="38dp"
         android:id="@+id/imageView4"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/face" />

@@ -67,6 +67,7 @@ public class CategoriasActivity extends AppCompatActivity{
 
     public void next(View v){
         startActivity(new Intent(CategoriasActivity.this,MainActivity.class));
+        finish();
     }
 
 

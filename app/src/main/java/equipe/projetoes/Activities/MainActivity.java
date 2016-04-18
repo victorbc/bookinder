@@ -1,25 +1,16 @@
 package equipe.projetoes.activities;
 
-import android.content.res.Resources;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +20,7 @@ import equipe.projetoes.R;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.utilis.OnSwipeTouchListener;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity {
     private ImageView livroView;
     private ImageView livroView2;
     private ImageView livroView3;
@@ -42,12 +33,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView paginas;
     private List<Livro> livros;
     private Random rnd;
+    private TextView hotCountTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.init();
 
         livros = new ArrayList<Livro>();
         livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
@@ -55,31 +48,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         livros.add(new Livro(R.drawable.livro2, "The Hunger Games", "Suzanne Collins", "Casa da Palavra", 429));
         livros.add(new Livro(R.drawable.livro3, "The Martian", "Matt Damon", "Escreva LTDA", 160));
         rnd = new Random();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow(); // in Activity's onCreate() for instance
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        toolbar.setNavigationIcon(R.drawable.ic_menu);
-        toolbar.setTitle("");
-        Resources r = getResources();
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, r.getDisplayMetrics());
-        toolbar.setPadding(0, (int) px, 0, 0);
-        //toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
-        setSupportActionBar(toolbar);
-        // getSupportActionBar().setElevation(0);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //drawer.setScrimColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
 
         livroView = (ImageView) findViewById(R.id.livro);
@@ -105,12 +73,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             public void onSwipeRight() {
-               // Toast.makeText(MainActivity.this, "right", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.this, "right", Toast.LENGTH_SHORT).show();
                 shiftBooks();
             }
 
             public void onSwipeLeft() {
-               // Toast.makeText(MainActivity.this, "left", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.this, "left", Toast.LENGTH_SHORT).show();
                 shiftBooks();
             }
 
@@ -132,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nome.setText(livro.getNome());
         autor.setText(livro.getAutor());
         editora.setText(livro.getEditora());
-        paginas.setText(livro.getPg()+"");
+        paginas.setText(livro.getPg() + "");
     }
 
 
@@ -163,16 +131,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -180,11 +138,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuItemCompat.setActionView(item, R.layout.feed_update_count);
         RelativeLayout notifCount = (RelativeLayout) MenuItemCompat.getActionView(item);
         //notifCountTxt = (TextView) notifCount.findViewById(R.id.notif_count);
-        ((TextView) notifCount.findViewById(R.id.notif_count)).setText("0");
+        hotCountTxt = ((TextView) notifCount.findViewById(R.id.notif_count));
+        hotCountTxt.setText("0");
         notifCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(MainActivity.this, MatchListActivity.class));
             }
         });
         updateHotCount();
@@ -200,52 +159,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_location) {
-            return true;
-        }
-        if (id == R.id.action_notifications) {
+            showLocationDialog();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void showLocationDialog() {
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        if (id == R.id.nav_trocas) {
-            // Handle the camera action
-        } else if (id == R.id.nav_aguardando) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_localizacao, null);
+        dialogBuilder.setView(dialogView);
 
-        } else if (id == R.id.nav_buscar) {
 
-        } else if (id == R.id.nav_biblioteca) {
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setTitle("Mostrar livros por localização");
+        dialogView.findViewById(R.id.bt_cancelar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        dialogView.findViewById(R.id.bt_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
 
-        } else if (id == R.id.nav_pref) {
 
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
+
     public final void updateHotCount() {
-//        if (notifCountTxt == null) { return; }
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (GlobalAccess.NOTIFICATION_COUNT == 0) {
-//                    notifCountTxt.setVisibility(View.INVISIBLE);
-//                }else {
-//                    notifCountTxt.setVisibility(View.VISIBLE);
-//                    notifCountTxt.setText(Integer.toString(GlobalAccess.NOTIFICATION_COUNT));
-//                }
-//            }
-//        });
+        if (hotCountTxt == null) {
+            return;
+        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                hotCountTxt.setVisibility(View.VISIBLE);
+                //hotCountTxt.setText(Integer.toString(GlobalAccess.NOTIFICATION_COUNT));
+                hotCountTxt.setText(Integer.toString(10));
+
+            }
+        });
     }
 
 }

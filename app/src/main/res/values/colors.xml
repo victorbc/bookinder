@@ -7,4 +7,5 @@
     <color name="green">#1abc9c</color>
     <color name="branco">#FFF</color>
     <color name="laranja">#ffcc31</color>
+    <color name="accent">#dc1e2a</color>
 </resources>

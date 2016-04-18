@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Desligado"
+            android:id="@+id/radioButton"
+            android:textColor="@android:color/black"
+            android:buttonTint="@color/accent" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Usar GPS"
+            android:id="@+id/radioButton2"
+            android:textColor="@android:color/black"
+            android:buttonTint="@color/accent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Endereços Cadastrados"
+            android:id="@+id/textView5"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@android:color/black"
+            android:textAlignment="center"
+            android:textSize="12dp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minha Casa"
+            android:id="@+id/radioButton3"
+            android:textColor="@android:color/black"
+            android:buttonTint="@color/accent" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trabalho"
+            android:id="@+id/radioButton4"
+            android:textColor="@android:color/black"
+            android:buttonTint="@color/accent" />
+
+    </RadioGroup>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:id="@+id/bt_ok"
+            android:textColor="@color/accent"
+            android:background="@android:color/transparent"
+            android:layout_gravity="right"
+            android:layout_toLeftOf="@+id/bt_cancelar"
+            android:layout_marginRight="5dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CANCELAR"
+            android:id="@+id/bt_cancelar"
+            android:textColor="@color/accent"
+            android:background="@android:color/transparent"
+            android:layout_gravity="right"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+</LinearLayout>
