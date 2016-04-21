@@ -49,14 +49,13 @@ public class CategoriasActivity extends AppCompatActivity{
 
                 TextView nome = (TextView) v.findViewById(R.id.nome_categoria);
                 CircularImageView img = (CircularImageView) v.findViewById(R.id.imagem_categoria);
+                CircularImageView img2 = (CircularImageView) v.findViewById(R.id.imagem_categoria_2);
 
                 if(!isCategoriaSelecionada.contains(mCategorias.get(position))) {
-                    nome.setTextAppearance(getApplicationContext(),R.style.boldTextVerde);
-                    img.setBorderColor(getResources().getColor(R.color.green));
+                    img2.setVisibility(View.VISIBLE);
                     isCategoriaSelecionada.add(mCategorias.get(position));
                 }else{
-                    nome.setTextAppearance(getApplicationContext(), R.style.normalText);
-                    img.setBorderColor(getResources().getColor(R.color.branco));
+                    img2.setVisibility(View.GONE);
                     isCategoriaSelecionada.remove(mCategorias.get(position));
                 }
 
