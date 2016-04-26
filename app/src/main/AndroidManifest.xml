@@ -17,10 +17,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.CategoriasActivity"></activity>
-        <activity android:name=".activities.BibliotecaActivity"></activity>
-        <activity android:name=".activities.MainActivity"></activity>
-        <activity android:name=".activities.MatchListActivity"></activity>
+        <activity
+            android:name=".activities.CategoriasActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activities.BibliotecaActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activities.MatchListActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activities.DetalheLivroActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -32,8 +32,7 @@
             android:src="@drawable/ic_trade"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_gravity="center_horizontal"
-            android:onClick="infoAction"/>
+            android:layout_gravity="center_horizontal"/>
 
         <ImageView
             android:layout_width="25dp"
@@ -42,8 +41,7 @@
             android:src="@drawable/ic_fav"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_gravity="center_horizontal"
-            android:onClick="infoAction"/>
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,8 +51,7 @@
             android:layout_gravity="center_horizontal"
             android:textColor="@android:color/white"
             android:textSize="12sp"
-            android:textAlignment="center"
-            android:onClick="infoAction"/>
+            android:textAlignment="center"/>
 
     </LinearLayout>
 

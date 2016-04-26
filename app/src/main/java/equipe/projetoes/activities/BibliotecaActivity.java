@@ -1,12 +1,17 @@
 package equipe.projetoes.activities;
 
+import android.graphics.PorterDuff;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -21,6 +26,7 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
     private BibliotecaRecyclerAdapter adapter;
     private RecyclerView mRecyclerView2;
     private BibliotecaRecyclerAdapter adapter2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +113,9 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
         // specify an adapter (see also next example)
         adapter2 = new BibliotecaRecyclerAdapter(livros2, BibliotecaRecyclerAdapter.FULL);
         mRecyclerView2.setAdapter(adapter2);
+
     }
+
 
 
 }
