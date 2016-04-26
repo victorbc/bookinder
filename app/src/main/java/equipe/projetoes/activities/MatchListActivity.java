@@ -4,6 +4,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -72,7 +73,7 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         tempDrawable = item.getIcon();
         if (tempDrawable != null) {
             tempDrawable.mutate();
-            tempDrawable.setColorFilter(getColor(R.color.accent), PorterDuff.Mode.SRC_ATOP);
+            tempDrawable.setColorFilter(ContextCompat.getColor(MatchListActivity.this, R.color.accent), PorterDuff.Mode.SRC_ATOP);
         }
         selectedMenuId = 2;
         return true;
@@ -95,7 +96,7 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
             tempDrawable = item.getIcon();
             if (tempDrawable != null) {
                 tempDrawable.mutate();
-                tempDrawable.setColorFilter(getColor(R.color.accent), PorterDuff.Mode.SRC_ATOP);
+                tempDrawable.setColorFilter(ContextCompat.getColor(MatchListActivity.this, R.color.accent), PorterDuff.Mode.SRC_ATOP);
             }
 
 
@@ -120,7 +121,7 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
             tempDrawable = item.getIcon();
             if (tempDrawable != null) {
                 tempDrawable.mutate();
-                tempDrawable.setColorFilter(getColor(R.color.accent), PorterDuff.Mode.SRC_ATOP);
+                tempDrawable.setColorFilter(ContextCompat.getColor(MatchListActivity.this, R.color.accent), PorterDuff.Mode.SRC_ATOP);
             }
 
 
