@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.BibliotecaRecyclerAdapter;
 import equipe.projetoes.models.Livro;
+import equipe.projetoes.utilis.LivroDAO;
 
 public class BibliotecaActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -33,6 +34,8 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_biblioteca);
         this.init();
+
+        LivroDAO dao = new LivroDAO(this);
 
         if (!this.hasNavBar(getResources()))
             findViewById(R.id.navspace).setVisibility(View.GONE);
@@ -51,11 +54,17 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ArrayList<Livro> livros = new ArrayList<Livro>();
-        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
-        livros.add(new Livro(R.drawable.livro1, "Game of Thrones", "George R.R", "Leya", 500));
-        livros.add(new Livro(R.drawable.livro2, "Game of Thrones", "George R.R", "Leya", 500));
-        livros.add(new Livro(R.drawable.livro3, "Game of Thrones", "George R.R", "Leya", 500));
+        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500,200,true,true,"@#$GFRV$$$"));
+        livros.add(new Livro(R.drawable.livro1, "Game of Thrones 2", "George R.R", "Leya", 500,200,true,true,"@#$G415465resg"));
+        livros.add(new Livro(R.drawable.livro2, "Game of Thrones 3", "George R.R", "Leya", 500,200,true,true,"@#$GSGRDNBRD"));
+        livros.add(new Livro(R.drawable.livro3, "Game of Thrones 4", "George R.R", "Leya", 500,200,true,true,"@#$GFRV$VG"));
 
+        if(dao.listaTodos().size() < 4) {
+            for (Livro livro : livros
+                    ) {
+                dao.adiciona(livro);
+            }
+        }
 
         // specify an adapter (see also next example)
         adapter = new BibliotecaRecyclerAdapter(livros, BibliotecaRecyclerAdapter.NOINFO);
@@ -108,6 +117,7 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
         livros2.add(new Livro(R.drawable.livro1, "Game of Thrones", "George R.R", "Leya", 500));
         livros2.add(new Livro(R.drawable.livro2, "Game of Thrones", "George R.R", "Leya", 500));
         livros2.add(new Livro(R.drawable.livro3, "Game of Thrones", "George R.R", "Leya", 500));
+
 
 
         // specify an adapter (see also next example)

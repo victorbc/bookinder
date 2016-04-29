@@ -117,7 +117,7 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    v.getContext().startActivity(new Intent(v.getContext(), DetalheLivroActivity.class));
+                    v.getContext().startActivity(new Intent(v.getContext(), DetalheLivroActivity.class).putExtra("livroNome",mDataset.get(getAdapterPosition()).getNome()));
                 }
             });
             btFav.setOnClickListener(infoAction);
@@ -146,13 +146,18 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.bt_fav:
-                    ((ImageView) v).setColorFilter(ContextCompat.getColor(v.getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+                    if (((ImageView) v).getColorFilter() == null)
+                        ((ImageView) v).setColorFilter(ContextCompat.getColor(v.getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+                    else
+                        ((ImageView) v).setColorFilter(null);
                     break;
                 case R.id.bt_read:
-                    ((TextView) v).setTextColor(ContextCompat.getColor(v.getContext(), R.color.accent));
                     break;
                 case R.id.bt_trade:
+                    if (((ImageView) v).getColorFilter() == null)
                     ((ImageView) v).setColorFilter(ContextCompat.getColor(v.getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+                    else
+                        ((ImageView) v).setColorFilter(null);
                     break;
             }
         }
