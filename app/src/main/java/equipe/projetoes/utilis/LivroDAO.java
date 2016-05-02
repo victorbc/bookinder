@@ -119,6 +119,42 @@ public class LivroDAO {
         return Livros;
     }
 
+    public final List<Livro> listaTradables() {
+        // Cria um List para guardar os objetos consultados no banco de dados
+        List<Livro> Livros = new ArrayList<Livro>();
+        // Instancia uma nova conexão com o banco de dados em modo leitura
+        SQLiteDatabase dbase = dbHelper.getReadableDatabase();
+        // Executa a consulta no banco de dados
+        Cursor cursor = dbase.query("livros", null, "trade = 1", null, null,
+                null, null);
+        /**
+         * Percorre o Cursor, injetando os dados consultados em um objeto
+         * do tipo ObjetoEmprestado e adicionando-os na List
+         */
+        try {
+            while (cursor.moveToNext()) {
+                Livro Livro = new Livro();
+                Livro.setId(cursor.getLong(cursor.getColumnIndex("_id")));
+                Livro.setNome(cursor.getString(cursor.getColumnIndex("name")));
+                Livro.setAutor(cursor.getString(cursor.getColumnIndex("autor")));
+                Livro.setEditora(cursor.getString(cursor.getColumnIndex("editora")));
+                Livro.setISBN(cursor.getString(cursor.getColumnIndex("isbn")));
+                Livro.setPg(cursor.getInt(cursor.getColumnIndex("pg")));
+                Livro.setReadPg(cursor.getInt(cursor.getColumnIndex("read_pg")));
+                Livro.setFav(cursor.getInt(cursor.getColumnIndex("fav")) > 0);
+                Livro.setTradable(cursor.getInt(cursor.getColumnIndex("trade")) > 0);
+                Livros.add(Livro);
+            }
+        } finally {
+            // Encerra o Cursor
+            cursor.close();
+        }
+        // Encerra a conexão com o banco de dados
+        dbase.close();
+        // Retorna uma lista com os objetos consultados
+        return Livros;
+    }
+
     /**
      * Método responsável por atualizar os dados de um Livro que ja está armazenado
      * no banco de dados.

@@ -27,7 +27,7 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
     private BibliotecaRecyclerAdapter adapter;
     private RecyclerView mRecyclerView2;
     private BibliotecaRecyclerAdapter adapter2;
-
+    private LivroDAO dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
         setContentView(R.layout.activity_biblioteca);
         this.init();
 
-        LivroDAO dao = new LivroDAO(this);
+        dao = new LivroDAO(this);
 
         if (!this.hasNavBar(getResources()))
             findViewById(R.id.navspace).setVisibility(View.GONE);
@@ -54,20 +54,21 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ArrayList<Livro> livros = new ArrayList<Livro>();
-        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500,200,true,true,"@#$GFRV$$$"));
-        livros.add(new Livro(R.drawable.livro1, "Game of Thrones 2", "George R.R", "Leya", 500,200,true,true,"@#$G415465resg"));
-        livros.add(new Livro(R.drawable.livro2, "Game of Thrones 3", "George R.R", "Leya", 500,200,true,true,"@#$GSGRDNBRD"));
-        livros.add(new Livro(R.drawable.livro3, "Game of Thrones 4", "George R.R", "Leya", 500,200,true,true,"@#$GFRV$VG"));
+        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500, 200, true, true, "@#$GFRV$$$"));
+        livros.add(new Livro(R.drawable.livro1, "Game of Thrones 2", "George R.R", "Leya", 500, 200, true, true, "@#$G415465resg"));
+        livros.add(new Livro(R.drawable.livro2, "Game of Thrones 3", "George R.R", "Leya", 500, 200, true, true, "@#$GSGRDNBRD"));
+        livros.add(new Livro(R.drawable.livro3, "Game of Thrones 4", "George R.R", "Leya", 500, 200, true, true, "@#$GFRV$VG"));
 
-        if(dao.listaTodos().size() < 4) {
+        if (dao.listaTodos().size() < 4) {
             for (Livro livro : livros
                     ) {
                 dao.adiciona(livro);
             }
         }
 
+
         // specify an adapter (see also next example)
-        adapter = new BibliotecaRecyclerAdapter(livros, BibliotecaRecyclerAdapter.NOINFO);
+        adapter = new BibliotecaRecyclerAdapter(dao.listaTradables(), BibliotecaRecyclerAdapter.NOINFO, this);
         mRecyclerView.setAdapter(adapter);
 
 
@@ -104,28 +105,36 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
         mGridLayoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
         mRecyclerView2.setLayoutManager(mGridLayoutManager);
 
-        ArrayList<Livro> livros2 = new ArrayList<Livro>();
-        livros2.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
-        livros2.add(new Livro(R.drawable.livro1, "Game of Thrones", "George R.R", "Leya", 500));
-        livros2.add(new Livro(R.drawable.livro2, "Game of Thrones", "George R.R", "Leya", 500));
-        livros2.add(new Livro(R.drawable.livro3, "Game of Thrones", "George R.R", "Leya", 500));
-        livros2.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
-        livros2.add(new Livro(R.drawable.livro1, "Game of Thrones", "George R.R", "Leya", 500));
-        livros2.add(new Livro(R.drawable.livro2, "Game of Thrones", "George R.R", "Leya", 500));
-        livros2.add(new Livro(R.drawable.livro3, "Game of Thrones", "George R.R", "Leya", 500));
-        livros2.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
-        livros2.add(new Livro(R.drawable.livro1, "Game of Thrones", "George R.R", "Leya", 500));
-        livros2.add(new Livro(R.drawable.livro2, "Game of Thrones", "George R.R", "Leya", 500));
-        livros2.add(new Livro(R.drawable.livro3, "Game of Thrones", "George R.R", "Leya", 500));
-
+//        ArrayList<Livro> livros2 = new ArrayList<Livro>();
+//        livros2.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
+//        livros2.add(new Livro(R.drawable.livro1, "Game of Thrones", "George R.R", "Leya", 500));
+//        livros2.add(new Livro(R.drawable.livro2, "Game of Thrones", "George R.R", "Leya", 500));
+//        livros2.add(new Livro(R.drawable.livro3, "Game of Thrones", "George R.R", "Leya", 500));
+//        livros2.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
+//        livros2.add(new Livro(R.drawable.livro1, "Game of Thrones", "George R.R", "Leya", 500));
+//        livros2.add(new Livro(R.drawable.livro2, "Game of Thrones", "George R.R", "Leya", 500));
+//        livros2.add(new Livro(R.drawable.livro3, "Game of Thrones", "George R.R", "Leya", 500));
+//        livros2.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
+//        livros2.add(new Livro(R.drawable.livro1, "Game of Thrones", "George R.R", "Leya", 500));
+//        livros2.add(new Livro(R.drawable.livro2, "Game of Thrones", "George R.R", "Leya", 500));
+//        livros2.add(new Livro(R.drawable.livro3, "Game of Thrones", "George R.R", "Leya", 500));
 
 
         // specify an adapter (see also next example)
-        adapter2 = new BibliotecaRecyclerAdapter(livros2, BibliotecaRecyclerAdapter.FULL);
+        adapter2 = new BibliotecaRecyclerAdapter(dao.listaTodos(), BibliotecaRecyclerAdapter.FULL, this);
         mRecyclerView2.setAdapter(adapter2);
 
     }
 
+    public void notifyRecyclers() {
+        mRecyclerView.getAdapter().notifyDataSetChanged();
+        mRecyclerView2.getAdapter().notifyDataSetChanged();
+    }
+
+
+    public void removeFromTrade(Livro livro) {
+        mRecyclerView.setAdapter(new BibliotecaRecyclerAdapter(dao.listaTradables(), BibliotecaRecyclerAdapter.NOINFO, this));
+    }
 
 
 }

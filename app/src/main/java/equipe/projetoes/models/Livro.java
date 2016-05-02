@@ -118,4 +118,41 @@ public class Livro {
     public void setPg(int pg) {
         this.pg = pg;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Livro)) return false;
+
+        Livro livro = (Livro) o;
+
+        if (getResId() != livro.getResId()) return false;
+        if (getPg() != livro.getPg()) return false;
+        if (getReadPg() != livro.getReadPg()) return false;
+        if (getId() != livro.getId()) return false;
+        if (isFav() != livro.isFav()) return false;
+        if (isTradable() != livro.isTradable()) return false;
+        if (!getNome().equals(livro.getNome())) return false;
+        if (getAutor() != null ? !getAutor().equals(livro.getAutor()) : livro.getAutor() != null)
+            return false;
+        if (getEditora() != null ? !getEditora().equals(livro.getEditora()) : livro.getEditora() != null)
+            return false;
+        return getISBN().equals(livro.getISBN());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getResId();
+        result = 31 * result + getNome().hashCode();
+        result = 31 * result + (getAutor() != null ? getAutor().hashCode() : 0);
+        result = 31 * result + (getEditora() != null ? getEditora().hashCode() : 0);
+        result = 31 * result + getPg();
+        result = 31 * result + getReadPg();
+        result = 31 * result + (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (isFav() ? 1 : 0);
+        result = 31 * result + (isTradable() ? 1 : 0);
+        result = 31 * result + getISBN().hashCode();
+        return result;
+    }
 }
