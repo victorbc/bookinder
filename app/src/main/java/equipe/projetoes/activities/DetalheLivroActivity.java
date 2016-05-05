@@ -36,15 +36,15 @@ public class DetalheLivroActivity extends BaseActivity {
         dao = new LivroDAO(this);
         livro = dao.getLivroByName(livroNome);
 
-        if (livroNome.equals("Game of Thrones")) {
+        if (livroNome.equals("0")) {
             ((ImageView) findViewById(R.id.img)).setImageResource(R.drawable.livro);
-        } else if (livroNome.equals("Game of Thrones 2")) {
+        } else if (livroNome.equals("1")) {
             ((ImageView) findViewById(R.id.img)).setImageResource(R.drawable.livro1);
 
-        } else if (livroNome.equals("Game of Thrones 3")) {
+        } else if (livroNome.equals("2")) {
             ((ImageView) findViewById(R.id.img)).setImageResource(R.drawable.livro2);
 
-        } else if (livroNome.equals("Game of Thrones 4")) {
+        } else if (livroNome.equals("3")) {
             ((ImageView) findViewById(R.id.img)).setImageResource(R.drawable.livro3);
 
         }

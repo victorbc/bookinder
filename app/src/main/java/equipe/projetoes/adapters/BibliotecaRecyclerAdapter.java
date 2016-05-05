@@ -81,7 +81,7 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
         if (type == FULL)
             holder.info.setVisibility(View.VISIBLE);
 
-        final String livroNome = mDataset.get(position).getNome();
+        final String livroNome = mDataset.get(position).getISBN();
 
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,15 +96,15 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
         holder.btTrade.setOnClickListener(infoAction);
 
 
-        if (livroNome.equals("Game of Thrones")) {
+        if (livroNome.equals("0")) {
             holder.img.setImageResource(R.drawable.livro);
-        } else if (livroNome.equals("Game of Thrones 2")) {
+        } else if (livroNome.equals("1")) {
             holder.img.setImageResource(R.drawable.livro1);
 
-        } else if (livroNome.equals("Game of Thrones 3")) {
+        } else if (livroNome.equals("2")) {
             holder.img.setImageResource(R.drawable.livro2);
 
-        } else if (livroNome.equals("Game of Thrones 4")) {
+        } else if (livroNome.equals("3")) {
             holder.img.setImageResource(R.drawable.livro3);
 
         }

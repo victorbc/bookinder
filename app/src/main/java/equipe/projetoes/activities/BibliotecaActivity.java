@@ -54,10 +54,10 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ArrayList<Livro> livros = new ArrayList<Livro>();
-        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500, 200, true, true, "@#$GFRV$$$"));
-        livros.add(new Livro(R.drawable.livro1, "Game of Thrones 2", "George R.R", "Leya", 500, 200, true, true, "@#$G415465resg"));
-        livros.add(new Livro(R.drawable.livro2, "Game of Thrones 3", "George R.R", "Leya", 500, 200, true, true, "@#$GSGRDNBRD"));
-        livros.add(new Livro(R.drawable.livro3, "Game of Thrones 4", "George R.R", "Leya", 500, 200, true, true, "@#$GFRV$VG"));
+        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500, 200, true, true, "0"));
+        livros.add(new Livro(R.drawable.livro1, "Harry Potter e a pedra filosofal", "J.K. Rowling", "Racco", 372, 200, true, true, "1"));
+        livros.add(new Livro(R.drawable.livro2, "The Hunger Games", "Suzanne Collins", "Casa da Palavra",429, 200, true, true, "2"));
+        livros.add(new Livro(R.drawable.livro3, "The Martian", "Matt Damon", "Escreva LTDA", 160, 200, true, true, "3"));
 
         if (dao.listaTodos().size() < 4) {
             for (Livro livro : livros

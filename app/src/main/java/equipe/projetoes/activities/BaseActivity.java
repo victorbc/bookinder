@@ -61,6 +61,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_biblioteca);
         if (this instanceof MatchListActivity)
             navigationView.setCheckedItem(R.id.nav_aguardando);
+        if (this instanceof SearchActivity)
+            navigationView.setCheckedItem(R.id.nav_buscar);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -80,7 +82,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
             finish();
         } else if (id == R.id.nav_buscar) {
-
+            if (!(this instanceof SearchActivity)) {
+                startActivity(new Intent(this, SearchActivity.class));
+            }
         } else if (id == R.id.nav_biblioteca) {
             if (!(this instanceof BibliotecaActivity)) {
                 startActivity(new Intent(this, BibliotecaActivity.class));
