@@ -4,8 +4,23 @@
     android:layout_height="match_parent"
     android:visibility="visible">
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/progressBar"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:indeterminate="true"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@color/accent" />
+
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_alignParentBottom="true"
@@ -139,10 +154,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/linearLayout"
+        android:layout_above="@+id/info"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="75dp">
+        android:layout_marginTop="75dp"
+        android:id="@+id/livros">
 
         <ImageView
             android:id="@+id/livro3"
@@ -186,6 +202,17 @@
             android:scaleType="fitXY"
             android:src="@drawable/livro" />
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/anim"
+        android:src="@drawable/ic_book_type"
+        android:elevation="20dp"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

@@ -75,6 +75,7 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
         // holder.txtNome.setText(mDataset.get(position).getNomeCursivo());
         //holder.img.setImageResource(mDataset.get(position).getResId());
         //Log.d("test",mDataset.get(position).getNomeCursivo()+ " image id "+mDataset.get(position).getResId());
+     //   holder.img.setImageResource(mDataset.get(position).getResId());
         holder.img.setImageResource(mDataset.get(position).getResId());
         if (type == NOINFO)
             holder.info.setVisibility(View.GONE);

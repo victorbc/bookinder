@@ -1,29 +1,39 @@
 package equipe.projetoes.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
 
 import equipe.projetoes.R;
 import equipe.projetoes.models.Livro;
+import equipe.projetoes.utilis.HttpHandler;
+import equipe.projetoes.utilis.LivroDAO;
 import equipe.projetoes.utilis.OnSwipeTouchListener;
 
 public class MainActivity extends BaseActivity {
     private ImageView livroView;
     private ImageView livroView2;
     private ImageView livroView3;
+    private ImageView anim;
     private Livro livro;
     private Livro livro2;
     private Livro livro3;
@@ -31,9 +41,16 @@ public class MainActivity extends BaseActivity {
     private TextView autor;
     private TextView editora;
     private TextView paginas;
-    private List<Livro> livros;
+    // private List<Livro> livros;
     private Random rnd;
     private TextView hotCountTxt;
+    private HttpHandler http;
+    private int index;
+    private LivroDAO dao;
+    private boolean isSlideLock = false;
+    private Handler handler;
+    private Animation animationFadeOut;
+    private Animation animationFadeIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +59,21 @@ public class MainActivity extends BaseActivity {
 
         this.init();
 
-        livros = new ArrayList<Livro>();
-        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
-        livros.add(new Livro(R.drawable.livro1, "Harry Potter e a pedra filosofal", "J.K. Rowling", "Racco", 372));
-        livros.add(new Livro(R.drawable.livro2, "The Hunger Games", "Suzanne Collins", "Casa da Palavra", 429));
-        livros.add(new Livro(R.drawable.livro3, "The Martian", "Matt Damon", "Escreva LTDA", 160));
+        index = 0;
+
+        http = new HttpHandler(this);
+        dao = new LivroDAO(this);
+        animationFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+        animationFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        handler = new Handler();
+
+        //livros = http.getLivros();
+
+//        livros = new ArrayList<Livro>();
+//        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
+//        livros.add(new Livro(R.drawable.livro1, "Harry Potter e a pedra filosofal", "J.K. Rowling", "Racco", 372));
+//        livros.add(new Livro(R.drawable.livro2, "The Hunger Games", "Suzanne Collins", "Casa da Palavra", 429));
+//        livros.add(new Livro(R.drawable.livro3, "The Martian", "Matt Damon", "Escreva LTDA", 160));
         rnd = new Random();
 
 
@@ -59,27 +86,53 @@ public class MainActivity extends BaseActivity {
         editora = (TextView) findViewById(R.id.text_editora);
         paginas = (TextView) findViewById(R.id.text_pg);
 
-        livroView.setImageResource(nextLivro(1).getResId());
-        livroView2.setImageResource(nextLivro(2).getResId());
-        livroView3.setImageResource(nextLivro(3).getResId());
+        anim = (ImageView) findViewById(R.id.anim);
 
-        updateLivroInfo();
+
+        findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        //findViewById(R.id.info).setVisibility(View.INVISIBLE);
+        findViewById(R.id.livros).setVisibility(View.INVISIBLE);
+
+
+        if (http.isReady())
+            setBooks();
+        else
+            new TimeOut().execute("1000");
 
 
         View.OnTouchListener swipeListner = new OnSwipeTouchListener(MainActivity.this) {
             public void onSwipeTop() {
-                //Toast.makeText(MainActivity.this, "top", Toast.LENGTH_SHORT).show();
-                shiftBooks();
+                if(!isSlideLock) {
+                    //Toast.makeText(MainActivity.this, "top", Toast.LENGTH_SHORT).show();
+                    if (!dao.listaTodos().contains(livro)) {
+                        dao.adiciona(livro);
+
+                        anim.setImageResource(R.drawable.ic_book_type);
+                        typeAnim();
+
+                    }
+                    shiftAnim();
+
+
+                }
             }
 
             public void onSwipeRight() {
-                // Toast.makeText(MainActivity.this, "right", Toast.LENGTH_SHORT).show();
-                shiftBooks();
+                if(!isSlideLock) {
+                    shiftAnim();
+
+                    anim.setImageResource(R.drawable.ic_trade_type);
+                    typeAnim();
+                }
             }
 
             public void onSwipeLeft() {
-                // Toast.makeText(MainActivity.this, "left", Toast.LENGTH_SHORT).show();
-                shiftBooks();
+                if(!isSlideLock) {
+                    shiftAnim();
+
+                    anim.setImageResource(R.drawable.ic_unlike_type);
+                    typeAnim();
+                }
             }
 
             public void onSwipeBottom() {
@@ -96,6 +149,36 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    private void shiftAnim() {
+        livroView.startAnimation(animationFadeOut);
+        isSlideLock = true;
+        handler.postDelayed(shiftDelay, 1000);
+    }
+
+    private void typeAnim() {
+        anim.setVisibility(View.VISIBLE);
+        anim.startAnimation(animationFadeIn);
+        handler.postDelayed(animDelay, 800);
+    }
+
+    private void setBooks() {
+        findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+        //findViewById(R.id.info).setVisibility(View.VISIBLE);
+        findViewById(R.id.livros).setVisibility(View.VISIBLE);
+
+        try {
+            livroView.setImageBitmap(nextLivro(1).getDrawable());
+            livroView2.setImageBitmap(nextLivro(2).getDrawable());
+            livroView3.setImageBitmap(nextLivro(3).getDrawable());
+        } catch (Exception e) {
+            livroView.setImageResource(R.color.fade);
+            livroView2.setImageResource(R.color.fade);
+            livroView3.setImageResource(R.color.fade);
+        }
+
+        updateLivroInfo();
+    }
+
     private void updateLivroInfo() {
         nome.setText(livro.getNome());
         autor.setText(livro.getAutor());
@@ -109,13 +192,17 @@ public class MainActivity extends BaseActivity {
         livro = livro2;
         livroView2.setImageDrawable(livroView3.getDrawable());
         livro2 = livro3;
-        livroView3.setImageResource(nextLivro(3).getResId());
-
+        try {
+            livroView3.setImageBitmap(nextLivro(3).getDrawable());
+        } catch (Exception e) {
+            livroView3.setImageResource(R.color.fade);
+        }
         updateLivroInfo();
     }
 
     private Livro nextLivro(int pos) {
-        Livro temp = livros.get(rnd.nextInt(livros.size()));
+        Livro temp = http.getLivros().get(nextPos());
+        //System.out.println(""+http.getLivros().size());
         switch (pos) {
             case 1:
                 livro = temp;
@@ -128,6 +215,19 @@ public class MainActivity extends BaseActivity {
                 break;
         }
         return temp;
+    }
+
+    private int nextPos() {
+        if (index >= http.getLivros().size())
+            index = 0;
+        else {
+            index++;
+            if (index % 5 == 0) {
+                http.getBooks(10);
+                http.getCovers(index, 10);
+            }
+        }
+        return index;
     }
 
     @Override
@@ -211,4 +311,37 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+
+    private class TimeOut extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... time) {
+            int t = Integer.parseInt(time[0]);
+            while (t > 0) t--;
+
+            return "";
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            if (http.isReady())
+                setBooks();
+            else
+                new TimeOut().execute("1000");
+
+        }
+    }
+
+    private Runnable shiftDelay = new Runnable() {
+        public void run() {
+            shiftBooks();
+            isSlideLock = false;
+        }
+    };
+
+    private Runnable animDelay = new Runnable() {
+        public void run() {
+            anim.setVisibility(View.INVISIBLE);
+        }
+    };
 }

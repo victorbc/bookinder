@@ -1,5 +1,7 @@
 package equipe.projetoes.models;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Victor Batista on 31/03/2016.
  */
@@ -14,6 +16,8 @@ public class Livro {
     private boolean isFav;
     private boolean isTradable;
     private String ISBN;
+    private Bitmap drawable;
+    private String urlImg;
 
     public Livro(int resId, String nome, String autor, String editora, int pg) {
         this.resId = resId;
@@ -30,13 +34,45 @@ public class Livro {
         this.editora = editora;
         this.pg = pg;
         this.readPg = readPg;
-        this.id = id;
         this.isFav = isFav;
         this.isTradable = isTradable;
         this.ISBN = ISBN;
     }
 
+    public Livro(Bitmap drawable, String nome, String autor, String editora, int pg, int readPg, boolean isFav, boolean isTradable, String ISBN) {
+        this.drawable = drawable;
+        this.nome = nome;
+        this.autor = autor;
+        this.editora = editora;
+        this.pg = pg;
+        this.readPg = readPg;
+        this.isFav = isFav;
+        this.isTradable = isTradable;
+        this.ISBN = ISBN;
+    }
+
+    public Livro(String urlImg, String nome, String autor, String editora, int pg, int readPg, boolean isFav, boolean isTradable, String ISBN) {
+        this.urlImg = urlImg;
+        this.nome = nome;
+        this.autor = autor;
+        this.editora = editora;
+        this.pg = pg;
+        this.readPg = readPg;
+        this.isFav = isFav;
+        this.isTradable = isTradable;
+        this.ISBN = ISBN;
+    }
+
+
     public Livro() {
+    }
+
+    public Bitmap getDrawable() {
+        return drawable;
+    }
+
+    public void setDrawable(Bitmap drawable) {
+        this.drawable = drawable;
     }
 
     public long getId() {
@@ -119,6 +155,14 @@ public class Livro {
         this.pg = pg;
     }
 
+    public String getUrlImg() {
+        return urlImg;
+    }
+
+    public void setUrlImg(String urlImg) {
+        this.urlImg = urlImg;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -154,5 +198,21 @@ public class Livro {
         result = 31 * result + (isTradable() ? 1 : 0);
         result = 31 * result + getISBN().hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        String retorno = "";
+        retorno += " " + nome;
+        retorno += " " + autor;
+        retorno += " " + editora;
+        retorno += " " + pg;
+        retorno += " " + readPg;
+        retorno += " " + id;
+        retorno += " " + isFav;
+        retorno += " " + isTradable;
+        retorno += " " + ISBN;
+        retorno += " " + drawable;
+        return retorno;
     }
 }
