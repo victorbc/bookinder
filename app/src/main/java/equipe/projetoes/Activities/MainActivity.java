@@ -69,11 +69,11 @@ public class MainActivity extends BaseActivity {
 
         //livros = http.getLivros();
 
-//        livros = new ArrayList<Livro>();
-//        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
-//        livros.add(new Livro(R.drawable.livro1, "Harry Potter e a pedra filosofal", "J.K. Rowling", "Racco", 372));
-//        livros.add(new Livro(R.drawable.livro2, "The Hunger Games", "Suzanne Collins", "Casa da Palavra", 429));
-//        livros.add(new Livro(R.drawable.livro3, "The Martian", "Matt Damon", "Escreva LTDA", 160));
+        //livros = new ArrayList<Livro>();
+        http.getLivros().add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
+        http.getLivros().add(new Livro(R.drawable.livro1, "Harry Potter e a pedra filosofal", "J.K. Rowling", "Racco", 372));
+        http.getLivros().add(new Livro(R.drawable.livro2, "The Hunger Games", "Suzanne Collins", "Casa da Palavra", 429));
+        http.getLivros().add(new Livro(R.drawable.livro3, "The Martian", "Matt Damon", "Escreva LTDA", 160));
         rnd = new Random();
 
 
@@ -94,15 +94,15 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.livros).setVisibility(View.INVISIBLE);
 
 
-        if (http.isReady())
-            setBooks();
-        else
-            new TimeOut().execute("1000");
+//        if (http.isReady())
+        setBooks();
+//        else
+//            new TimeOut().execute("1000");
 
 
         View.OnTouchListener swipeListner = new OnSwipeTouchListener(MainActivity.this) {
             public void onSwipeTop() {
-                if(!isSlideLock) {
+                if (!isSlideLock) {
                     //Toast.makeText(MainActivity.this, "top", Toast.LENGTH_SHORT).show();
                     if (!dao.listaTodos().contains(livro)) {
                         dao.adiciona(livro);
@@ -118,7 +118,7 @@ public class MainActivity extends BaseActivity {
             }
 
             public void onSwipeRight() {
-                if(!isSlideLock) {
+                if (!isSlideLock) {
                     shiftAnim();
 
                     anim.setImageResource(R.drawable.ic_trade_type);
@@ -127,7 +127,7 @@ public class MainActivity extends BaseActivity {
             }
 
             public void onSwipeLeft() {
-                if(!isSlideLock) {
+                if (!isSlideLock) {
                     shiftAnim();
 
                     anim.setImageResource(R.drawable.ic_unlike_type);
@@ -165,17 +165,21 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
         //findViewById(R.id.info).setVisibility(View.VISIBLE);
         findViewById(R.id.livros).setVisibility(View.VISIBLE);
-
-        try {
-            livroView.setImageBitmap(nextLivro(1).getDrawable());
-            livroView2.setImageBitmap(nextLivro(2).getDrawable());
-            livroView3.setImageBitmap(nextLivro(3).getDrawable());
-        } catch (Exception e) {
-            livroView.setImageResource(R.color.fade);
-            livroView2.setImageResource(R.color.fade);
-            livroView3.setImageResource(R.color.fade);
+        if (!http.isReady()) {
+            livroView.setImageResource(nextLivro(1).getResId());
+            livroView2.setImageResource(nextLivro(2).getResId());
+            livroView3.setImageResource(nextLivro(3).getResId());
+        } else {
+            try {
+                livroView.setImageBitmap(nextLivro(1).getDrawable());
+                livroView2.setImageBitmap(nextLivro(2).getDrawable());
+                livroView3.setImageBitmap(nextLivro(3).getDrawable());
+            } catch (Exception e) {
+                livroView.setImageResource(R.color.fade);
+                livroView2.setImageResource(R.color.fade);
+                livroView3.setImageResource(R.color.fade);
+            }
         }
-
         updateLivroInfo();
     }
 
@@ -193,7 +197,10 @@ public class MainActivity extends BaseActivity {
         livroView2.setImageDrawable(livroView3.getDrawable());
         livro2 = livro3;
         try {
-            livroView3.setImageBitmap(nextLivro(3).getDrawable());
+            if (nextLivro(3).getResId() != 0)
+                livroView3.setImageResource(nextLivro(3).getResId());
+            else
+                livroView3.setImageBitmap(nextLivro(3).getDrawable());
         } catch (Exception e) {
             livroView3.setImageResource(R.color.fade);
         }
