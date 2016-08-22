@@ -1,13 +1,16 @@
 package equipe.projetoes.utilis;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import javax.xml.parsers.*;
+import org.xml.sax.InputSource;
+import org.w3c.dom.*;
+import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -16,21 +19,24 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.renderscript.ScriptGroup;
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.app.Activity;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import equipe.projetoes.models.Livro;
 
@@ -40,6 +46,7 @@ import equipe.projetoes.models.Livro;
 public class HttpHandler {
     private Context ctx;
     private JSONArray livrosJson;
+    private NodeList livrosXml;
     private List<Livro> livros;
     private Bitmap lastDraw;
     private int lastPosImageSet = 0;
@@ -106,7 +113,7 @@ public class HttpHandler {
             return false;
     }
 
-    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+    private class HttpJsonAsyncTask extends AsyncTask<String, Void, String> {
         private int index;
 
         @Override
@@ -183,6 +190,155 @@ public class HttpHandler {
         }
     }
 
+
+    private class HttpXmlAsyncTask extends AsyncTask<String, Void, String> {
+        private int index;
+
+        @Override
+        protected String doInBackground(String... urls) {
+
+            return GET(urls[0]);
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            //Toast.makeText(ctx, "Received!", Toast.LENGTH_LONG).show();
+            //System.out.println(result);
+            //etResponse.setText(result);
+
+
+            try {
+
+                DocumentBuilderFactory dbf =
+                        DocumentBuilderFactory.newInstance();
+                DocumentBuilder db = null;
+                db = dbf.newDocumentBuilder();
+                InputSource is = new InputSource();
+                is.setCharacterStream(new StringReader(result));
+                Document doc = db.parse(is);
+                livrosXml = doc.getElementsByTagName("work");
+
+
+                index = 0;
+                extractXmlBooks();
+                if (lastCoverNum == 0)
+                    getCovers(0, 10);
+
+
+
+
+
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        private void extractJsonBooks() {
+            try {
+                JSONObject volume;
+                Livro livro;
+                for (int i = index; i < livrosJson.length(); i++) {
+                    //System.out.println("for index " + i);
+
+                    volume = (JSONObject) livrosJson.getJSONObject(i).get("volumeInfo");
+
+                    livro = new Livro(((JSONObject) volume.get("imageLinks")).get("thumbnail").toString(),
+                            volume.get("title").toString(),
+                            ((JSONArray) volume.get("authors")).get(0).toString(),
+                            volume.get("publisher").toString(),
+                            volume.getInt("pageCount"),
+                            0,
+                            false,
+                            false,
+                            ((JSONObject) ((JSONArray) volume.get("industryIdentifiers")).get(0)).get("identifier").toString());
+                    if (!livros.contains(livro))
+                        livros.add(livro);
+
+                    //  String drawable = ((JSONObject) volume.get("imageLinks")).get("thumbnail").toString();
+                    // System.out.println(drawable);
+
+
+                    //  new DrawableFromUrl().execute(drawable);
+                    index++;
+                }
+            } catch (JSONException e) {
+                index++;
+                extractJsonBooks();
+            }
+        }
+
+
+        private void extractXmlBooks() {
+
+            String authorTxt;
+            String titleTxt;
+            String imgTxt;
+            String pubTxt;
+            String pgTxt;
+            try {
+                for (int i = 0; i < livrosXml.getLength(); i++) {
+                    Element element = (Element) livrosXml.item(i);
+
+                    NodeList name = element.getElementsByTagName("name");
+                    Element line = (Element) name.item(0);
+                    authorTxt = getCharacterDataFromElement(line);
+                    System.out.println("Name: " + authorTxt);
+
+                    NodeList title = element.getElementsByTagName("title");
+                    line = (Element) title.item(0);
+                    titleTxt = getCharacterDataFromElement(line);
+                    System.out.println("Title: " + titleTxt);
+
+                    NodeList img = element.getElementsByTagName("small_image_url");
+                    line = (Element) img.item(0);
+                    imgTxt = getCharacterDataFromElement(line);
+                    System.out.println("small_image_url: " + imgTxt);
+
+//                NodeList pub = element.getElementsByTagName("title");
+//                line = (Element) title.item(0);
+//                pubTxt = getCharacterDataFromElement(line);
+//                System.out.println("Title: " + pubTxt);
+//
+//                NodeList pg = element.getElementsByTagName("title");
+//                line = (Element) title.item(0);
+//                pgTxt = getCharacterDataFromElement(line);
+//                System.out.println("Title: " + pgTxt);
+
+
+                    Livro livro;
+                    livro = new Livro(imgTxt, titleTxt, authorTxt, "", 0, 0,
+                            false,
+                            false,
+                            "");
+                    if (!livros.contains(livro))
+                        livros.add(livro);
+
+                    //  String drawable = ((JSONObject) volume.get("imageLinks")).get("thumbnail").toString();
+                    // System.out.println(drawable);
+
+
+                    //  new DrawableFromUrl().execute(drawable);
+                    index++;
+
+                }
+            }catch (Exception e){
+                index++;
+                extractXmlBooks();
+            }
+
+        }
+
+
+
+
+    }
+
     public void getCovers(int init, int qt) {
         System.out.println("getCovers(" + init + "," + qt + ")");
         // coverQtPass = 0;
@@ -207,7 +363,9 @@ public class HttpHandler {
 
     public void getBooks(int qt) {
         System.out.println("getBooks(" + qt + ")");
-        new HttpAsyncTask().execute("https://www.googleapis.com/books/v1/users/109518442467553217123/bookshelves/1001/volumes?startIndex=" + livros.size() + "&maxResults=" + qt);
+      //  new HttpJsonAsyncTask().execute("https://www.googleapis.com/books/v1/users/109518442467553217123/bookshelves/1001/volumes?startIndex=" + livros.size() + "&maxResults=" + qt);
+        new HttpXmlAsyncTask().execute("https://www.goodreads.com/search/index.xml?q=paulo+coelho&page=1&key=HEMYOGXpqJwvwnwG2AlLuQ&search[field]=author");
+
 
     }
 
@@ -248,6 +406,16 @@ public class HttpHandler {
 
         x = BitmapFactory.decodeStream(input);
         return x;
+    }
+
+
+    public static String getCharacterDataFromElement(Element e) {
+        Node child = e.getFirstChild();
+        if (child instanceof CharacterData) {
+            CharacterData cd = (CharacterData) child;
+            return cd.getData();
+        }
+        return "?";
     }
 
 
