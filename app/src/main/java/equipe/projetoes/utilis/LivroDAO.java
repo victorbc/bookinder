@@ -51,7 +51,7 @@ public class LivroDAO {
         // Instancia uma nova conexão com o banco de dados em modo leitura
         SQLiteDatabase dbase = dbHelper.getReadableDatabase();
         // Executa a consulta no banco de dados
-        Cursor cursor = dbase.query("livros", null, "name = " +"'"+ nome+"'", null, null,
+        Cursor cursor = dbase.query("livros", null, "isbn = " +"'"+ nome+"'", null, null,
                 null, null);
         /**
          * Percorre o Cursor, injetando os dados consultados em um objeto
@@ -70,6 +70,9 @@ public class LivroDAO {
                 livro.setReadPg(cursor.getInt(cursor.getColumnIndex("read_pg")));
                 livro.setFav(cursor.getInt(cursor.getColumnIndex("fav")) > 0);
                 livro.setTradable(cursor.getInt(cursor.getColumnIndex("trade")) > 0);
+
+                if (livro.getISBN().equals(nome))
+                    break;
             }
         } finally {
             // Encerra o Cursor

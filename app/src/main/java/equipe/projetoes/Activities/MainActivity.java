@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -17,11 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.Timer;
 
 import equipe.projetoes.R;
 import equipe.projetoes.models.Livro;
@@ -105,15 +100,16 @@ public class MainActivity extends BaseActivity {
                 if (!isSlideLock) {
                     //Toast.makeText(MainActivity.this, "top", Toast.LENGTH_SHORT).show();
                     if (!dao.listaTodos().contains(livro)) {
+                        if (livro.getISBN() == null || livro.getISBN().equals("")) {
+                            //TODO recuperar ISB da pesquisa
+                            livro.setISBN(dao.listaTodos().size()+"");
+                        }
                         dao.adiciona(livro);
 
                         anim.setImageResource(R.drawable.ic_book_type);
                         typeAnim();
-
                     }
                     shiftAnim();
-
-
                 }
             }
 

@@ -7,9 +7,6 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import javax.xml.parsers.*;
-import org.xml.sax.InputSource;
-import org.w3c.dom.*;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
@@ -19,7 +16,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.CharacterData;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -298,13 +298,12 @@ public class HttpHandler {
                     NodeList img = element.getElementsByTagName("small_image_url");
                     line = (Element) img.item(0);
                     imgTxt = getCharacterDataFromElement(line);
-                    System.out.println("small_image_url: " + imgTxt);
 
 //                NodeList pub = element.getElementsByTagName("title");
 //                line = (Element) title.item(0);
 //                pubTxt = getCharacterDataFromElement(line);
 //                System.out.println("Title: " + pubTxt);
-//
+
 //                NodeList pg = element.getElementsByTagName("title");
 //                line = (Element) title.item(0);
 //                pgTxt = getCharacterDataFromElement(line);

@@ -1,17 +1,12 @@
 package equipe.projetoes.activities;
 
-import android.graphics.PorterDuff;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -54,10 +49,10 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ArrayList<Livro> livros = new ArrayList<Livro>();
-        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500, 200, true, true, "0"));
-        livros.add(new Livro(R.drawable.livro1, "Harry Potter e a pedra filosofal", "J.K. Rowling", "Racco", 372, 200, true, true, "1"));
-        livros.add(new Livro(R.drawable.livro2, "The Hunger Games", "Suzanne Collins", "Casa da Palavra",429, 200, true, true, "2"));
-        livros.add(new Livro(R.drawable.livro3, "The Martian", "Matt Damon", "Escreva LTDA", 160, 200, true, true, "3"));
+//        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500, 200, true, true, "0"));
+//        livros.add(new Livro(R.drawable.livro1, "Harry Potter e a pedra filosofal", "J.K. Rowling", "Racco", 372, 200, true, true, "1"));
+//        livros.add(new Livro(R.drawable.livro2, "The Hunger Games", "Suzanne Collins", "Casa da Palavra",429, 200, true, true, "2"));
+//        livros.add(new Livro(R.drawable.livro3, "The Martian", "Matt Damon", "Escreva LTDA", 160, 200, true, true, "3"));
 
         if (dao.listaTodos().size() < 4) {
             for (Livro livro : livros

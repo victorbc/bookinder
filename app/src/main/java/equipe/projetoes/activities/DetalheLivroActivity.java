@@ -4,6 +4,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -34,7 +35,9 @@ public class DetalheLivroActivity extends BaseActivity {
         init();
         String livroNome = getIntent().getStringExtra("livroNome");
         dao = new LivroDAO(this);
+        Log.v("CLICKED_BOOK_NAME", livroNome);
         livro = dao.getLivroByName(livroNome);
+        Log.v("CLICKED_BOOK_NAME", livro.getNome() + " " + livro.getISBN());
 
         if (livroNome.equals("0")) {
             ((ImageView) findViewById(R.id.img)).setImageResource(R.drawable.livro);
@@ -126,7 +129,6 @@ public class DetalheLivroActivity extends BaseActivity {
         edpg.setText(text);
 
 
-
         final AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.setTitle("Quantidade de páginas lidas");
         dialogView.findViewById(R.id.bt_cancelar).setOnClickListener(new View.OnClickListener() {
@@ -151,6 +153,10 @@ public class DetalheLivroActivity extends BaseActivity {
 
 
     private void updateLivroInfo() {
+        if (livro != null) {
+            Log.v("CLICKED_BOOK", String.valueOf(livro.getNome() == null));
+            Log.v("CLICKED_BOOK", String.valueOf(livro.getAutor() == null));
+        }
         nome.setText(livro.getNome());
         autor.setText(livro.getAutor());
         editora.setText(livro.getEditora());
