@@ -19,6 +19,7 @@
 
         <include layout="@layout/content_search" />
         <include layout="@layout/layout_toolbar" />
+        <include layout="@layout/list_filters" />
 
 
         <android.support.design.widget.NavigationView

@@ -4,4 +4,11 @@
     <string name="title_activity_categorias">CategoriasActivity</string>
     <string name="navigation_drawer_open">Abrir</string>
     <string name="navigation_drawer_close">Fechar</string>
+
+    <string name="filter_titulo">" Título"</string>
+    <string name="filter_isbn">" Isbn"</string>
+    <string name="filter_autor">" Autor"</string>
+    <string name="filter_editora">" Editora"</string>
+    <string name="filter_ano">" Ano"</string>
+
 </resources>

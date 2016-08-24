@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/list_filters"
+    android:weightSum="1">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.11" />
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_edit"
+                android:gravity="left|center_vertical"
+                android:text="@string/filter_titulo"
+                android:textSize="10sp"
+                style="?android:attr/borderlessButtonStyle"
+                android:focusableInTouchMode="true" />
+            <Button
+                android:layout_width="77dp"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_add"
+                android:gravity="left|center_vertical"
+                android:text="@string/filter_isbn"
+                android:textSize="10sp"
+                style="?android:attr/borderlessButtonStyle"
+                android:focusableInTouchMode="true" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_add"
+                android:gravity="left|center_vertical"
+                android:text="@string/filter_autor"
+                android:textSize="10sp"
+                style="?android:attr/borderlessButtonStyle"
+                android:focusableInTouchMode="true" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_add"
+                android:gravity="left|center_vertical"
+                android:text="@string/filter_editora"
+                android:textSize="10sp"
+                style="?android:attr/borderlessButtonStyle"
+                android:focusableInTouchMode="true" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_add"
+                android:gravity="left|center_vertical"
+                android:text="@string/filter_ano"
+                android:textSize="10sp"
+                style="?android:attr/borderlessButtonStyle"
+                android:focusableInTouchMode="true" />
+        </LinearLayout>
+
+</LinearLayout>
