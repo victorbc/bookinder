@@ -39,6 +39,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import equipe.projetoes.models.Livro;
+import equipe.projetoes.models.Filtros;
 
 /**
  * Created by Victor on 5/8/2016.
@@ -364,8 +365,10 @@ public class HttpHandler {
         System.out.println("getBooks(" + qt + ")");
       //  new HttpJsonAsyncTask().execute("https://www.googleapis.com/books/v1/users/109518442467553217123/bookshelves/1001/volumes?startIndex=" + livros.size() + "&maxResults=" + qt);
         new HttpXmlAsyncTask().execute("https://www.goodreads.com/search/index.xml?q=paulo+coelho&page=1&key=HEMYOGXpqJwvwnwG2AlLuQ&search[field]=author");
+    }
 
-
+    public void getBooks(int qt, Filtros filtro, String search_input){
+        new HttpXmlAsyncTask().execute("https://www.goodreads.com/search/index.xml?q="+ search_input + "&page=1&key=HEMYOGXpqJwvwnwG2AlLuQ&search[field]=" + filtro.getName());
     }
 
 
