@@ -35,9 +35,7 @@ public class DetalheLivroActivity extends BaseActivity {
         init();
         String livroNome = getIntent().getStringExtra("livroNome");
         dao = new LivroDAO(this);
-        Log.v("CLICKED_BOOK_NAME", livroNome);
         livro = dao.getLivroByName(livroNome);
-        Log.v("CLICKED_BOOK_NAME", livro.getNome() + " " + livro.getISBN());
 
         if (livroNome.equals("0")) {
             ((ImageView) findViewById(R.id.img)).setImageResource(R.drawable.livro);
@@ -56,10 +54,10 @@ public class DetalheLivroActivity extends BaseActivity {
         btRead = (TextView) findViewById(R.id.txtpg);
         btTrade = (ImageView) findViewById(R.id.bttrade);
 
+
         btFav.setOnClickListener(infoAction);
         btRead.setOnClickListener(infoAction);
         btTrade.setOnClickListener(infoAction);
-
 
         if (livro.isFav()) {
             btFav.setColorFilter(ContextCompat.getColor(this, R.color.accent), PorterDuff.Mode.SRC_ATOP);
@@ -83,6 +81,7 @@ public class DetalheLivroActivity extends BaseActivity {
 
         @Override
         public void onClick(View v) {
+
             switch (v.getId()) {
                 case R.id.btfav:
                     if (((ImageView) v).getColorFilter() == null) {
