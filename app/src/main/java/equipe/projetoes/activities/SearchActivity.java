@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -26,16 +24,12 @@ import com.google.android.gms.vision.barcode.Barcode;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import equipe.projetoes.models.Filtros;
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.SearchRecyclerAdapter;
 import equipe.projetoes.models.Livro;
-import equipe.projetoes.utilis.HttpHandler;
 import equipe.projetoes.utilis.LivroDAO;
-import equipe.projetoes.activities.LerActivity;
 
 /**
  * Created by Victor Batista on 5/5/2016.
@@ -54,6 +48,7 @@ public class SearchActivity extends BaseActivity {
     private LinearLayout list_filters;
     private String search_input;
     private Filtros selected_filter = Filtros.TITULO;
+    private MenuItem menuSearch;
 
 
 
@@ -99,11 +94,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     public void buttonOnClick(View view) {
-        findViewById(R.id.b_titulo).setAlpha(0.4f);
-        findViewById(R.id.b_isbn).setAlpha(0.4f);
-        findViewById(R.id.b_autor).setAlpha(0.4f);
-        findViewById(R.id.b_editora).setAlpha(0.4f);
-        findViewById(R.id.b_ano).setAlpha(0.4f);
+        turnFiltersGray();
 
         switch(view.getId())
         {
@@ -129,6 +120,14 @@ public class SearchActivity extends BaseActivity {
                 break;
         }
         handleQuery(search_input);
+    }
+
+    private void turnFiltersGray() {
+        findViewById(R.id.b_titulo).setAlpha(0.4f);
+        findViewById(R.id.b_isbn).setAlpha(0.4f);
+        findViewById(R.id.b_autor).setAlpha(0.4f);
+        findViewById(R.id.b_editora).setAlpha(0.4f);
+        findViewById(R.id.b_ano).setAlpha(0.4f);
     }
 
 
@@ -194,8 +193,7 @@ public class SearchActivity extends BaseActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_search, menu);
 
-
-
+        menuSearch = menu.findItem(R.id.search);
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
@@ -298,6 +296,8 @@ public class SearchActivity extends BaseActivity {
         return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request it is that we're responding to
@@ -306,10 +306,25 @@ public class SearchActivity extends BaseActivity {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
-                    //statusMessage.setText(R.string.barcode_success);
-//                    selected_filter=Filtros.ISBN;
-//                    buttonOnClick();
+
+//                    turnFiltersGray();
+//                    selected_filter = Filtros.ISBN;
+//                    findViewById(R.id.b_isbn).setAlpha(1f);
+
+
+                    list_filters.setVisibility(View.VISIBLE);
+                    menuSearch.expandActionView();
+                    searchView.setQuery(barcode.displayValue, false);
+
+                    selected_filter=Filtros.ISBN;
+                    turnFiltersGray();
+                    findViewById(R.id.b_isbn).setAlpha(1f);
+
                     handleQuery(barcode.displayValue);
+
+
+                    //statusMessage.setText(R.string.barcode_success);
+//                    handleQuery(barcode.displayValue);
                     //texto.setText();
                     Log.d(TAG, "Barcode read: " + barcode.displayValue);
                 } else {
@@ -326,4 +341,5 @@ public class SearchActivity extends BaseActivity {
 
 
     }
+
 }
