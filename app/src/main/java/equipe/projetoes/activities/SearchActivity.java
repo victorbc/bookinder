@@ -2,13 +2,17 @@ package equipe.projetoes.activities;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
@@ -16,21 +20,31 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
+
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import equipe.projetoes.models.Filtros;
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.SearchRecyclerAdapter;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.utilis.LivroDAO;
+import equipe.projetoes.activities.LerActivity;
 
 /**
  * Created by Victor Batista on 5/5/2016.
  */
 public class SearchActivity extends BaseActivity {
 
+    private static final int RC_BARCODE_CAPTURE = 9001;
+    private static final int RC_BARCODE_TYPED = 9002;
+    private static final String TAG = "BarcodeMain";
+    private static final int LER_CODIGO_DE_BARRA = 9000;
     private LivroDAO dao;
     private List<Livro> list;
     private SearchView searchView;
@@ -38,6 +52,7 @@ public class SearchActivity extends BaseActivity {
     private SearchRecyclerAdapter adapter;
     private LinearLayout list_filters;
     private Filtros filterSelected = Filtros.NOME;
+
 
 
     @Override
@@ -138,6 +153,12 @@ public class SearchActivity extends BaseActivity {
         if (id == R.id.search) {
             list_filters.setVisibility(View.VISIBLE);
             return true;
+        }if(id == R.id.code_reader){
+            Intent intent = new Intent(this, BarcodeCaptureActivity.class);
+            intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+            intent.putExtra(BarcodeCaptureActivity.UseFlash, false);
+
+            startActivityForResult(intent, RC_BARCODE_CAPTURE);
         }
 
         return super.onOptionsItemSelected(item);
@@ -206,7 +227,7 @@ public class SearchActivity extends BaseActivity {
         if (!string.equals("")) {
             for (Livro item : list) {
                 String label = removerAcentos(item.getNome().toLowerCase());
-                if (label.contains(query.toLowerCase())) {
+                if (label.contains(query.toLowerCase()) || item.getISBN().equals(query)) {
                     result.add(item);
                 }
             }
@@ -235,5 +256,31 @@ public class SearchActivity extends BaseActivity {
         return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request it is that we're responding to
 
+        if (requestCode == RC_BARCODE_CAPTURE) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data != null) {
+                    Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
+                    //statusMessage.setText(R.string.barcode_success);
+
+                    handleQuery(barcode.displayValue);
+                    //texto.setText();
+                    Log.d(TAG, "Barcode read: " + barcode.displayValue);
+                } else {
+                    //statusMessage.setText(R.string.barcode_failure);
+                    Log.d(TAG, "No barcode captured, intent data is null");
+                }
+            } else {
+                // statusMessage.setText(String.format(getString(R.string.barcode_error),
+                //        CommonStatusCodes.getStatusCodeString(resultCode)));
+            }
+        }else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+
+
+    }
 }
