@@ -24,11 +24,13 @@ import com.google.android.gms.vision.barcode.Barcode;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 import equipe.projetoes.models.Filtros;
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.SearchRecyclerAdapter;
 import equipe.projetoes.models.Livro;
+import equipe.projetoes.utilis.HttpHandler;
 import equipe.projetoes.utilis.LivroDAO;
 
 /**
@@ -49,6 +51,8 @@ public class SearchActivity extends BaseActivity {
     private String search_input;
     private Filtros selected_filter = Filtros.TITULO;
     private MenuItem menuSearch;
+    private HttpHandler httpHandler;
+
 
 
 
@@ -59,6 +63,7 @@ public class SearchActivity extends BaseActivity {
 
         init();
 
+        httpHandler = new HttpHandler(this);
         dao = new LivroDAO(this);
 
 
@@ -159,7 +164,8 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        list = dao.listaTodos();
+//        list = dao.listaTodos();
+        list = httpHandler.getLivros();
     }
 
     @Override
@@ -206,6 +212,8 @@ public class SearchActivity extends BaseActivity {
             @Override
             public boolean onQueryTextSubmit(String string) {
                 search_input = string;
+                httpHandler.getBooks(20, selected_filter, string);
+                list = httpHandler.getLivros();
                 handleQuery(string);
                 searchView.clearFocus();
                 return true;
@@ -214,6 +222,8 @@ public class SearchActivity extends BaseActivity {
             @Override
             public boolean onQueryTextChange(String string) {
                 search_input = string;
+                httpHandler.getBooks(20, selected_filter, string);
+                list = httpHandler.getLivros();
                 handleQuery(string);
                 return true;
             }

@@ -368,7 +368,7 @@ public class HttpHandler {
     }
 
     public void getBooks(int qt, Filtros filtro, String search_input){
-        new HttpXmlAsyncTask().execute("https://www.goodreads.com/search/index.xml?q="+ search_input + "&page=1&key=HEMYOGXpqJwvwnwG2AlLuQ&search[field]=" + filtro.getName());
+        new HttpXmlAsyncTask().execute("https://www.goodreads.com/search/index.xml?q="+ search_input.replace(" ", "+") + "&page=1&key=HEMYOGXpqJwvwnwG2AlLuQ&search[field]=" + filtro.getName());
     }
 
 

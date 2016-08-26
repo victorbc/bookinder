@@ -7,7 +7,7 @@ import equipe.projetoes.R;
  */
 public enum Filtros {
 
-    TITULO(1, "name", R.id.b_titulo), ISBN(2, "isbn", R.id.b_isbn), AUTOR(3, "author", R.id.b_autor), EDITORA(4, "publisher", R.id.b_editora), ANO(5, "year", R.id.b_ano);
+    TITULO(1, "title", R.id.b_titulo), ISBN(2, "isbn", R.id.b_isbn), AUTOR(3, "author", R.id.b_autor), EDITORA(4, "publisher", R.id.b_editora), ANO(5, "year", R.id.b_ano);
 
     private final int valor;
     private final String name;
