@@ -72,11 +72,8 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        // holder.txtNome.setText(mDataset.get(position).getNomeCursivo());
-        //holder.img.setImageResource(mDataset.get(position).getResId());
-        //Log.d("test",mDataset.get(position).getNomeCursivo()+ " image id "+mDataset.get(position).getResId());
-     //   holder.img.setImageResource(mDataset.get(position).getResId());
-        holder.img.setImageResource(mDataset.get(position).getResId());
+
+        holder.img.setImageBitmap(mDataset.get(position).getDrawable());
         if (type == NOINFO)
             holder.info.setVisibility(View.GONE);
         if (type == FULL)
@@ -96,19 +93,6 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
         holder.btRead.setOnClickListener(infoAction);
         holder.btTrade.setOnClickListener(infoAction);
 
-
-        if (livroNome.equals("0")) {
-            holder.img.setImageResource(R.drawable.livro);
-        } else if (livroNome.equals("1")) {
-            holder.img.setImageResource(R.drawable.livro1);
-
-        } else if (livroNome.equals("2")) {
-            holder.img.setImageResource(R.drawable.livro2);
-
-        } else if (livroNome.equals("3")) {
-            holder.img.setImageResource(R.drawable.livro3);
-
-        }
 
         if (mDataset.get(position).isFav()) {
             holder.btFav.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);

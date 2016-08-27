@@ -48,19 +48,6 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
         mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ArrayList<Livro> livros = new ArrayList<Livro>();
-//        livros.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500, 200, true, true, "0"));
-//        livros.add(new Livro(R.drawable.livro1, "Harry Potter e a pedra filosofal", "J.K. Rowling", "Racco", 372, 200, true, true, "1"));
-//        livros.add(new Livro(R.drawable.livro2, "The Hunger Games", "Suzanne Collins", "Casa da Palavra",429, 200, true, true, "2"));
-//        livros.add(new Livro(R.drawable.livro3, "The Martian", "Matt Damon", "Escreva LTDA", 160, 200, true, true, "3"));
-
-        if (dao.listaTodos().size() < 4) {
-            for (Livro livro : livros
-                    ) {
-                dao.adiciona(livro);
-            }
-        }
-
 
         // specify an adapter (see also next example)
         adapter = new BibliotecaRecyclerAdapter(dao.listaTradables(), BibliotecaRecyclerAdapter.NOINFO, this);
@@ -99,20 +86,6 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, rows);
         mGridLayoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
         mRecyclerView2.setLayoutManager(mGridLayoutManager);
-
-//        ArrayList<Livro> livros2 = new ArrayList<Livro>();
-//        livros2.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
-//        livros2.add(new Livro(R.drawable.livro1, "Game of Thrones", "George R.R", "Leya", 500));
-//        livros2.add(new Livro(R.drawable.livro2, "Game of Thrones", "George R.R", "Leya", 500));
-//        livros2.add(new Livro(R.drawable.livro3, "Game of Thrones", "George R.R", "Leya", 500));
-//        livros2.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
-//        livros2.add(new Livro(R.drawable.livro1, "Game of Thrones", "George R.R", "Leya", 500));
-//        livros2.add(new Livro(R.drawable.livro2, "Game of Thrones", "George R.R", "Leya", 500));
-//        livros2.add(new Livro(R.drawable.livro3, "Game of Thrones", "George R.R", "Leya", 500));
-//        livros2.add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
-//        livros2.add(new Livro(R.drawable.livro1, "Game of Thrones", "George R.R", "Leya", 500));
-//        livros2.add(new Livro(R.drawable.livro2, "Game of Thrones", "George R.R", "Leya", 500));
-//        livros2.add(new Livro(R.drawable.livro3, "Game of Thrones", "George R.R", "Leya", 500));
 
 
         // specify an adapter (see also next example)

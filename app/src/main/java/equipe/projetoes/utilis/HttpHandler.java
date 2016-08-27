@@ -417,7 +417,7 @@ public class HttpHandler {
 
 //Convert bitmap to byte array
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                livros.get(i).getDrawable().compress(Bitmap.CompressFormat.JPEG, 70, bos);
+                livros.get(i).getDrawable().compress(Bitmap.CompressFormat.JPEG, 100, bos);
                 byte[] bitmapdata = bos.toByteArray();
 
 //write the bytes in file

@@ -1,6 +1,7 @@
 package equipe.projetoes.models;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 /**
  * Created by Victor Batista on 31/03/2016.
@@ -69,6 +70,9 @@ public class Livro {
     }
 
     public Bitmap getDrawable() {
+        if(drawable == null && imgFilePath != null && !imgFilePath.equals("")){
+            drawable = BitmapFactory.decodeFile(imgFilePath);
+        }
         return drawable;
     }
 

@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
         // Nome do banco de dados
         private static final String NOME_DO_BANCO = "bibliotecalocal";
         // Versão atual do banco de dados
-        private static final int VERSAO_DO_BANCO = 1;
+        private static final int VERSAO_DO_BANCO = 2;
 
         public DBHelper(Context context) {
             super(context, NOME_DO_BANCO, null, VERSAO_DO_BANCO);
@@ -34,6 +34,7 @@ import android.database.sqlite.SQLiteOpenHelper;
                     + ",read_pg INTEGER NOT NULL"
                     + ",trade INTERGER NOT NULL"
                     + ",fav INTERGER NOT NULL"
+                    + ",imgpath TEXT"
                     + ");";
             db.execSQL(sql);
 

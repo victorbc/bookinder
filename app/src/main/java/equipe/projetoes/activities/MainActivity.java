@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity {
     private Handler handler;
     private Animation animationFadeOut;
     private Animation animationFadeIn;
+    private View progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +66,6 @@ public class MainActivity extends BaseActivity {
         //livros = http.getLivros();
 
         //livros = new ArrayList<Livro>();
-        http.getLivros().add(new Livro(R.drawable.livro, "Game of Thrones", "George R.R", "Leya", 500));
-        http.getLivros().add(new Livro(R.drawable.livro1, "Harry Potter e a pedra filosofal", "J.K. Rowling", "Racco", 372));
-        http.getLivros().add(new Livro(R.drawable.livro2, "The Hunger Games", "Suzanne Collins", "Casa da Palavra", 429));
-        http.getLivros().add(new Livro(R.drawable.livro3, "The Martian", "Matt Damon", "Escreva LTDA", 160));
         rnd = new Random();
 
 
@@ -87,12 +84,16 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
         //findViewById(R.id.info).setVisibility(View.INVISIBLE);
         findViewById(R.id.livros).setVisibility(View.INVISIBLE);
+        progressBar = findViewById(R.id.progressBar);
 
 
-//        if (http.isReady())
-        setBooks();
-//        else
-//            new TimeOut().execute("1000");
+        if (http.isReady()) {
+            progressBar.setVisibility(View.INVISIBLE);
+            setBooks();
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
+            new TimeOut().execute("1000");
+        }
 
 
         View.OnTouchListener swipeListner = new OnSwipeTouchListener(MainActivity.this) {
@@ -102,7 +103,7 @@ public class MainActivity extends BaseActivity {
                     if (!dao.listaTodos().contains(livro)) {
                         if (livro.getISBN() == null || livro.getISBN().equals("")) {
                             //TODO recuperar ISB da pesquisa
-                            livro.setISBN(dao.listaTodos().size()+"");
+                            livro.setISBN(dao.listaTodos().size() + "");
                         }
                         dao.adiciona(livro);
 
@@ -162,9 +163,6 @@ public class MainActivity extends BaseActivity {
         //findViewById(R.id.info).setVisibility(View.VISIBLE);
         findViewById(R.id.livros).setVisibility(View.VISIBLE);
         if (!http.isReady()) {
-            livroView.setImageResource(nextLivro(1).getResId());
-            livroView2.setImageResource(nextLivro(2).getResId());
-            livroView3.setImageResource(nextLivro(3).getResId());
         } else {
             try {
                 livroView.setImageBitmap(nextLivro(1).getDrawable());
@@ -183,8 +181,8 @@ public class MainActivity extends BaseActivity {
         nome.setText(livro.getNome());
         autor.setText(livro.getAutor());
         editora.setText(livro.getEditora());
-        if(livro.getPg() > 0)
-        paginas.setText(livro.getPg() + "");
+        if (livro.getPg() > 0)
+            paginas.setText(livro.getPg() + "");
         else
             paginas.setText("Número de páginas indisponível");
     }
@@ -330,9 +328,10 @@ public class MainActivity extends BaseActivity {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            if (http.isReady())
+            if (http.isReady()) {
                 setBooks();
-            else
+                progressBar.setVisibility(View.INVISIBLE);
+            }else
                 new TimeOut().execute("1000");
 
         }
