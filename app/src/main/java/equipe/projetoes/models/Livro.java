@@ -18,6 +18,7 @@ public class Livro {
     private String ISBN;
     private Bitmap drawable;
     private String urlImg;
+    private String imgFilePath;
 
     public Livro(int resId, String nome, String autor, String editora, int pg) {
         this.resId = resId;
@@ -161,6 +162,14 @@ public class Livro {
 
     public void setUrlImg(String urlImg) {
         this.urlImg = urlImg;
+    }
+
+    public String getImgFilePath() {
+        return imgFilePath;
+    }
+
+    public void setImgFilePath(String imgFilePath) {
+        this.imgFilePath = imgFilePath;
     }
 
     @Override
