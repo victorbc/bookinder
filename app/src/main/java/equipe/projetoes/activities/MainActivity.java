@@ -183,7 +183,10 @@ public class MainActivity extends BaseActivity {
         nome.setText(livro.getNome());
         autor.setText(livro.getAutor());
         editora.setText(livro.getEditora());
+        if(livro.getPg() > 0)
         paginas.setText(livro.getPg() + "");
+        else
+            paginas.setText("Número de páginas indisponível");
     }
 
 
