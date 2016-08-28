@@ -28,6 +28,7 @@ public class DetalheLivroActivity extends BaseActivity {
     private TextView autor;
     private TextView editora;
     private TextView paginas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,18 +38,11 @@ public class DetalheLivroActivity extends BaseActivity {
         dao = new LivroDAO(this);
         livro = dao.getLivroByName(livroNome);
 
-        if (livroNome.equals("0")) {
-            ((ImageView) findViewById(R.id.img)).setImageResource(R.drawable.livro);
-        } else if (livroNome.equals("1")) {
-            ((ImageView) findViewById(R.id.img)).setImageResource(R.drawable.livro1);
+        if (livro.getDrawable() != null)
+            ((ImageView) findViewById(R.id.img)).setImageBitmap(livro.getDrawable());
+        else
+            ((ImageView) findViewById(R.id.img)).setImageResource(R.drawable.noimage);
 
-        } else if (livroNome.equals("2")) {
-            ((ImageView) findViewById(R.id.img)).setImageResource(R.drawable.livro2);
-
-        } else if (livroNome.equals("3")) {
-            ((ImageView) findViewById(R.id.img)).setImageResource(R.drawable.livro3);
-
-        }
 
         btFav = (ImageView) findViewById(R.id.btfav);
         btRead = (TextView) findViewById(R.id.txtpg);
@@ -122,9 +116,9 @@ public class DetalheLivroActivity extends BaseActivity {
 
         final EditText edpg = (EditText) dialogView.findViewById(R.id.edpg);
         TextView pg = (TextView) dialogView.findViewById(R.id.pg);
-        String text = livro.getPg()+"";
+        String text = livro.getPg() + "";
         pg.setText(text);
-        text = livro.getReadPg()+"";
+        text = livro.getReadPg() + "";
         edpg.setText(text);
 
 
@@ -159,7 +153,10 @@ public class DetalheLivroActivity extends BaseActivity {
         nome.setText(livro.getNome());
         autor.setText(livro.getAutor());
         editora.setText(livro.getEditora());
-        paginas.setText(livro.getPg() + "");
+        if (livro.getPg() > 0)
+            paginas.setText(livro.getPg() + "");
+        else
+            paginas.setText("Número indisponível de");
     }
 
 

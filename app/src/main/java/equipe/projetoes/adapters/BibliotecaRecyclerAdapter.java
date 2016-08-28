@@ -72,17 +72,16 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        // holder.txtNome.setText(mDataset.get(position).getNomeCursivo());
-        //holder.img.setImageResource(mDataset.get(position).getResId());
-        //Log.d("test",mDataset.get(position).getNomeCursivo()+ " image id "+mDataset.get(position).getResId());
-     //   holder.img.setImageResource(mDataset.get(position).getResId());
-        holder.img.setImageResource(mDataset.get(position).getResId());
+        if (mDataset.get(position).getDrawable() != null)
+            holder.img.setImageBitmap(mDataset.get(position).getDrawable());
+        else
+            holder.img.setImageResource(R.drawable.noimage);
         if (type == NOINFO)
             holder.info.setVisibility(View.GONE);
         if (type == FULL)
             holder.info.setVisibility(View.VISIBLE);
 
-        final String livroNome = mDataset.get(position).getISBN();
+        final String livroNome = mDataset.get(position).getNome();
 
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,19 +95,6 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
         holder.btRead.setOnClickListener(infoAction);
         holder.btTrade.setOnClickListener(infoAction);
 
-
-        if (livroNome.equals("0")) {
-            holder.img.setImageResource(R.drawable.livro);
-        } else if (livroNome.equals("1")) {
-            holder.img.setImageResource(R.drawable.livro1);
-
-        } else if (livroNome.equals("2")) {
-            holder.img.setImageResource(R.drawable.livro2);
-
-        } else if (livroNome.equals("3")) {
-            holder.img.setImageResource(R.drawable.livro3);
-
-        }
 
         if (mDataset.get(position).isFav()) {
             holder.btFav.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
@@ -184,7 +170,7 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
                     }
                     break;
                 case R.id.bt_read:
-                    showPgDialog(livro, dao,holder);
+                    showPgDialog(livro, dao, holder);
                     break;
                 case R.id.bt_trade:
                     if (((ImageView) v).getColorFilter() == null) {
@@ -198,8 +184,8 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
             }
 
             dao.atualizaDadosDoLivro(livro);
-            ((BibliotecaActivity)act).removeFromTrade(livro);
-            ((BibliotecaActivity)act).notifyRecyclers();
+            ((BibliotecaActivity) act).removeFromTrade(livro);
+            ((BibliotecaActivity) act).notifyRecyclers();
         }
     };
 
@@ -212,9 +198,9 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
         View dialogView = inflater.inflate(R.layout.dialog_pg, null);
         final EditText edpg = (EditText) dialogView.findViewById(R.id.edpg);
         TextView pg = (TextView) dialogView.findViewById(R.id.pg);
-        String text = livro.getPg()+"";
+        String text = livro.getPg() + "";
         pg.setText(text);
-        text = livro.getReadPg()+"";
+        text = livro.getReadPg() + "";
         edpg.setText(text);
         dialogBuilder.setView(dialogView);
 
@@ -232,7 +218,7 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
             public void onClick(View v) {
                 mDataset.get(holder.getAdapterPosition()).setReadPg(Integer.parseInt(edpg.getText().toString()));
                 dao.atualizaDadosDoLivro(mDataset.get(holder.getAdapterPosition()));
-                ((BibliotecaActivity)act).notifyRecyclers();
+                ((BibliotecaActivity) act).notifyRecyclers();
                 alertDialog.dismiss();
             }
         });

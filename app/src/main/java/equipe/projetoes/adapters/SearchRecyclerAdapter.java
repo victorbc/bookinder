@@ -64,8 +64,11 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
         holder.txtNome.setText(mDataset.get(position).getNome());
         holder.txtDesc.setText("");
-        holder.txtDesc.append(mDataset.get(position).getAutor()+"\n");
-        holder.txtDesc.append(mDataset.get(position).getPg() + " páginas");
+        holder.txtDesc.append(mDataset.get(position).getAutor() + "\n");
+        if (mDataset.get(position).getPg() > 0)
+            holder.txtDesc.append(mDataset.get(position).getPg() + " páginas");
+        else
+            holder.txtDesc.append("Número de páginas indisponível");
 
         String livroNome = mDataset.get(position).getISBN();
         if (holder.img != null) {
@@ -131,7 +134,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 @Override
                 public void onClick(View view) {
                     dao.adiciona(mDataset.get(getAdapterPosition()));
-                    Toast.makeText(ctx,"Livro adicionado a biblioteca",Toast.LENGTH_SHORT);
+                    Toast.makeText(ctx, "Livro adicionado a biblioteca", Toast.LENGTH_SHORT);
                 }
             });
         }

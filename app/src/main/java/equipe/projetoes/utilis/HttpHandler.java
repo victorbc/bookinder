@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 
@@ -26,20 +27,26 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import equipe.projetoes.activities.SearchActivity;
+
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Filtros;
 
@@ -60,10 +67,13 @@ public class HttpHandler {
     private int lastCoverNum = 0;
     private int lastBookNum = 0;
 
+    private LivroDAO dao;
+
     public HttpHandler(Context ctx) {
         this.ctx = ctx;
 
         livros = new ArrayList<Livro>();
+        dao = new LivroDAO(ctx);
         getBooks(20);
 
     }
@@ -230,9 +240,6 @@ public class HttpHandler {
                     getCovers(0, 10);
 
 
-
-
-
             } catch (ParserConfigurationException e) {
                 e.printStackTrace();
             } catch (SAXException e) {
@@ -240,7 +247,6 @@ public class HttpHandler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
 
         }
 
@@ -293,14 +299,14 @@ public class HttpHandler {
                     NodeList name = element.getElementsByTagName("name");
                     Element line = (Element) name.item(0);
                     authorTxt = getCharacterDataFromElement(line);
-                    System.out.println("Name: " + authorTxt);
+                    //System.out.println("Name: " + authorTxt);
 
                     NodeList title = element.getElementsByTagName("title");
                     line = (Element) title.item(0);
                     titleTxt = getCharacterDataFromElement(line);
-                    System.out.println("Title: " + titleTxt);
+                    //System.out.println("Title: " + titleTxt);
 
-                    NodeList img = element.getElementsByTagName("small_image_url");
+                    NodeList img = element.getElementsByTagName("image_url");
                     line = (Element) img.item(0);
                     imgTxt = getCharacterDataFromElement(line);
 
@@ -331,16 +337,11 @@ public class HttpHandler {
                     index++;
 
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 index++;
                 extractXmlBooks();
             }
-
         }
-
-
-
-
     }
 
     public void getCovers(int init, int qt) {
@@ -357,22 +358,21 @@ public class HttpHandler {
                     new DrawableFromUrl().execute(livros.get(i).getUrlImg());
                 } catch (IndexOutOfBoundsException e) {
                     break;
-
                 }
-
                 //System.out.println("for");
             }
+            saveImgs((ArrayList<Livro>) livros);
         }
     }
 
     public void getBooks(int qt) {
         System.out.println("getBooks(" + qt + ")");
-      //  new HttpJsonAsyncTask().execute("https://www.googleapis.com/books/v1/users/109518442467553217123/bookshelves/1001/volumes?startIndex=" + livros.size() + "&maxResults=" + qt);
+        //  new HttpJsonAsyncTask().execute("https://www.googleapis.com/books/v1/users/109518442467553217123/bookshelves/1001/volumes?startIndex=" + livros.size() + "&maxResults=" + qt);
         new HttpXmlAsyncTask().execute("https://www.goodreads.com/search/index.xml?q=paulo+coelho&page=1&key=HEMYOGXpqJwvwnwG2AlLuQ&search[field]=author");
     }
 
-    public void getBooks(int qt, Filtros filtro, String search_input){
-        new HttpXmlAsyncTask().execute("https://www.goodreads.com/search/index.xml?q="+ search_input.replace(" ", "+") + "&page=1&key=HEMYOGXpqJwvwnwG2AlLuQ&search[field]=" + filtro.getName());
+    public void getBooks(int qt, Filtros filtro, String search_input) {
+        new HttpXmlAsyncTask().execute("https://www.goodreads.com/search/index.xml?q=" + search_input.replace(" ", "+") + "&page=1&key=HEMYOGXpqJwvwnwG2AlLuQ&search[field]=" + filtro.getName());
     }
 
 
@@ -391,15 +391,71 @@ public class HttpHandler {
             return "ok";
         }
 
+
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
+            Log.d("DrawableFromURL", result);
             livros.get(lastPosImageSet).setDrawable(lastDraw);
             lastPosImageSet++;
             isReady = true;
         }
-
     }
+
+    private void saveImgs(ArrayList<Livro> livros) {
+        for (int i = 0; i < livros.size(); i++) {
+            try {
+
+                //create a file to write bitmap data
+                //File f = new File(ctx.getCacheDir(), livros.get(i).getNome());
+                //f.createNewFile();
+                File f = getOutputMediaFile(livros.get(i).getNome());
+                if (f.exists()) {
+                    System.out.println("Arquivo ja existe");
+                    livros.get(i).setImgFilePath(f.getPath());
+                    dao.atualizaDadosDoLivro(livros.get(i));
+                    continue;
+                }
+
+//Convert bitmap to byte array
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                livros.get(i).getDrawable().compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+                FileOutputStream fos = new FileOutputStream(f);
+                fos.write(bitmapdata);
+                fos.flush();
+                fos.close();
+
+                livros.get(i).setImgFilePath(f.getPath());
+                dao.atualizaDadosDoLivro(livros.get(i));
+                System.out.println("Arquivo salvo: " + f.getPath());
+
+            } catch (Exception e) {
+                Log.d("HTTPHandler", e.getMessage());
+            }
+        }
+    }
+
+
+    private File getOutputMediaFile(String name) {
+        File mediaStorageDir = new File(ctx.getFilesDir(), "Bookinder");
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("HTTPHandler", "failed to create directory");
+                return null;
+            }
+        }
+        // Create a media file name
+
+        File mediaFile;
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator
+                + "IMG_" + name + ".jpg");
+
+        return mediaFile;
+    }
+
 
     public Bitmap drawable_from_url(String url) throws java.net.MalformedURLException, java.io.IOException {
         Bitmap x;

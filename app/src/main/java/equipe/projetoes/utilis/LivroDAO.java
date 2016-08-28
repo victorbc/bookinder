@@ -36,6 +36,7 @@ public class LivroDAO {
         values.put("read_pg", livro.getReadPg());
         values.put("fav", livro.isFav());
         values.put("trade", livro.isTradable());
+        values.put("imgpath", livro.getImgFilePath());
 
         // Instancia uma conexão com o banco de dados, em modo de gravação
         SQLiteDatabase dbase = dbHelper.getWritableDatabase();
@@ -51,7 +52,7 @@ public class LivroDAO {
         // Instancia uma nova conexão com o banco de dados em modo leitura
         SQLiteDatabase dbase = dbHelper.getReadableDatabase();
         // Executa a consulta no banco de dados
-        Cursor cursor = dbase.query("livros", null, "isbn = " +"'"+ nome+"'", null, null,
+        Cursor cursor = dbase.query("livros", null, "name = " + "'" + nome + "'", null, null,
                 null, null);
         /**
          * Percorre o Cursor, injetando os dados consultados em um objeto
@@ -70,8 +71,9 @@ public class LivroDAO {
                 livro.setReadPg(cursor.getInt(cursor.getColumnIndex("read_pg")));
                 livro.setFav(cursor.getInt(cursor.getColumnIndex("fav")) > 0);
                 livro.setTradable(cursor.getInt(cursor.getColumnIndex("trade")) > 0);
+                livro.setImgFilePath(cursor.getString(cursor.getColumnIndex("imgpath")));
 
-                if (livro.getISBN().equals(nome))
+                if (livro.getNome().equals(nome))
                     break;
             }
         } finally {
@@ -110,6 +112,7 @@ public class LivroDAO {
                 Livro.setReadPg(cursor.getInt(cursor.getColumnIndex("read_pg")));
                 Livro.setFav(cursor.getInt(cursor.getColumnIndex("fav")) > 0);
                 Livro.setTradable(cursor.getInt(cursor.getColumnIndex("trade")) > 0);
+                Livro.setImgFilePath(cursor.getString(cursor.getColumnIndex("imgpath")));
                 Livros.add(Livro);
             }
         } finally {
@@ -146,6 +149,7 @@ public class LivroDAO {
                 Livro.setReadPg(cursor.getInt(cursor.getColumnIndex("read_pg")));
                 Livro.setFav(cursor.getInt(cursor.getColumnIndex("fav")) > 0);
                 Livro.setTradable(cursor.getInt(cursor.getColumnIndex("trade")) > 0);
+                Livro.setImgFilePath(cursor.getString(cursor.getColumnIndex("imgpath")));
                 Livros.add(Livro);
             }
         } finally {
@@ -164,7 +168,11 @@ public class LivroDAO {
      */
     public final void atualizaDadosDoLivro(Livro Livro) {
         String tableName = "livros";
-        String where = "_id = " + Livro.getId();
+        String where;
+        if (Livro.getId() == 0)
+            where = "_id = " + getLivroByName(Livro.getNome()).getId();
+        else
+            where = "_id = " + Livro.getId();
 
         ContentValues values = new ContentValues();
         values.put("name", Livro.getNome());
@@ -175,7 +183,11 @@ public class LivroDAO {
         values.put("read_pg", Livro.getReadPg());
         values.put("fav", Livro.isFav());
         values.put("trade", Livro.isTradable());
+        values.put("imgpath", Livro.getImgFilePath());
 
+        System.out.println("atualiza: " + Livro.getImgFilePath());
+        System.out.println("atualiza: " + where);
+        System.out.println("atualiza: " + Livro.getId());
         SQLiteDatabase dbase = dbHelper.getWritableDatabase();
         dbase.update(tableName, values, where, null);
 
