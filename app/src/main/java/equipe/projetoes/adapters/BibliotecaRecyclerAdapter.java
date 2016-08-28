@@ -72,14 +72,16 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-
-        holder.img.setImageBitmap(mDataset.get(position).getDrawable());
+        if (mDataset.get(position).getDrawable() != null)
+            holder.img.setImageBitmap(mDataset.get(position).getDrawable());
+        else
+            holder.img.setImageResource(R.drawable.noimage);
         if (type == NOINFO)
             holder.info.setVisibility(View.GONE);
         if (type == FULL)
             holder.info.setVisibility(View.VISIBLE);
 
-        final String livroNome = mDataset.get(position).getISBN();
+        final String livroNome = mDataset.get(position).getNome();
 
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +170,7 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
                     }
                     break;
                 case R.id.bt_read:
-                    showPgDialog(livro, dao,holder);
+                    showPgDialog(livro, dao, holder);
                     break;
                 case R.id.bt_trade:
                     if (((ImageView) v).getColorFilter() == null) {
@@ -182,8 +184,8 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
             }
 
             dao.atualizaDadosDoLivro(livro);
-            ((BibliotecaActivity)act).removeFromTrade(livro);
-            ((BibliotecaActivity)act).notifyRecyclers();
+            ((BibliotecaActivity) act).removeFromTrade(livro);
+            ((BibliotecaActivity) act).notifyRecyclers();
         }
     };
 
@@ -196,9 +198,9 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
         View dialogView = inflater.inflate(R.layout.dialog_pg, null);
         final EditText edpg = (EditText) dialogView.findViewById(R.id.edpg);
         TextView pg = (TextView) dialogView.findViewById(R.id.pg);
-        String text = livro.getPg()+"";
+        String text = livro.getPg() + "";
         pg.setText(text);
-        text = livro.getReadPg()+"";
+        text = livro.getReadPg() + "";
         edpg.setText(text);
         dialogBuilder.setView(dialogView);
 
@@ -216,7 +218,7 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
             public void onClick(View v) {
                 mDataset.get(holder.getAdapterPosition()).setReadPg(Integer.parseInt(edpg.getText().toString()));
                 dao.atualizaDadosDoLivro(mDataset.get(holder.getAdapterPosition()));
-                ((BibliotecaActivity)act).notifyRecyclers();
+                ((BibliotecaActivity) act).notifyRecyclers();
                 alertDialog.dismiss();
             }
         });

@@ -52,7 +52,7 @@ public class LivroDAO {
         // Instancia uma nova conexão com o banco de dados em modo leitura
         SQLiteDatabase dbase = dbHelper.getReadableDatabase();
         // Executa a consulta no banco de dados
-        Cursor cursor = dbase.query("livros", null, "isbn = " +"'"+ nome+"'", null, null,
+        Cursor cursor = dbase.query("livros", null, "name = " + "'" + nome + "'", null, null,
                 null, null);
         /**
          * Percorre o Cursor, injetando os dados consultados em um objeto
@@ -73,7 +73,7 @@ public class LivroDAO {
                 livro.setTradable(cursor.getInt(cursor.getColumnIndex("trade")) > 0);
                 livro.setImgFilePath(cursor.getString(cursor.getColumnIndex("imgpath")));
 
-                if (livro.getISBN().equals(nome))
+                if (livro.getNome().equals(nome))
                     break;
             }
         } finally {
@@ -168,7 +168,11 @@ public class LivroDAO {
      */
     public final void atualizaDadosDoLivro(Livro Livro) {
         String tableName = "livros";
-        String where = "_id = " + Livro.getId();
+        String where;
+        if (Livro.getId() == 0)
+            where = "_id = " + getLivroByName(Livro.getNome()).getId();
+        else
+            where = "_id = " + Livro.getId();
 
         ContentValues values = new ContentValues();
         values.put("name", Livro.getNome());
@@ -181,6 +185,9 @@ public class LivroDAO {
         values.put("trade", Livro.isTradable());
         values.put("imgpath", Livro.getImgFilePath());
 
+        System.out.println("atualiza: " + Livro.getImgFilePath());
+        System.out.println("atualiza: " + where);
+        System.out.println("atualiza: " + Livro.getId());
         SQLiteDatabase dbase = dbHelper.getWritableDatabase();
         dbase.update(tableName, values, where, null);
 

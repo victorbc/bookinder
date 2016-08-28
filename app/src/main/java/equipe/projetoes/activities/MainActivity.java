@@ -165,13 +165,22 @@ public class MainActivity extends BaseActivity {
         if (!http.isReady()) {
         } else {
             try {
-                livroView.setImageBitmap(nextLivro(1).getDrawable());
-                livroView2.setImageBitmap(nextLivro(2).getDrawable());
-                livroView3.setImageBitmap(nextLivro(3).getDrawable());
+                if (nextLivro(1).getDrawable() != null)
+                    livroView.setImageBitmap(nextLivro(1).getDrawable());
+                else
+                    livroView.setImageResource(R.drawable.noimage);
+                if (nextLivro(2).getDrawable() != null)
+                    livroView2.setImageBitmap(nextLivro(2).getDrawable());
+                else
+                    livroView2.setImageResource(R.drawable.noimage);
+                if (nextLivro(3).getDrawable() != null)
+                    livroView3.setImageBitmap(nextLivro(3).getDrawable());
+                else
+                    livroView3.setImageResource(R.drawable.noimage);
             } catch (Exception e) {
-                livroView.setImageResource(R.color.fade);
-                livroView2.setImageResource(R.color.fade);
-                livroView3.setImageResource(R.color.fade);
+                livroView.setImageResource(R.drawable.noimage);
+                livroView2.setImageResource(R.drawable.noimage);
+                livroView3.setImageResource(R.drawable.noimage);
             }
         }
         updateLivroInfo();
@@ -184,22 +193,33 @@ public class MainActivity extends BaseActivity {
         if (livro.getPg() > 0)
             paginas.setText(livro.getPg() + "");
         else
-            paginas.setText("Número de páginas indisponível");
+            paginas.setText("Número indisponível de");
     }
 
 
     private void shiftBooks() {
-        livroView.setImageDrawable(livroView2.getDrawable());
+        if (livroView2.getDrawable() != null)
+            livroView.setImageDrawable(livroView2.getDrawable());
+        else
+            livroView.setImageResource(R.drawable.noimage);
         livro = livro2;
-        livroView2.setImageDrawable(livroView3.getDrawable());
+        if (livroView3.getDrawable() != null)
+            livroView2.setImageDrawable(livroView3.getDrawable());
+        else
+            livroView2.setImageResource(R.drawable.noimage);
+
         livro2 = livro3;
         try {
             if (nextLivro(3).getResId() != 0)
                 livroView3.setImageResource(nextLivro(3).getResId());
-            else
-                livroView3.setImageBitmap(nextLivro(3).getDrawable());
+            else {
+                if (nextLivro(3).getDrawable() != null)
+                    livroView3.setImageBitmap(nextLivro(3).getDrawable());
+                else
+                    livroView3.setImageResource(R.drawable.noimage);
+            }
         } catch (Exception e) {
-            livroView3.setImageResource(R.color.fade);
+            livroView3.setImageResource(R.drawable.noimage);
         }
         updateLivroInfo();
     }
@@ -331,7 +351,7 @@ public class MainActivity extends BaseActivity {
             if (http.isReady()) {
                 setBooks();
                 progressBar.setVisibility(View.INVISIBLE);
-            }else
+            } else
                 new TimeOut().execute("1000");
 
         }

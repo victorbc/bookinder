@@ -65,10 +65,13 @@ public class HttpHandler {
     private int lastCoverNum = 0;
     private int lastBookNum = 0;
 
+    private LivroDAO dao;
+
     public HttpHandler(Context ctx) {
         this.ctx = ctx;
 
         livros = new ArrayList<Livro>();
+        dao = new LivroDAO(ctx);
         getBooks(20);
 
     }
@@ -293,12 +296,12 @@ public class HttpHandler {
                     NodeList name = element.getElementsByTagName("name");
                     Element line = (Element) name.item(0);
                     authorTxt = getCharacterDataFromElement(line);
-                    System.out.println("Name: " + authorTxt);
+                    //System.out.println("Name: " + authorTxt);
 
                     NodeList title = element.getElementsByTagName("title");
                     line = (Element) title.item(0);
                     titleTxt = getCharacterDataFromElement(line);
-                    System.out.println("Title: " + titleTxt);
+                    //System.out.println("Title: " + titleTxt);
 
                     NodeList img = element.getElementsByTagName("image_url");
                     line = (Element) img.item(0);
@@ -396,9 +399,11 @@ public class HttpHandler {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
+            Log.d("DrawableFromURL", result);
             livros.get(lastPosImageSet).setDrawable(lastDraw);
             lastPosImageSet++;
             isReady = true;
+
         }
 
     }
@@ -412,6 +417,9 @@ public class HttpHandler {
                 //f.createNewFile();
                 File f = getOutputMediaFile(livros.get(i).getNome());
                 if (f.exists()) {
+                    System.out.println("Arquivo ja existe");
+                    livros.get(i).setImgFilePath(f.getPath());
+                    dao.atualizaDadosDoLivro(livros.get(i));
                     continue;
                 }
 
@@ -427,6 +435,8 @@ public class HttpHandler {
                 fos.close();
 
                 livros.get(i).setImgFilePath(f.getPath());
+                dao.atualizaDadosDoLivro(livros.get(i));
+                System.out.println("Arquivo salvo: " + f.getPath());
 
             } catch (Exception e) {
                 Log.d("HTTPHandler", e.getMessage());

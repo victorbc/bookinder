@@ -38,7 +38,10 @@ public class DetalheLivroActivity extends BaseActivity {
         dao = new LivroDAO(this);
         livro = dao.getLivroByName(livroNome);
 
-        ((ImageView) findViewById(R.id.img)).setImageBitmap(livro.getDrawable());
+        if (livro.getDrawable() != null)
+            ((ImageView) findViewById(R.id.img)).setImageBitmap(livro.getDrawable());
+        else
+            ((ImageView) findViewById(R.id.img)).setImageResource(R.drawable.noimage);
 
 
         btFav = (ImageView) findViewById(R.id.btfav);
