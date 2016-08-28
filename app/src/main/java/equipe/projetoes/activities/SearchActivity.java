@@ -1,10 +1,12 @@
 package equipe.projetoes.activities;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -25,6 +28,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import equipe.projetoes.models.Filtros;
 import equipe.projetoes.R;
@@ -49,7 +53,7 @@ public class SearchActivity extends BaseActivity {
     private SearchRecyclerAdapter adapter;
     private LinearLayout list_filters;
     private String search_input;
-    private Filtros selected_filter = Filtros.TITULO;
+    private Filtros selected_filter;
     private MenuItem menuSearch;
     private HttpHandler httpHandler;
 
@@ -85,16 +89,9 @@ public class SearchActivity extends BaseActivity {
         adapter = new SearchRecyclerAdapter(new ArrayList<Livro>(), this);
         mRecyclerView.setAdapter(adapter);
 
+        selected_filter = Filtros.TITULO;
+        search_input = "";
         list_filters.setVisibility(View.INVISIBLE);
-
-
-
-//        addFilterButton("Titulo", R.drawable.ic_edit );
-//        addFilterButton("ISBN", R.drawable.ic_add );
-//        addFilterButton("Autor", R.drawable.ic_add );
-//        addFilterButton("Editora", R.drawable.ic_add );
-//        addFilterButton("Ano", R.drawable.ic_add );
-
 
     }
 
@@ -123,6 +120,10 @@ public class SearchActivity extends BaseActivity {
                 selected_filter = Filtros.ANO;
                 findViewById(R.id.b_ano).setAlpha(1f);
                 break;
+            default:
+                selected_filter = Filtros.TITULO;
+                findViewById(R.id.b_titulo).setAlpha(1f);
+                break;
         }
         handleQuery(search_input);
     }
@@ -140,32 +141,15 @@ public class SearchActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         list_filters.setVisibility(View.INVISIBLE);
-
     }
-
-
-    private void addFilterButton(String name, int icon){
-        Button b = new Button(mRecyclerView.getContext());
-        b.setBackgroundColor(Color.TRANSPARENT);
-        b.setWidth(50);
-        b.setText("  " + name);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            b.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        }
-        Drawable img = mRecyclerView.getContext().getResources().getDrawable( icon );
-        img.setBounds( 0, 0, 50, 50 );
-        b.setCompoundDrawables( img, null, null, null );
-        list_filters.addView(b.getRootView());
-    }
-
-
 
 
     @Override
     protected void onResume() {
         super.onResume();
-//        list = dao.listaTodos();
-        list = httpHandler.getLivros();
+//        list = dao.listaTodos();  //Pegar livros do BD local
+        list = httpHandler.getLivros();  //Pegar livros da internet
+
     }
 
     @Override
@@ -186,10 +170,8 @@ public class SearchActivity extends BaseActivity {
 
             startActivityForResult(intent, RC_BARCODE_CAPTURE);
         }
-
         return super.onOptionsItemSelected(item);
     }
-
 
 
 
@@ -213,8 +195,7 @@ public class SearchActivity extends BaseActivity {
             public boolean onQueryTextSubmit(String string) {
                 search_input = string;
                 httpHandler.getBooks(20, selected_filter, string);
-                list = httpHandler.getLivros();
-                handleQuery(string);
+                new TimeOut().execute("1000");
                 searchView.clearFocus();
                 return true;
             }
@@ -223,8 +204,7 @@ public class SearchActivity extends BaseActivity {
             public boolean onQueryTextChange(String string) {
                 search_input = string;
                 httpHandler.getBooks(20, selected_filter, string);
-                list = httpHandler.getLivros();
-                handleQuery(string);
+                new TimeOut().execute("1000");
                 return true;
             }
         });
@@ -235,9 +215,7 @@ public class SearchActivity extends BaseActivity {
         MenuItemCompat.setOnActionExpandListener(menu.findItem(R.id.search), new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-
                 list_filters.setVisibility(View.INVISIBLE);
-                // Do something when collapsed
                 return true;  // Return true to collapse action view
             }
 
@@ -251,7 +229,7 @@ public class SearchActivity extends BaseActivity {
     }
 
 
-    private void handleQuery(String string) {
+    public void handleQuery(String string) {
         String query = removerAcentos(string);
         ArrayList<Livro> result = new ArrayList<Livro>();
         String label;
@@ -282,7 +260,6 @@ public class SearchActivity extends BaseActivity {
                 }
             }
         }
-
         updateList(result, string);
     }
 
@@ -299,13 +276,11 @@ public class SearchActivity extends BaseActivity {
         for (Livro item : onlyAdd) {
             adapter.add(adapter.getItemCount(), item);
         }
-
     }
 
     public static String removerAcentos(String str) {
         return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
-
 
 
     @Override
@@ -317,11 +292,6 @@ public class SearchActivity extends BaseActivity {
                 if (data != null) {
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
 
-//                    turnFiltersGray();
-//                    selected_filter = Filtros.ISBN;
-//                    findViewById(R.id.b_isbn).setAlpha(1f);
-
-
                     list_filters.setVisibility(View.VISIBLE);
                     menuSearch.expandActionView();
                     searchView.setQuery(barcode.displayValue, false);
@@ -332,10 +302,6 @@ public class SearchActivity extends BaseActivity {
 
                     handleQuery(barcode.displayValue);
 
-
-                    //statusMessage.setText(R.string.barcode_success);
-//                    handleQuery(barcode.displayValue);
-                    //texto.setText();
                     Log.d(TAG, "Barcode read: " + barcode.displayValue);
                 } else {
                     //statusMessage.setText(R.string.barcode_failure);
@@ -348,8 +314,26 @@ public class SearchActivity extends BaseActivity {
         }else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-
-
     }
 
+    private class TimeOut extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... time) {
+            int t = Integer.parseInt(time[0]);
+            while (t > 0) t--;
+            return "";
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            Log.i("httpReady", String.valueOf(httpHandler.isReady()));
+            if (httpHandler.isReady()) {
+                list = httpHandler.getLivros();
+                handleQuery(search_input);
+            }
+            else
+                new TimeOut().execute("1000");
+        }
+    }
 }

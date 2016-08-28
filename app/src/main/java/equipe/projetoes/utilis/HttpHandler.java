@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
@@ -38,6 +39,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import equipe.projetoes.activities.SearchActivity;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Filtros;
 
@@ -113,6 +115,7 @@ public class HttpHandler {
         else
             return false;
     }
+
 
     private class HttpJsonAsyncTask extends AsyncTask<String, Void, String> {
         private int index;
@@ -237,6 +240,7 @@ public class HttpHandler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
 
         }
 
