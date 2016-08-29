@@ -16,11 +16,25 @@
         tools:openDrawer="start">
 
 
-
         <include layout="@layout/content_search" />
         <include layout="@layout/layout_toolbar" />
         <include layout="@layout/list_filters" />
 
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/progressBar"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:indeterminate="true"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/accent"/>
 
         <android.support.design.widget.NavigationView
             android:id="@+id/nav_view"

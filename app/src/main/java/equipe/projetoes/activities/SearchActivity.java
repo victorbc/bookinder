@@ -56,6 +56,7 @@ public class SearchActivity extends BaseActivity {
     private Filtros selected_filter;
     private MenuItem menuSearch;
     private HttpHandler httpHandler;
+    private View progressBar;
 
 
 
@@ -92,6 +93,9 @@ public class SearchActivity extends BaseActivity {
         selected_filter = Filtros.TITULO;
         search_input = "";
         list_filters.setVisibility(View.INVISIBLE);
+
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
 
     }
 
@@ -202,6 +206,9 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public boolean onQueryTextChange(String string) {
+                if (!string.equals("")){
+                    progressBar.setVisibility(View.VISIBLE);
+                }
                 search_input = string;
                 httpHandler.getBooks(20, selected_filter, string);
                 new TimeOut().execute("1000");
@@ -331,6 +338,7 @@ public class SearchActivity extends BaseActivity {
             if (httpHandler.isReady()) {
                 list = httpHandler.getLivros();
                 handleQuery(search_input);
+                progressBar.setVisibility(View.INVISIBLE);
             }
             else
                 new TimeOut().execute("1000");
