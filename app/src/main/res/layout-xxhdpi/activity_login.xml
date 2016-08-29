@@ -93,14 +93,18 @@
 
     </RelativeLayout>
 
-    <ImageView
+
+    //Login GOOGLE
+    <Button
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:id="@+id/imageView3"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/gplus"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/gplus" />
+
 
     <ImageView
         android:layout_width="250dp"
