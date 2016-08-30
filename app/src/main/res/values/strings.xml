@@ -10,5 +10,6 @@
     <string name="filter_autor">" Autor"</string>
     <string name="filter_editora">" Editora"</string>
     <string name="filter_ano">" Ano"</string>
+    <string name="facebook_app_id">1055845061137163</string>
 
 </resources>

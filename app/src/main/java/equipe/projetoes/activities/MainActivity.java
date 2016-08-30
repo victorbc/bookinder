@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.FacebookSdk;
+
 import java.util.Random;
 
 import equipe.projetoes.R;
@@ -48,10 +50,15 @@ public class MainActivity extends BaseActivity {
     private Animation animationFadeIn;
     private View progressBar;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
 
         this.init();
 
@@ -145,6 +152,8 @@ public class MainActivity extends BaseActivity {
 
 
     }
+
+
 
     private void shiftAnim() {
         livroView.startAnimation(animationFadeOut);
