@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -20,6 +22,7 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import equipe.projetoes.AbstractGetNameTask;
 import equipe.projetoes.GetNameInForeground;
 import equipe.projetoes.R;
+import equipe.projetoes.utilis.Constants;
 
 /**
  * Created by Victor on 3/30/2016.
@@ -28,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
 
     Context mContext = LoginActivity.this;
     AccountManager mAccountManager;
+    TextView nao_tenho_conta;
+    EditText email_field;
     String token;
     int serverCode;
     private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
@@ -39,6 +44,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         syncGoogleAccount();
 
+        TextView nao_tenho_conta = (TextView) findViewById(R.id.nao_tenho_conta);
+//        nao_tenho_conta.setOnClickListener(this);
+
+        EditText email_field = (EditText) findViewById(R.id.editText);
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow(); // in Activity's onCreate() for instance
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -46,11 +57,31 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+//    @Override
+//    public void onClick(View v) {
+//        String email = email_field.getText().toString();
+//
+//        switch (v.getId()) {
+//            case R.id.nao_tenho_conta:
+//                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+//                intent.putExtra(Constants.TAG_EMAIL, email);
+//                startActivity(intent);
+//                finish();
+//                break;
+//
+//        }
+//    }
 
     public void login(View v){
         startActivity(new Intent(LoginActivity.this, CategoriasActivity.class));
         finish();
     }
+
+    public void createNewAccount(View v){
+        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+        finish();
+    }
+
 
     private String[] getAccountNames(){
         mAccountManager = AccountManager.get(this);
