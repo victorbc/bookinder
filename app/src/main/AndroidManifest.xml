@@ -38,6 +38,9 @@
             android:name=".activities.BibliotecaActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait" />
         <activity
