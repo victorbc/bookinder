@@ -95,15 +95,15 @@
 
 
     //Login GOOGLE
-    <Button
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:visibility="visible"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:id="@+id/imageView3"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/gplus"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/gplus" />
+        android:layout_marginBottom="5dp" />
 
 
     <ImageView

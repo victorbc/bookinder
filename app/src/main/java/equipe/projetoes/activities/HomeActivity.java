@@ -31,11 +31,11 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_login);
+        setContentView(R.layout.activity_sign_in);
 
-        textViewnName = (TextView) findViewById(R.id.textViewNameValue);
-        textViewEmail = (TextView) findViewById(R.id.textViewEmailValue);
-        imageProfile = (ImageView) findViewById(R.id.ImageView21);
+        //textViewnName = (TextView) findViewById(R.id.textViewNameValue);
+        //textViewEmail = (TextView) findViewById(R.id.textViewEmailValue);
+        //imageProfile = (ImageView) findViewById(R.id.ImageView21);
 
         Intent intent = getIntent();
         textEmail = intent.getStringExtra("email_id");
