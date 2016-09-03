@@ -151,6 +151,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
             CheckNetwork checkNetwork = new CheckNetwork();
             if (checkNetwork.isConnected(RegisterActivity.this) && success) {
                 Toast.makeText(RegisterActivity.this, "Account created", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                finish();
             } else {
                 Toast.makeText(RegisterActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
             }
