@@ -7,9 +7,6 @@ import com.google.android.gms.auth.UserRecoverableAuthException;
 
 import java.io.IOException;
 
-import equipe.projetoes.activities.LoginActivity;
-import equipe.projetoes.activities.MainActivity;
-
 /**
  * Created by kallynnykarlla on 29/08/16.
  */
