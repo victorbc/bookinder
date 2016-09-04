@@ -29,9 +29,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FacebookSdk.sdkInitialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        FacebookSdk.sdkInitialize(getApplicationContext()); //izabella
         info = (TextView)findViewById(R.id.info); //izabella
         loginButton = (LoginButton) findViewById(R.id.login_button); //izabella
 
