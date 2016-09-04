@@ -1,5 +1,6 @@
 package equipe.projetoes.activities;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -11,9 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.MatchesRecyclerAdapter;
@@ -63,6 +62,21 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         mRecyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (getIntent() != null) {
+            try {
+                Class c = Class.forName("equipe.projetoes."
+                        + getIntent().getStringExtra("previousActivity"));
+                startActivity(new Intent(this, c));
+                finish();
+            } catch (ClassNotFoundException e) {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

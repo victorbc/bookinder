@@ -1,25 +1,19 @@
 package equipe.projetoes.activities;
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
-import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -27,12 +21,10 @@ import com.google.android.gms.vision.barcode.Barcode;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
-import equipe.projetoes.models.Filtros;
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.SearchRecyclerAdapter;
+import equipe.projetoes.models.Filtros;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.utilis.HttpHandler;
 import equipe.projetoes.utilis.LivroDAO;
@@ -140,13 +132,21 @@ public class SearchActivity extends BaseActivity {
         findViewById(R.id.b_ano).setAlpha(0.4f);
     }
 
-
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        list_filters.setVisibility(View.INVISIBLE);
+        if (getIntent() != null) {
+            try {
+                Class c = Class.forName("equipe.projetoes."
+                        + getIntent().getStringExtra("previousActivity"));
+                startActivity(new Intent(this, c));
+                finish();
+            } catch (ClassNotFoundException e) {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
     }
-
 
     @Override
     protected void onResume() {

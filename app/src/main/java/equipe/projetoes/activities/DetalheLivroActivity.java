@@ -1,5 +1,6 @@
 package equipe.projetoes.activities;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -28,6 +29,7 @@ public class DetalheLivroActivity extends BaseActivity {
     private TextView autor;
     private TextView editora;
     private TextView paginas;
+    private Class previous;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,13 @@ public class DetalheLivroActivity extends BaseActivity {
         String livroNome = getIntent().getStringExtra("livroNome");
         dao = new LivroDAO(this);
         livro = dao.getLivroByName(livroNome);
+
+        try {
+            previous = Class.forName("equipe.projetoes."
+                    + getIntent().getStringExtra("previousActivity"));
+        } catch (ClassNotFoundException e) {
+            Log.v("ERRO_PREVIOUS_ACTIVITY", e.getMessage());
+        }
 
         if (livro.getDrawable() != null)
             ((ImageView) findViewById(R.id.img)).setImageBitmap(livro.getDrawable());
@@ -70,6 +79,11 @@ public class DetalheLivroActivity extends BaseActivity {
         updateLivroInfo();
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, previous));
+        this.finish();
+    }
 
     public View.OnClickListener infoAction = new View.OnClickListener() {
 

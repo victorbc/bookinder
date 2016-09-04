@@ -1,7 +1,6 @@
 package equipe.projetoes.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
@@ -86,7 +85,11 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                act.startActivity(new Intent(act, DetalheLivroActivity.class).putExtra("livroNome", livroNome));
+                Intent intent = new Intent(act, DetalheLivroActivity.class);
+                intent.putExtra("livroNome", livroNome);
+                intent.putExtra("previousActivity", act.getLocalClassName());
+
+                act.startActivity(intent);
             }
         });
 
