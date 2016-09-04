@@ -69,13 +69,13 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
                 Class c = Class.forName("equipe.projetoes."
                         + getIntent().getStringExtra("previousActivity"));
                 startActivity(new Intent(this, c));
-                finish();
             } catch (ClassNotFoundException e) {
                 super.onBackPressed();
             }
         } else {
             super.onBackPressed();
         }
+        finish();
     }
 
     @Override

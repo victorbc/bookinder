@@ -90,6 +90,7 @@ public class BibliotecaRecyclerAdapter extends RecyclerView.Adapter<BibliotecaRe
                 intent.putExtra("previousActivity", act.getLocalClassName());
 
                 act.startActivity(intent);
+                act.finish();
             }
         });
 

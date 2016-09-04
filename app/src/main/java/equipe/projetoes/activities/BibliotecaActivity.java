@@ -100,13 +100,13 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
                 Class c = Class.forName("equipe.projetoes."
                         + getIntent().getStringExtra("previousActivity"));
                 startActivity(new Intent(this, c));
-                finish();
             } catch (ClassNotFoundException e) {
                 super.onBackPressed();
             }
         } else {
             super.onBackPressed();
         }
+        finish();
     }
 
     public void notifyRecyclers() {

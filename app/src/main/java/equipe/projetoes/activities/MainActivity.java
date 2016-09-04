@@ -342,13 +342,13 @@ public class MainActivity extends BaseActivity {
                 Class c = Class.forName("equipe.projetoes."
                         + getIntent().getStringExtra("previousActivity"));
                 startActivity(new Intent(this, c));
-                finish();
             } catch (ClassNotFoundException e) {
                 super.onBackPressed();
             }
         } else {
             super.onBackPressed();
         }
+        finish();
     }
 
     private class TimeOut extends AsyncTask<String, Void, String> {
