@@ -15,20 +15,21 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import equipe.projetoes.activities.HomeActivity;
+import equipe.projetoes.activities.LoginActivity;
 
 /**
  * Created by kallynnykarlla on 29/08/16.
  */
 public abstract class AbstractGetNameTask extends AsyncTask<Void, Void, Void>{
 
-    protected LoginActivity mActivity;
+    //protected LoginActivity mActivity;
     public static String GOOGLE_USER_DATA = "no data";
     protected String mScope;
     protected String mEmail;
     protected int mRequest;
 
     public AbstractGetNameTask(LoginActivity mActivity, String mScope, String mEmail) {
-        this.mActivity = mActivity;
+        //this.mActivity = mActivity;
         this.mScope = mScope;
         this.mEmail = mEmail;
     }
@@ -69,15 +70,15 @@ public abstract class AbstractGetNameTask extends AsyncTask<Void, Void, Void>{
             GOOGLE_USER_DATA = readResponse(is);
             is.close();
 
-            Intent intent = new Intent(mActivity,HomeActivity.class);
-            intent.putExtra("email_id", mEmail);
-            mActivity.startActivity(intent);
-            mActivity.finish();
+            //Intent intent = new Intent(mActivity,HomeActivity.class);
+            //intent.putExtra("email_id", mEmail);
+            //mActivity.startActivity(intent);
+           // mActivity.finish();
             return;
 
 
         }else if ( sc == 401){
-            GoogleAuthUtil.invalidateToken(mActivity,token);
+            //GoogleAuthUtil.invalidateToken(mActivity,token);
             onError("Server auth error: " , null);
 
 
