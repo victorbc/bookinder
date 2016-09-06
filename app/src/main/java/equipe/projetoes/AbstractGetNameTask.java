@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import equipe.projetoes.activities.HomeActivity;
+import equipe.projetoes.activities.LoginActivity;
 
 /**
  * Created by kallynnykarlla on 29/08/16.
