@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import equipe.projetoes.R;
+import equipe.projetoes.models.Account;
+import equipe.projetoes.utilis.AccDAO;
 import equipe.projetoes.utilis.Constants;
 import equipe.projetoes.utilis.CheckNetwork;
 import equipe.projetoes.utilis.ValidateUserInfo;
@@ -23,11 +25,14 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
     TextView txt_alreadyHave;
     Button btn_registrar;
     private CreateUserTask mCreateTask = null;
+    AccDAO accDAO;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+
+        accDAO = new AccDAO(this);
 
         String email;
         if (savedInstanceState == null) {
@@ -150,6 +155,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
             mCreateTask = null;
             CheckNetwork checkNetwork = new CheckNetwork();
             if (checkNetwork.isConnected(RegisterActivity.this) && success) {
+                accDAO.adiciona(new Account(mName,mPassword,mEmail,true));
                 Toast.makeText(RegisterActivity.this, "Account created", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 finish();

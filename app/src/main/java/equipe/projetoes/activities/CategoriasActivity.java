@@ -21,6 +21,8 @@ import java.util.List;
 import equipe.projetoes.adapters.CategoriasGridViewAdapter;
 import equipe.projetoes.models.Categoria;
 import equipe.projetoes.R;
+import equipe.projetoes.utilis.AccDAO;
+import equipe.projetoes.utilis.Global;
 
 public class CategoriasActivity extends AppCompatActivity{
     private static List<Categoria> mCategorias;
@@ -65,6 +67,9 @@ public class CategoriasActivity extends AppCompatActivity{
     }
 
     public void next(View v){
+        AccDAO accDAO = new AccDAO(this);
+        Global.currentAcc.setFirstTime(false);
+        accDAO.atualizaDadosDoAccount(Global.currentAcc);
         startActivity(new Intent(CategoriasActivity.this,MainActivity.class));
         finish();
     }

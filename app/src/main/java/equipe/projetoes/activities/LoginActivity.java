@@ -22,7 +22,9 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import equipe.projetoes.AbstractGetNameTask;
 import equipe.projetoes.GetNameInForeground;
 import equipe.projetoes.R;
+import equipe.projetoes.utilis.AccDAO;
 import equipe.projetoes.utilis.Constants;
+import equipe.projetoes.utilis.Global;
 
 /**
  * Created by Victor on 3/30/2016.
@@ -32,10 +34,12 @@ public class LoginActivity extends AppCompatActivity {
     Context mContext = LoginActivity.this;
     AccountManager mAccountManager;
     TextView nao_tenho_conta;
-    EditText email_field;
+    EditText login_field;
+    EditText pass_field;
     String token;
     int serverCode;
     private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
+    AccDAO accDAO;
 
 
     @Override
@@ -44,10 +48,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         syncGoogleAccount();
 
+        accDAO = new AccDAO(this);
         TextView nao_tenho_conta = (TextView) findViewById(R.id.nao_tenho_conta);
 //        nao_tenho_conta.setOnClickListener(this);
 
-        EditText email_field = (EditText) findViewById(R.id.editText);
+        login_field = (EditText) findViewById(R.id.editText);
+        pass_field = (EditText) findViewById(R.id.editText2);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -72,48 +78,61 @@ public class LoginActivity extends AppCompatActivity {
 //        }
 //    }
 
-    public void login(View v){
-        startActivity(new Intent(LoginActivity.this, CategoriasActivity.class));
-        finish();
+    public void login(View v) {
+        equipe.projetoes.models.Account acc = accDAO.getAccountByLogin(login_field.getText().toString());
+        if (acc != null && acc.getLogin() != null && !acc.getLogin().equals("") && acc.getPass().equals(pass_field.getText().toString())) {
+            Global.currentAcc = acc;
+
+            if (acc.isFirstTime())
+                startActivity(new Intent(LoginActivity.this, CategoriasActivity.class));
+            else
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+            finish();
+        } else {
+
+            Toast.makeText(this, "Login Invalid", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
-    public void createNewAccount(View v){
+    public void createNewAccount(View v) {
         startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         finish();
     }
 
 
-    private String[] getAccountNames(){
+    private String[] getAccountNames() {
         mAccountManager = AccountManager.get(this);
         Account[] accounts = mAccountManager.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
         String[] names = new String[accounts.length];
-        for(int i = 0; i < names.length; i++){
+        for (int i = 0; i < names.length; i++) {
             names[i] = accounts[i].name;
         }
         return names;
     }
 
-    private AbstractGetNameTask getTask(LoginActivity activity, String email, String scope){
-        return new GetNameInForeground(activity,email,scope);
+    private AbstractGetNameTask getTask(LoginActivity activity, String email, String scope) {
+        return new GetNameInForeground(activity, email, scope);
     }
 
-    private void syncGoogleAccount(){
-        if(isNetworkAvailable() ==  true){
+    private void syncGoogleAccount() {
+        if (isNetworkAvailable() == true) {
             String[] accountarrs = getAccountNames();
-            if (accountarrs.length > 0){
-                getTask(LoginActivity.this,accountarrs[0], SCOPE).execute();
-            }else{
+            if (accountarrs.length > 0) {
+                getTask(LoginActivity.this, accountarrs[0], SCOPE).execute();
+            } else {
                 Toast.makeText(LoginActivity.this, "No google Account Sync!", Toast.LENGTH_SHORT).show();
             }
-        }else{
+        } else {
             Toast.makeText(LoginActivity.this, "No Network Services!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public boolean isNetworkAvailable(){
+    public boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkinfo = cm.getActiveNetworkInfo();
-        if(networkinfo != null && networkinfo.isConnected()){
+        if (networkinfo != null && networkinfo.isConnected()) {
             Log.e("Network Testing", "Available");
             return true;
         }
