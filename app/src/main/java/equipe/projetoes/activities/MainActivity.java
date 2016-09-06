@@ -335,6 +335,21 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (getIntent() != null) {
+            try {
+                Class c = Class.forName("equipe.projetoes."
+                        + getIntent().getStringExtra("previousActivity"));
+                startActivity(new Intent(this, c));
+            } catch (ClassNotFoundException e) {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
+        finish();
+    }
 
     private class TimeOut extends AsyncTask<String, Void, String> {
         @Override

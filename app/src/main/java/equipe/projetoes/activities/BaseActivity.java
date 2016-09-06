@@ -72,25 +72,32 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        String activityName = this.getLocalClassName();
+
         if (id == R.id.nav_trocas) {
             if (!(this instanceof MainActivity)) {
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this,
+                        MainActivity.class).putExtra("previousActivity", activityName));
+                finish();
             }
-            finish();
         } else if (id == R.id.nav_aguardando) {
             if (!(this instanceof MatchListActivity)) {
-                startActivity(new Intent(this, MatchListActivity.class));
+                startActivity(new Intent(this,
+                        MatchListActivity.class).putExtra("previousActivity", activityName));
+                finish();
             }
-            finish();
         } else if (id == R.id.nav_buscar) {
             if (!(this instanceof SearchActivity)) {
-                startActivity(new Intent(this, SearchActivity.class));
+                startActivity(new Intent(this,
+                        SearchActivity.class).putExtra("previousActivity", activityName));
+                finish();
             }
         } else if (id == R.id.nav_biblioteca) {
             if (!(this instanceof BibliotecaActivity)) {
-                startActivity(new Intent(this, BibliotecaActivity.class));
+                startActivity(new Intent(this,
+                        BibliotecaActivity.class).putExtra("previousActivity", activityName));
+                finish();
             }
-            finish();
         } else if (id == R.id.nav_pref) {
 
         }
