@@ -16,8 +16,23 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
 
 import com.google.android.gms.auth.GoogleAuthUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import equipe.projetoes.AbstractGetNameTask;
 import equipe.projetoes.GetNameInForeground;
@@ -26,10 +41,9 @@ import equipe.projetoes.utilis.AccDAO;
 import equipe.projetoes.utilis.Constants;
 import equipe.projetoes.utilis.Global;
 
-/**
- * Created by Victor on 3/30/2016.
- */
+
 public class LoginActivity extends AppCompatActivity {
+
 
     Context mContext = LoginActivity.this;
     AccountManager mAccountManager;
@@ -40,12 +54,18 @@ public class LoginActivity extends AppCompatActivity {
     int serverCode;
     private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
     AccDAO accDAO;
+    private TextView info; //izabella
+    private LoginButton loginButton;//izabella
+    private CallbackManager callbackManager;//izabella
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FacebookSdk.sdkInitialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         syncGoogleAccount();
 
         accDAO = new AccDAO(this);
@@ -56,11 +76,85 @@ public class LoginActivity extends AppCompatActivity {
         pass_field = (EditText) findViewById(R.id.editText2);
 
 
+        info = (TextView)findViewById(R.id.info); //izabella
+        loginButton = (LoginButton) findViewById(R.id.login_button); //izabella
+
+
+        callbackManager = CallbackManager.Factory.create(); //izabella
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow(); // in Activity's onCreate() for instance
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
+
+        loginButton.setReadPermissions("email");
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fblogin();
+            }
+        });
     }
+
+    private void fblogin() {
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
+        { //izabella ate o fim
+
+
+            @Override
+            public void onSuccess (LoginResult loginResult){
+                Toast.makeText(LoginActivity.this, "clicou teste", Toast.LENGTH_LONG).show();
+               // info.setText(
+               //         "User ID: "
+               //                 + loginResult.getAccessToken().getUserId()
+               //                 + "\n" +
+               //                 "Auth Token: "
+               //                 + loginResult.getAccessToken().getToken()
+               // );
+                GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject me, GraphResponse response) {
+                                if (response.getError() != null) {
+                                    // handle error
+                                } else {
+                                    Global.currentAcc = new equipe.projetoes.models.Account();
+                                    String email;
+                                    try {
+                                        email = response.getJSONObject().get("email").toString();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Global.currentAcc.setEmail_facebook(me.optString("name"));
+                                    Global.currentAcc.setEmail(me.optString("name"));
+                                    Global.currentAcc.setLogin(me.optString("name"));
+                                    Global.currentAcc.setPass(String.valueOf(me.hashCode()));
+                                    AccDAO dao = new AccDAO(getApplicationContext());
+                                    dao.adiciona(Global.currentAcc);
+                                    // send email and id to your web server
+                                }
+                            }
+                        }).executeAsync();
+                login();
+
+
+            }
+
+            @Override
+            public void onCancel () {
+               // info.setText("Login attempt canceled.");
+
+            }
+
+            @Override
+            public void onError (FacebookException e){
+                Toast.makeText(LoginActivity.this, "Login attempt failed.", Toast.LENGTH_LONG).show();
+
+            }
+
+        });
+    }
+
 
 
 //    @Override
@@ -139,4 +233,17 @@ public class LoginActivity extends AppCompatActivity {
         Log.e("Network Testing", "Not Available");
         return false;
     }
+
+    public void login(){
+        startActivity(new Intent(LoginActivity.this,CategoriasActivity.class));
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) { //izabella
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+
 }

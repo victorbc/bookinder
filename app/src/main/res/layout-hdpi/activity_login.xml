@@ -5,6 +5,8 @@
     android:background="@drawable/background"
     android:fitsSystemWindows="true">
 
+
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="125dp"
@@ -102,12 +104,22 @@
         android:layout_marginTop="15dp"
         android:layout_marginBottom="5dp" />
 
-    <ImageView
-        android:layout_width="250dp"
-        android:layout_height="38dp"
-        android:id="@+id/imageView4"
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/info"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textSize="18sp"
+        />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/face" />
+        />
 
     <TextView
         android:layout_width="wrap_content"
