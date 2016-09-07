@@ -21,7 +21,7 @@ import equipe.projetoes.utilis.ValidateUserInfo;
 
 
 public class RegisterActivity extends Activity implements View.OnClickListener{
-    EditText edit_nome, edit_email, edit_password;
+    EditText edit_username, edit_email, edit_password;
     TextView txt_alreadyHave;
     Button btn_registrar;
     private CreateUserTask mCreateTask = null;
@@ -42,7 +42,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
             email = savedInstanceState.getString(Constants.TAG_EMAIL);
         }
 
-        edit_nome = (EditText) findViewById(R.id.edit_nome);
+        edit_username = (EditText) findViewById(R.id.edit_username);
         edit_email = (EditText) findViewById(R.id.edit_email);
         edit_email.setText(email);
         edit_password = (EditText) findViewById(R.id.edit_password);
@@ -62,7 +62,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
      */
     public void attemptCreate() {
         // Store values at the time of the login attempt.
-        String name = edit_nome.getText().toString();
+        String username = edit_username.getText().toString();
         String email = edit_email.getText().toString();
         String password = edit_password.getText().toString();
 
@@ -72,9 +72,9 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
         ValidateUserInfo validate = new ValidateUserInfo();
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(name)) {
-            edit_nome.setError(getString(R.string.error_field_required));
-            focusView = edit_nome;
+        if (TextUtils.isEmpty(username)) {
+            edit_username.setError(getString(R.string.error_field_required));
+            focusView = edit_username;
             cancel = true;
         } else if (TextUtils.isEmpty(email)) {
             edit_email.setError(getString(R.string.error_field_required));
@@ -102,7 +102,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
             //TODO Create account logic
             // Show a progress spinner, and kick off a background task to
             // perform the user registration attempt.
-            mCreateTask = new CreateUserTask(name, email, password);
+            mCreateTask = new CreateUserTask(username, email, password);
             mCreateTask.execute((Void) null);
         }
     }
@@ -125,12 +125,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
      * the user.
      */
     public class CreateUserTask extends AsyncTask<Void, Void, Boolean> {
-        private final String mName;
+        private final String mUsername;
         private final String mEmail;
         private final String mPassword;
 
-        CreateUserTask(String name, String email, String password) {
-            mName = name;
+        CreateUserTask(String username, String email, String password) {
+            mUsername = username;
             mEmail = email;
             mPassword = password;
         }
@@ -155,7 +155,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
             mCreateTask = null;
             CheckNetwork checkNetwork = new CheckNetwork();
             if (checkNetwork.isConnected(RegisterActivity.this) && success) {
-                accDAO.adiciona(new Account(mName,mPassword,mEmail,true));
+                accDAO.adiciona(new Account(mUsername,mPassword,mEmail,true));
                 Toast.makeText(RegisterActivity.this, "Account created", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 finish();
