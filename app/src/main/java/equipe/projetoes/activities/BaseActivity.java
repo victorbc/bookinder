@@ -64,6 +64,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_aguardando);
         if (this instanceof SearchActivity)
             navigationView.setCheckedItem(R.id.nav_buscar);
+        if (this instanceof PreferenciasActivity)
+            navigationView.setCheckedItem(R.id.nav_pref);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -99,7 +101,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 finish();
             }
         } else if (id == R.id.nav_pref) {
-
+            if (!(this instanceof PreferenciasActivity)) {
+                startActivity(new Intent(this,
+                        PreferenciasActivity.class).putExtra("previousActivity", activityName));
+                finish();
+            }
         }
 
 

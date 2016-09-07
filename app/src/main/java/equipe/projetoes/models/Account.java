@@ -7,6 +7,8 @@ public class Account {
     private String login;
     private String pass;
     private String email;
+    private String email_facebook;
+    private String email_google;
     private boolean firstTime;
     private Long id;
 
@@ -15,6 +17,8 @@ public class Account {
         pass = "";
         email = "";
         firstTime = true;
+        email_facebook = "";
+        email_google = "";
     }
 
     public Account(String login, String pass, String email, boolean firstTime) {
@@ -62,5 +66,21 @@ public class Account {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmail_facebook() {
+        return email_facebook;
+    }
+
+    public void setEmail_facebook(String email_facebook) {
+        this.email_facebook = email_facebook;
+    }
+
+    public String getEmail_google() {
+        return email_google;
+    }
+
+    public void setEmail_google(String email_google) {
+        this.email_google = email_google;
     }
 }

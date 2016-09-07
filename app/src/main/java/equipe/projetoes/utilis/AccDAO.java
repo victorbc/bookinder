@@ -33,6 +33,12 @@ public class AccDAO {
         values.put("email", acc.getEmail());
         values.put("pass", acc.getPass());
         values.put("firsttime", acc.isFirstTime());
+        if(acc.getEmail_facebook() != null){
+            values.put("email_facebook", acc.getEmail_facebook());
+        }
+        if(acc.getEmail_google() != null){
+            values.put("email_google", acc.getEmail_google());
+        }
 
         // Instancia uma conexão com o banco de dados, em modo de gravação
         SQLiteDatabase dbase = dbHelper.getWritableDatabase();
@@ -63,6 +69,8 @@ public class AccDAO {
                 acc.setPass(cursor.getString(cursor.getColumnIndex("pass")));
                 acc.setEmail(cursor.getString(cursor.getColumnIndex("email")));
                 acc.setFirstTime(cursor.getInt(cursor.getColumnIndex("firsttime")) > 0);
+                acc.setEmail_facebook(cursor.getString(cursor.getColumnIndex("email_facebook")));
+                acc.setEmail_google(cursor.getString(cursor.getColumnIndex("email_google")));
 
                 if (acc.getLogin().equals(login))
                     break;
@@ -99,6 +107,8 @@ public class AccDAO {
                 acc.setPass(cursor.getString(cursor.getColumnIndex("pass")));
                 acc.setEmail(cursor.getString(cursor.getColumnIndex("email")));
                 acc.setFirstTime(cursor.getInt(cursor.getColumnIndex("firsttime")) > 0);
+                acc.setEmail_facebook(cursor.getString(cursor.getColumnIndex("email_facebook")));
+                acc.setEmail_google(cursor.getString(cursor.getColumnIndex("email_google")));
 
                 Accounts.add(acc);
             }
@@ -130,6 +140,12 @@ public class AccDAO {
         values.put("email", acc.getEmail());
         values.put("pass", acc.getPass());
         values.put("firsttime", acc.isFirstTime());
+        if(acc.getEmail_facebook() != null){
+            values.put("email_facebook", acc.getEmail_facebook());
+        }
+        if(acc.getEmail_google() != null){
+            values.put("email_google", acc.getEmail_google());
+        }
 
         SQLiteDatabase dbase = dbHelper.getWritableDatabase();
         dbase.update(tableName, values, where, null);

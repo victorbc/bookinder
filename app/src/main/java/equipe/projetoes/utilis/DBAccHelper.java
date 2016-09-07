@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
         // Nome do banco de dados
         private static final String NOME_DO_BANCO = "cadastrolocal";
         // Versão atual do banco de dados
-        private static final int VERSAO_DO_BANCO = 1;
+        private static final int VERSAO_DO_BANCO = 2;
 
         public DBAccHelper(Context context) {
             super(context, NOME_DO_BANCO, null, VERSAO_DO_BANCO);
@@ -31,6 +31,8 @@ import android.database.sqlite.SQLiteOpenHelper;
                     + ",email TEXT NOT NULL"
                     + ",pass TEXT NOT NULL"
                     + ",firsttime INTERGER NOT NULL"
+                    + ",email_google TEXT"
+                    + ",email_facebook TEXT"
                     + ");";
             db.execSQL(sql);
 
