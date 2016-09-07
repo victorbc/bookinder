@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,11 +20,14 @@ import android.widget.Toast;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -57,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView info; //izabella
     private LoginButton loginButton;//izabella
     private CallbackManager callbackManager;//izabella
+    private AccessTokenTracker accessTokenTracker;
 
 
 
@@ -66,7 +71,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        syncGoogleAccount();
+        updateWithToken(AccessToken.getCurrentAccessToken());
+
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken newAccessToken) {
+                updateWithToken(newAccessToken);
+            }
+        };
+
+//        syncGoogleAccount();
 
         accDAO = new AccDAO(this);
         TextView nao_tenho_conta = (TextView) findViewById(R.id.nao_tenho_conta);
@@ -96,6 +110,22 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void updateWithToken(AccessToken currentAccessToken) {
+
+        if (currentAccessToken != null) {
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+
+                    finish();
+                }
+            }, 0);
+        }
+    }
+
     private void fblogin() {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
         { //izabella ate o fim
@@ -103,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess (LoginResult loginResult){
-                Toast.makeText(LoginActivity.this, "clicou teste", Toast.LENGTH_LONG).show();
+//                Toast.makeText(LoginActivity.this, "clicou teste", Toast.LENGTH_LONG).show();
                // info.setText(
                //         "User ID: "
                //                 + loginResult.getAccessToken().getUserId()
@@ -111,10 +141,11 @@ public class LoginActivity extends AppCompatActivity {
                //                 "Auth Token: "
                //                 + loginResult.getAccessToken().getToken()
                // );
-                GraphRequest.newMeRequest(
+                GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject me, GraphResponse response) {
+                                Log.i("json", me.toString());
                                 if (response.getError() != null) {
                                     // handle error
                                 } else {
@@ -125,19 +156,22 @@ public class LoginActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-                                    Global.currentAcc.setEmail_facebook(me.optString("name"));
-                                    Global.currentAcc.setEmail(me.optString("name"));
+                                    Global.currentAcc.setEmail_facebook(me.optString("email"));
+                                    Global.currentAcc.setEmail(me.optString("email"));
                                     Global.currentAcc.setLogin(me.optString("name"));
                                     Global.currentAcc.setPass(String.valueOf(me.hashCode()));
                                     AccDAO dao = new AccDAO(getApplicationContext());
                                     dao.adiciona(Global.currentAcc);
+                                    Log.i("token", AccessToken.getCurrentAccessToken().toString());
                                     // send email and id to your web server
                                 }
                             }
-                        }).executeAsync();
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email");
+                request.setParameters(parameters);
+                request.executeAsync();
                 login();
-
-
             }
 
             @Override
@@ -151,7 +185,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Login attempt failed.", Toast.LENGTH_LONG).show();
 
             }
-
         });
     }
 
