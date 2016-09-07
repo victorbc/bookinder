@@ -53,7 +53,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void fblogin() {
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() { //izabella ate o fim
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
+        { //izabella ate o fim
+
+
             @Override
             public void onSuccess (LoginResult loginResult){
                 Toast.makeText(LoginActivity.this, "clicou teste", Toast.LENGTH_LONG).show();
@@ -64,6 +67,8 @@ public class LoginActivity extends AppCompatActivity {
                                 "Auth Token: "
                                 + loginResult.getAccessToken().getToken()
                 );
+                login();
+
 
             }
 
@@ -82,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void login(View v){
+    public void login(){
         startActivity(new Intent(LoginActivity.this,CategoriasActivity.class));
         finish();
     }
