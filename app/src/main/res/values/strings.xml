@@ -14,7 +14,7 @@
 
 
     <string name="already_registered">Already have an account? Sign in</string>
-    <string name="prompt_name">Name</string>
+    <string name="prompt_username">Username</string>
     <string name="action_register">Register</string>
     <string name="app_decription">Your awesome app</string>
     <string name="prompt_email">Email</string>
