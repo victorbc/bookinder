@@ -10,6 +10,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import equipe.projetoes.R;
+import equipe.projetoes.models.Account;
 import equipe.projetoes.utilis.AccDAO;
 import equipe.projetoes.utilis.Global;
 
@@ -22,6 +23,9 @@ public class PreferenciasActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferencias);
 
+        if (Global.currentAcc == null){
+            Global.currentAcc = new Account();
+        }
         conta_facebook = (Switch) findViewById(R.id.switch_facebook);
         conta_google = (Switch) findViewById(R.id.switch_google);
 
@@ -39,7 +43,12 @@ public class PreferenciasActivity extends BaseActivity {
                     // associar conta do google
                     Global.currentAcc.setEmail_google("luizha.cc@gmail.com");
                     AccDAO dao = new AccDAO(getApplicationContext());
-                    dao.atualizaDadosDoAccount(Global.currentAcc);
+                    if(Global.currentAcc.getId()!= null){
+                        dao.atualizaDadosDoAccount(Global.currentAcc);
+                    }else{
+                        dao.adiciona(Global.currentAcc);
+                    }
+
                     Log.d("Preferencia", "Deu certo colocar");
                 }else{
                     // desassociar conta do google.
@@ -56,14 +65,13 @@ public class PreferenciasActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    // associar conta do google
+                    // associar conta do facebook
 
-                    Global.currentAcc.setEmail_facebook("luiz_cz@hotmail.com");
-                    AccDAO dao = new AccDAO(getApplicationContext());
-                    dao.atualizaDadosDoAccount(Global.currentAcc);
+                    Intent intent = new Intent(PreferenciasActivity.this, LoginFacebookActivity.class);
+                    startActivity(intent);
                     Log.d("Preferencia", "Deu certo colocar");
                 }else{
-                    // desassociar conta do google.
+                    // desassociar conta do facebook.
 
                     Global.currentAcc.setEmail_facebook(null);
                     AccDAO dao = new AccDAO(getApplicationContext());
