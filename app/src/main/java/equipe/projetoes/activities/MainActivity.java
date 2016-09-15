@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -49,7 +50,6 @@ public class MainActivity extends BaseActivity {
     private Animation animationFadeOut;
     private Animation animationFadeIn;
     private View progressBar;
-
 
 
     @Override
@@ -140,7 +140,12 @@ public class MainActivity extends BaseActivity {
             }
 
             public void onSwipeBottom() {
-                //Toast.makeText(MainActivity.this, "bottom", Toast.LENGTH_SHORT).show();
+                if (!isSlideLock) {
+                    anim.setImageResource(R.drawable.ic_info_type);
+                    typeAnim();
+                    handler.postDelayed(detailDelay, 1000);
+
+                }
             }
 
         };
@@ -152,7 +157,6 @@ public class MainActivity extends BaseActivity {
 
 
     }
-
 
 
     private void shiftAnim() {
@@ -393,4 +397,20 @@ public class MainActivity extends BaseActivity {
             anim.setVisibility(View.INVISIBLE);
         }
     };
+
+    private Runnable detailDelay = new Runnable() {
+        public void run() {
+
+            Intent intent = new Intent(getBaseContext(), DetalheLivroActivity.class);
+            intent.putExtra("livroNome", livro.getNome());
+            intent.putExtra("livroEditora", livro.getEditora());
+            intent.putExtra("livroAutor", livro.getAutor());
+            intent.putExtra("livroPg", livro.getPg());
+            intent.putExtra("livroPath", livro.getImgFilePath());
+            intent.putExtra("readOnly", true);
+            startActivity(intent);
+            isSlideLock = false;
+        }
+    };
+
 }

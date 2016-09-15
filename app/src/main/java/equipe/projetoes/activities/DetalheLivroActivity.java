@@ -30,14 +30,24 @@ public class DetalheLivroActivity extends BaseActivity {
     private TextView editora;
     private TextView paginas;
     private Class previous;
+    private boolean isReadOnly = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhe_livro);
         init();
+        isReadOnly = getIntent().getBooleanExtra("readOnly", false);
         String livroNome = getIntent().getStringExtra("livroNome");
         dao = new LivroDAO(this);
+        if(isReadOnly){
+            livro = new Livro();
+            livro.setNome(getIntent().getStringExtra("livroNome"));
+            livro.setEditora(getIntent().getStringExtra("livroEditora"));
+            livro.setPg(getIntent().getIntExtra("livroPg",0));
+            livro.setImgFilePath(getIntent().getStringExtra("livroPath"));
+            livro.setAutor(getIntent().getStringExtra("livroAutor"));
+        }else
         livro = dao.getLivroByName(livroNome);
 
         try {
@@ -57,19 +67,29 @@ public class DetalheLivroActivity extends BaseActivity {
         btRead = (TextView) findViewById(R.id.txtpg);
         btTrade = (ImageView) findViewById(R.id.bttrade);
 
-
-        btFav.setOnClickListener(infoAction);
-        btRead.setOnClickListener(infoAction);
-        btTrade.setOnClickListener(infoAction);
-
-        if (livro.isFav()) {
-            btFav.setColorFilter(ContextCompat.getColor(this, R.color.accent), PorterDuff.Mode.SRC_ATOP);
+        if (isReadOnly) {
+            btTrade.setVisibility(View.INVISIBLE);
+            btFav.setVisibility(View.INVISIBLE);
+            btRead.setVisibility(View.INVISIBLE);
+            findViewById(R.id.textTrade).setVisibility(View.INVISIBLE);
+            findViewById(R.id.textFav).setVisibility(View.INVISIBLE);
+            findViewById(R.id.textPg).setVisibility(View.INVISIBLE);
         }
-        if (livro.isTradable()) {
-            btTrade.setColorFilter(ContextCompat.getColor(this, R.color.accent), PorterDuff.Mode.SRC_ATOP);
-        }
-        btRead.setText(livro.getReadPg() + " / " + livro.getPg());
 
+        if (!isReadOnly) {
+            btFav.setOnClickListener(infoAction);
+            btRead.setOnClickListener(infoAction);
+            btTrade.setOnClickListener(infoAction);
+
+
+            if (livro.isFav()) {
+                btFav.setColorFilter(ContextCompat.getColor(this, R.color.accent), PorterDuff.Mode.SRC_ATOP);
+            }
+            if (livro.isTradable()) {
+                btTrade.setColorFilter(ContextCompat.getColor(this, R.color.accent), PorterDuff.Mode.SRC_ATOP);
+            }
+            btRead.setText(livro.getReadPg() + " / " + livro.getPg());
+        }
 
         nome = (TextView) findViewById(R.id.text_nome);
         autor = (TextView) findViewById(R.id.text_autor);
@@ -81,7 +101,8 @@ public class DetalheLivroActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, previous));
+        if (previous != null && !previous.equals(""))
+            startActivity(new Intent(this, previous));
         this.finish();
     }
 

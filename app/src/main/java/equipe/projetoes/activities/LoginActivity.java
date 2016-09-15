@@ -17,8 +17,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -27,12 +25,9 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
-import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-
-
 import com.google.android.gms.auth.GoogleAuthUtil;
 
 import org.json.JSONException;
@@ -42,7 +37,6 @@ import equipe.projetoes.AbstractGetNameTask;
 import equipe.projetoes.GetNameInForeground;
 import equipe.projetoes.R;
 import equipe.projetoes.utilis.AccDAO;
-import equipe.projetoes.utilis.Constants;
 import equipe.projetoes.utilis.Global;
 
 
