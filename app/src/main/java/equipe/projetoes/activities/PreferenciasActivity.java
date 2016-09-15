@@ -41,13 +41,8 @@ public class PreferenciasActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     // associar conta do google
-                    Global.currentAcc.setEmail_google("luizha.cc@gmail.com");
-                    AccDAO dao = new AccDAO(getApplicationContext());
-                    if(Global.currentAcc.getId()!= null){
-                        dao.atualizaDadosDoAccount(Global.currentAcc);
-                    }else{
-                        dao.adiciona(Global.currentAcc);
-                    }
+                    Intent intent = new Intent(PreferenciasActivity.this, LoginGoogleActivity.class);
+                    startActivity(intent);
 
                     Log.d("Preferencia", "Deu certo colocar");
                 }else{

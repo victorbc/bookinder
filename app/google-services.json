@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "452579715850",
+    "project_id": "bookinder-d7de8"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452579715850:android:44e07521ee848e38",
+        "android_client_info": {
+          "package_name": "equipe.projetoes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452579715850-ds7b66b0429bupmokj7ddhuil69i2hbj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "equipe.projetoes",
+            "certificate_hash": "2195F7F56C286C5536BEE0BB6A61BF99799555E5"
+          }
+        },
+        {
+          "client_id": "452579715850-ftfgkkn1m7scqm0b9ot41rr2g3ve90p0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChWWb6lJYIuVJdMhs8cs7WCKqcIG6pYKM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
