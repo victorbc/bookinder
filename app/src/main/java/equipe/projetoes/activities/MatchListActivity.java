@@ -14,10 +14,14 @@ import android.view.View;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.MatchesRecyclerAdapter;
+import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Match;
+import equipe.projetoes.utilis.LivroDAO;
 
 public class MatchListActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private int selectedMenuId;
@@ -25,6 +29,8 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
     private Drawable tempDrawable;
     private RecyclerView mRecyclerView;
     private MatchesRecyclerAdapter adapter;
+    private LivroDAO dao;
+    ArrayList<Match> matches;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,21 +52,24 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ArrayList<Match> matches = new ArrayList<Match>();
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
+        dao = new LivroDAO(this);
+        updateMatches();
+
 
         // specify an adapter (see also next example)
         adapter = new MatchesRecyclerAdapter(matches);
         mRecyclerView.setAdapter(adapter);
+    }
+
+    public void updateMatches(){
+        matches = new ArrayList<Match>();
+        Random r = new Random();
+
+        for (Livro livro: dao.listaTodos()){
+            if (livro.isTradable())
+                matches.add(new Match(livro, r.nextInt(1000)));
+        }
+
     }
 
 
