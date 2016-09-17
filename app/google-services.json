@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "29989897378",
+    "project_id": "firebase-bookinder"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29989897378:android:44e07521ee848e38",
+        "android_client_info": {
+          "package_name": "equipe.projetoes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "29989897378-of34c2c5gk1b82a7ajcs96d6abeq02o6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "equipe.projetoes",
+            "certificate_hash": "F5E9545D04F53FADC93663DEDDCF0A853AF54349"
+          }
+        },
+        {
+          "client_id": "29989897378-77u45a4m8pbgbkpmcitr1t5cidit4dm7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO-5C5Qk3xGExDx0wNNxsKzOfibVft-j0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

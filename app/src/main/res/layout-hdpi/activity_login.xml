@@ -93,6 +93,8 @@
 
     </RelativeLayout>
 
+
+    //login google
     <ImageView
         android:layout_width="250dp"
         android:layout_height="35dp"
@@ -100,7 +102,8 @@
         android:layout_gravity="center_horizontal"
         android:src="@drawable/gplus"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="5dp"
+        android:onClick="loginGoogle"/>
 
     <ImageView
         android:layout_width="250dp"
@@ -113,9 +116,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Não tenho conta"
-        android:id="@+id/textView3"
+        android:id="@+id/nao_tenho_conta"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:textStyle="bold"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:onClick="createNewAccount" />
 </LinearLayout>

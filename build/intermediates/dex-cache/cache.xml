@@ -1,2 +1,488 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="f3ee23ef25c9a8fe3d40246d0b7097267963a612">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-24.2.0_d338117e6fe5e196d6350e2107524eefe6cb4f8c.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-contextmanager/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="72eacac37fc64e95d53abd2a041bf81a952d8615">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-contextmanager-9.4.0_798d8da95d14d44f7aceb063bde0a7e182635cf9.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="c10df7344e31161852c20bb8143fc37319aa10ec">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-appindexing-9.4.0_c7f303b532eb9f4171e1ca1334d723db01ce5463.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8a36d229011e75f0caef408e1adf0d3fd4d94e02">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tasks-9.4.0_248f2d8d4fb2bfb941b0ce271dfdd6d04f9b1b9c.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth-module/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6bc41d9d6fd12d2ef23c785a259011001f4a1a5b">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-auth-module-9.4.0_69cb61d5cdb942eb5aa073fc4fc531148b0ef4f2.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8ce5e7a4a146dddd1d9e66b09c714a6c149916d8">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-drive-9.4.0_345bead3b076917df228c9bf089dda52ea4f1d05.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="4b630471536351be7c3c3100735c75b7ad2cbd84">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-auth-9.4.0_38639cb0c8bb4bc807f37765ed9c6499eece91f0.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-places/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e35002351f2d415093a9b564652d4b56be6a0593">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-places-9.4.0_c3f08fa922dc19bfa4446fad630a48fd7645c844.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8197651ce1af4d89b47f4545cc720bc4f8611e7d">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-fitness-9.4.0_be93dc68cd09429f648f034cb3a4d7d7794c18cf.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-auth/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="4348dd26d83b56c2058b768222c3271bce911724">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-auth-9.4.0_81679a3d87a7c7c784c355a06b250c3888a335e5.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-messaging/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="4b6d9b70f93bbeb872d0948bc064ae3f3f2bcbac">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-messaging-9.4.0_896987b1de7bc7c601bdf812e63c724dfe4d73c1.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d463d8eec1e6c1feef2cec6675ccb47e37c12ee1">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-ads-9.4.0_922c8f1bd12bf382f1cb03261132f6f560cd6899.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="c755536e5a100d9c76c8ea0b72f76c018f7a9de2">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-24.2.0_d74f7082f6c1146ab6860af2e988ba41fab419d7.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/design/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="23eb0d2998a782213b56168cbf23a0688b9111d9">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-design-24.2.0_1eabd761898afc947cf6f648e420c931a6d01e2e.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="b1acf13f1b7d8232af78a30833f9a966d1394c84">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-wearable-9.4.0_bb2ba4d7773e2cfcc86fa077204c62e0e926a746.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3dee4ce5844d39d843d503fb8fe04e51e5bfffac">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-base-9.4.0_bed7f8921f347a9b43e3d45d351f5031092fddee.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6eb9107eb34d2fe2b020662b7fbbec991dcba846">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-support-media-compat-24.2.0_b028cf4b17f86e34dde1de9144b2be285635984d.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appinvite/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="736d8893fb702f128a153c9d87c9c29724d37872">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-appinvite-9.4.0_acae51bc370d06a6d48091b59577c2eb5f294f63.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-database/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="84bf369090a8f7e293817efbd6ccf31ada1be32b">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-database-9.4.0_52952dfa477865cd9244aaa66f8971792d91116f.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="771b3cc0e597b54da25f8086ba73180c59c6bc71">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.0_48704232fcdb2ef7fdedda1880d65c63e6e93767.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="96e33a7aaee00ab64270e2a9887b8f9ef32c8b73">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-cardview-v7-24.2.0_7e0340bc24763458e8dc9c82b2beba22ecea0558.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-iid/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="59a16a4a42d25b2c243dd1e8aea87d06895b4a06">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-iid-9.4.0_2b5594e75b68182c572d828e3d62bc155b8ba0ce.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="618485fef3ebe12127f7622abbc9b5b39057b5c2">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-basement-9.4.0_6d712a6cea886ba290e33b90d4b2c46b49d3ed14.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-database-connection/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="0e4d53465cc141bec58f18a894e4c4e80633fa32">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-database-connection-9.4.0_4b766bf66ff4c7328170077ccbff5b9e242b424a.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e454c414a069241ee08444d187f2dd3a702596b5">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-maps-9.4.0_cc91b46b9dd83759c73acb1bb45685c274a10906.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="954697ee6ea7bdd596babf4f70e8b7a17ca7649e">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-wallet-9.4.0_c559238ed7f23abe82208bae8050a96c434375e1.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="c84e216d9bf618464d6b9564d71d9a656433e7c4">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-ui-24.2.0_d774b0731bec6ad04417f2057d2c300830d9b9c9.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-auth-base/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="58c9f5ee817fdb8b658fd7455fadfb74119f7ee9">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-auth-base-9.4.0_7b97d30103f8be510e5b9a1a22b99081a7c1ed22.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="032a4b53def5e2ceedfc2e793b126c0163cfa1dd">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.0_3aebe1cd69fee89d0432954950e8d1426c96a9a6.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tagmanager/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e5e8e535d15834e824817bdf5370556f62b4b2a5">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tagmanager-9.4.0_9ee10fa7d4b8fcdcdcfe66fcc131089237e4f621.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="045be695d968dd707691cc55d23746dbf8cf569a">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.0_4fd63ea99bb5442a7a8ff28aaae6a9de4072ed4b.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d8bd2268fdcbfd52c76ade65d9900cd8def93a44">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-support-fragment-24.2.0_e2479db83f2d046c9506f40997ccb3aa10852522.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6e02e34594ebe9c0501ffda8dd48497f81b82977">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.0_6593b0f58d625ef86c739353888fad54da7c6440.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gass/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="b15f898c9047f9d612a63000126b485dd024eaac">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-gass-9.4.0_4e6d5a42cee1e26f939aa3d0bb219eab1b3f368c.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="88848548ab56d4fbf3d2d1b0c85bf1ff9b4c1f4b">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-analytics-9.4.0_0aaf9b0d5a5cb654c3f4ba5d18c626800d9620b6.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-crash/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="b9d48baf96c7e187991a9befa833bebd181960a9">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-crash-9.4.0_81c94bbe116930bd312c37257cc971c5298d7c9b.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e6e2251f3d3abf4eecd6bf6919d41fc7af497852">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-games-9.4.0_60a63b40f30da6050402e90cce56817e57cc8c99.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a440fb3fec30ff925e9f601cc458fb6671834cb2">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-analytics-impl-9.4.0_d3e0526641c7fd96e146c6409d272636acd55f62.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ba47b210d36301e237ccfea860eaada04590f12a">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-analytics-9.4.0_aa060537b4de16fddad970bde835f0f6ceff2384.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.github.siyamed/android-shape-imageview/0.9.3/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ee07783aa59eefdeacc107abf472f45f60272302">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.github.siyamed-android-shape-imageview-0.9.3_efbc895157f4a5af312ab344900405a1066a5b79.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/23.0.0/jars/libs/internal_impl-23.0.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="03d38bb042efe3e5ce27ba66b729a9523c36d8fe">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.0_e386d805d04680363fe826ff11470af1bb8c2d70.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="60d7b23621d31e6f42f4f76f16af467e57a20cda">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.0_f7429cfaffcc6316d9e39c4ea739d868e524a7f8.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="beac40bcc8a320a896dd15f5109cfcaea5e1e0e3">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-24.2.0_64df3ad48dfaef15ebba363bad7b489d98a3eb87.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads-lite/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="147edbec6bcea71fd675ecc63cae3319637ec2b4">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-ads-lite-9.4.0_c4f9e228a211a102e4ee816da3bc95832644a7d9.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth-common/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="34762013d39dbe6c656050589c44e8b61b9a2c5d">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-auth-common-9.4.0_75a7e6053f29460717c882e7f7560dd0494fa68f.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="f9b41622897665678d31d78e57a361cb0cebcb0d">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-support-compat-24.2.0_fad679af3ed81fd6daa8305f52342bc8ff8813c6.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ece40b09e9d4d488bc270cf6af5a9af73bc1cfa3">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-gcm-9.4.0_e905dc11c0371429d325d683ab5f22a7671d8ccd.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="c3c638be6e650b165ab9ae144857b64e82787fad">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-24.2.0_caee6b7f408c082e8b2b32d4995b836d2b85c825.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5e04c0b3683ca45b343284d93e5594b5f9044551">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-identity-9.4.0_0c6255a9684cce99176b4796a39c41c1cb0aabbd.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tagmanager-api/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7ea53c4458b80e8ea71f7fd6831fa184c501377b">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tagmanager-api-9.4.0_33f83681f9f9347a6653c5bd481eafd6f868cca1.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="dd51b31890731591729f046d7a09c4fe4e483ed1">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-plus-9.4.0_04138c68420088fc8d210fabfb1fe995772bca1c.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics-impl/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="0ad33eb600f3d80bdff5ce355c90d5533ade652a">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-analytics-impl-9.4.0_cb1f0b86ab8f637740feb4a0257e67bc3c2f20cb.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="fcc945a86ebcbf527429acb8216ec7dae2c06417">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-utils-24.2.0_4a2282f3022bd5b1678504cf3ed2540784783a45.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="461e4257888c25ec05abcd91e758fe7f4949230a">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-nearby-9.4.0_79b7b36da7fbcb1ce5f3e496de5fb2e17d85fb63.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="18b5697c65c4fe5b7381613b8b8ae9ac52e26fa7">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-common-9.4.0_0b4a02ba0b877be95a610bc07b501ca044f96948.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-clearcut/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="dd763e0269f2854f5828ae62dd968b80bff6a0db">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-clearcut-9.4.0_c366e4ace6182f9e9614904d0ce397cf5ef25164.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.0/support-annotations-24.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6be858a75633b1f0a2d24cad740db57775cb6871">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/support-annotations-24.2.0_29493025aa82ccc5cbb5cd6d6b2b80018f731c88.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast-framework/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="03829a2618892d438a1f59c6286699ca1f476e93">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-cast-framework-9.4.0_3bd736013f4f969863106732b179ab47447e2f54.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-storage/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="98e97da89d4df8e2f6eba63498d3d46a587372f2">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-storage-9.4.0_cde3f13ea8c07ff646a3d29f38325e6222b3bfbc.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-config/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="dab6944860c986980dcc6002a5ca2f127b587317">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-config-9.4.0_3d208f047aa20a36f7caa1eeee6d2de40afc2b35.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-vision/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="670df81539ab71918d49b186598b7eff08ef6563">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-vision-9.4.0_50a19120a6d3d8b19f15959384859c5193aa03d3.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="45f5eda279825ff470e3f51019d374d1ef61e000">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-24.2.0_71540d737473166322db5baa2912b55aeba71a3c.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3b7173b3df4c7029699919414400041f64519e34">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-iid-9.4.0_5e56c5b1429dbc39087a4b4c6b5105107c78bde3.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7bc6ea2bcfd6de4b7085e0f3a01616c5c8e0e2ad">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-safetynet-9.4.0_5c75ba0ed8b6c8eeae42b4392dd742c38c8ccb61.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a432629397351d3ec7f27a23d258b229b81af08f">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-cast-9.4.0_a1d23b01a3e92c748eee6bad31f61486c4535ee2.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="0b060160e7daee343f5315b3da91b0ff2d7eed89">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-location-9.4.0_53a76ab2a67074ee4cd9212225fa5fe26492aace.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d49118ba67a101c4895f0581f17142cba85b330b">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-panorama-9.4.0_15bc682d33f4480d96963a7a9d0571461e62910d.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/23.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d358b3dd49a7c67844622dcbc9cf4339e13952ce">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.android.support-mediarouter-v7-23.0.0_9146f4c1cfecb6ac892dc6cc57af7d6facb69532.jar" />
+    </item>
+    <item
+        jar="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/exploded-aar/com.google.firebase/firebase-storage-common/9.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="c8f5d56f8f8a287c95e02c542baade138a378048">
+        <dex dex="/Users/kallynnykarlla/Desktop/workspace - git/bookinder/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-storage-common-9.4.0_ea0a635e2b7cc7dc8168f5bc9932271e9d6b005a.jar" />
+    </item>
+
+</items>

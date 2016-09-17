@@ -1,5 +1,6 @@
 package equipe.projetoes.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,8 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
-
-import java.util.ArrayList;
 
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.BibliotecaRecyclerAdapter;
@@ -92,6 +91,22 @@ public class BibliotecaActivity extends BaseActivity implements NavigationView.O
         adapter2 = new BibliotecaRecyclerAdapter(dao.listaTodos(), BibliotecaRecyclerAdapter.FULL, this);
         mRecyclerView2.setAdapter(adapter2);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getIntent() != null) {
+            try {
+                Class c = Class.forName("equipe.projetoes."
+                        + getIntent().getStringExtra("previousActivity"));
+                startActivity(new Intent(this, c));
+            } catch (ClassNotFoundException e) {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
+        finish();
     }
 
     public void notifyRecyclers() {
