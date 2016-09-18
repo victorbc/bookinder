@@ -1,4 +1,4 @@
-package equipe.projetoes.utilis;
+/*package equipe.projetoes.utilis;
 
 import android.util.Log;
 
@@ -14,6 +14,7 @@ import okhttp3.ResponseBody;
 /**
  * Created by stenio on 9/12/2016.
  */
+/*
 public class RestDAO {
     OkHttpClient restClient = new OkHttpClient();
     final String ENDPOINT = "http://192.168.25.4:8000";
@@ -49,3 +50,4 @@ public class RestDAO {
         return response.string();
     }
 }
+*/

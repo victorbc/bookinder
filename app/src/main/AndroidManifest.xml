@@ -82,7 +82,8 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".activities.LoginFacebookActivity" />
-        <activity android:name=".activities.LoginGoogleActivity"></activity>
+        <activity android:name=".activities.LoginGoogleActivity" />
+        <activity android:name=".InfoMatchActivity"></activity>
     </application>
 
 </manifest>

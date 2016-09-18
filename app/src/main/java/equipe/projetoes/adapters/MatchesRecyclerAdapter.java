@@ -1,6 +1,6 @@
 package equipe.projetoes.adapters;
 
-import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import equipe.projetoes.InfoMatchActivity;
 import equipe.projetoes.R;
 import equipe.projetoes.models.Match;
 
@@ -108,23 +108,27 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
             return img;
         }
 
-        public ViewHolder(View v) {
+        public ViewHolder(final View v) {
             super(v);
 
-          /*  txtNome = (TextView) v.findViewById(R.id.txt_name);
-            txtDesc = (TextView) v.findViewById(R.id.txt_desc);
-            img = (ImageView) v.findViewById(R.id.img);
+            txtNome = (TextView) v.findViewById(R.id.txt_phrase);
+            txtDesc = (TextView) v.findViewById(R.id.textView7);
+            img = (ImageView) v.findViewById(R.id.imageView7);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Intent it = new Intent(v.getContext(),);
-                    //v.getContext().startActivity(it);
-                    SelecaoDeSintomasActivity activity = (SelecaoDeSintomasActivity) view.getContext();
-                    activity.openMenuSubMatch(mDataset.get(getAdapterPosition()));
+
+                    Intent it = new Intent(v.getContext(), InfoMatchActivity.class);
+
+                    v.getContext().startActivity(it);
+//                    Intent it = new Intent(this, MatchListActivity.class);
+ //                   v.getContext().startActivity(it);
+                    //SelecaoDeSintomasActivity activity = (SelecaoDeSintomasActivity) view.getContext();
+                    //activity.openMenuSubMatch(mDataset.get(getAdapterPosition()));
 
                 }
-            });*/
+            });
         }
     }
 
