@@ -1,6 +1,5 @@
 package equipe.projetoes.activities;
 
-import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
@@ -36,8 +35,12 @@ import org.json.JSONObject;
 import equipe.projetoes.AbstractGetNameTask;
 import equipe.projetoes.GetNameInForeground;
 import equipe.projetoes.R;
+import equipe.projetoes.exceptions.BookinderException;
+import equipe.projetoes.models.Account;
 import equipe.projetoes.utilis.AccDAO;
+import equipe.projetoes.utilis.Callback;
 import equipe.projetoes.utilis.Global;
+import equipe.projetoes.utilis.RestDAO;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -143,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (response.getError() != null) {
                                     // handle error
                                 } else {
-                                    Global.currentAcc = new equipe.projetoes.models.Account();
+                                    Global.currentAcc = new Account();
                                     String email;
                                     try {
                                         email = response.getJSONObject().get("email").toString();
@@ -200,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
 //    }
 
     public void login(View v) {
-        equipe.projetoes.models.Account acc = accDAO.getAccountByLogin(login_field.getText().toString());
+        Account acc = accDAO.getAccountByLogin(login_field.getText().toString());
         if (acc != null && acc.getLogin() != null && !acc.getLogin().equals("") && acc.getPass().equals(pass_field.getText().toString())) {
             Global.currentAcc = acc;
 
@@ -225,7 +228,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String[] getAccountNames() {
         mAccountManager = AccountManager.get(this);
-        Account[] accounts = mAccountManager.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
+        android.accounts.Account[] accounts = mAccountManager.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
         String[] names = new String[accounts.length];
         for (int i = 0; i < names.length; i++) {
             names[i] = accounts[i].name;

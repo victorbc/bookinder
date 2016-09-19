@@ -23,10 +23,10 @@ public interface RestDAOInterface {
      * Isso precisa ser feito antes de realizar operações relacionadas a um usuário específico.
      * @param username O username do usuário que será autenticado
      * @param password O password do usuário
+     * @param callback A classe com o metodo que sera executado ao final da requisicao
      * @return A conta do usuário
-     * @throws BookinderException Exceção caso o usuário não seja autenticado
      */
-    public Account authenticate(String username, String password) throws BookinderException;
+    public void authenticate(String username, String password, final Callback<Account> callback);
 
     /**
      * This method can be used without needing to be authenticated. Anyone can create an account
@@ -34,9 +34,10 @@ public interface RestDAOInterface {
      * There is no verification for that. The data is not encrypted to be sent.
      * Howerver, when the password is registered, it gets encrypted on the database.
      * @param acc The new user account
+     * @param callback The callback function
      * @throws BookinderException In case something goes wrong
      */
-    public Account create_user(Account acc) throws BookinderException;
+    public void createUser(final Account acc, final Callback<Account> callback);
 
     /**
      * Cria um livro no banco de dados.
@@ -53,7 +54,7 @@ public interface RestDAOInterface {
      * @param livro O livro a ser criado
      * @throws BookinderException Se algo der errado
      */
-    public void create_book(Livro livro) throws BookinderException;
+    public void createBook(Livro livro) throws BookinderException;
 
     /**
      * Returns a list of books that matchs someway **text**

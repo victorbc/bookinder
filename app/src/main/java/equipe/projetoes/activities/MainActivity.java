@@ -26,6 +26,7 @@ import equipe.projetoes.models.Livro;
 import equipe.projetoes.utilis.HttpHandler;
 import equipe.projetoes.utilis.LivroDAO;
 import equipe.projetoes.utilis.OnSwipeTouchListener;
+import equipe.projetoes.utilis.RestDAO;
 
 public class MainActivity extends BaseActivity {
     private ImageView livroView;
@@ -154,8 +155,6 @@ public class MainActivity extends BaseActivity {
         livroView.setOnTouchListener(swipeListner);
         livroView2.setOnTouchListener(swipeListner);
         livroView3.setOnTouchListener(swipeListner);
-
-
     }
 
 
