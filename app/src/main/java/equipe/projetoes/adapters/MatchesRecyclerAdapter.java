@@ -23,23 +23,12 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
     // Provide a suitable constructor (depends on the kind of dataset)
     public MatchesRecyclerAdapter(List<Match> myDataset) {
         mDataset = myDataset;
-
-
     }
 
-
-
-    public void add(int position, Match item) {
-        mDataset.add(position, item);
-        notifyItemInserted(position);
+    public void updateDataset(List<Match> dataset) {
+        mDataset = dataset;
+        notifyDataSetChanged();
     }
-
-    public void remove(Match item) {
-        int position = mDataset.indexOf(item);
-        mDataset.remove(position);
-        notifyItemRemoved(position);
-    }
-
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -53,17 +42,15 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
        // holder.txtNome.setText(mDataset.get(position).getNomeCursivo());
         //holder.img.setImageResource(mDataset.get(position).getResId());
         //Log.d("test",mDataset.get(position).getNomeCursivo()+ " image id "+mDataset.get(position).getResId());
-
-
-
-
+        final Match match = mDataset.get(position);
+        holder.update(match);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -95,6 +82,7 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
         private TextView txtNome;
         private TextView txtDesc;
         private ImageView img;
+        private View view;
 
         public TextView getTxtNome() {
             return txtNome;
@@ -108,28 +96,32 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
             return img;
         }
 
+        public View getView() {
+            return view;
+        }
+
         public ViewHolder(final View v) {
             super(v);
 
+            view = v;
             txtNome = (TextView) v.findViewById(R.id.txt_phrase);
             txtDesc = (TextView) v.findViewById(R.id.textView7);
             img = (ImageView) v.findViewById(R.id.imageView7);
+        }
 
-            v.setOnClickListener(new View.OnClickListener() {
+        public void update(final Match match) {
+            getTxtNome().setText(match.getBookName());
+            getView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    Intent it = new Intent(v.getContext(), InfoMatchActivity.class);
-
-                    v.getContext().startActivity(it);
-//                    Intent it = new Intent(this, MatchListActivity.class);
- //                   v.getContext().startActivity(it);
-                    //SelecaoDeSintomasActivity activity = (SelecaoDeSintomasActivity) view.getContext();
-                    //activity.openMenuSubMatch(mDataset.get(getAdapterPosition()));
-
+                    Intent it = new Intent(getView().getContext(), InfoMatchActivity.class);
+                    it.putExtra("match", match);
+                    getView().getContext().startActivity(it);
                 }
             });
         }
+
     }
 
 }

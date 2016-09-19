@@ -12,18 +12,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.util.ArrayList;
-
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.MatchesRecyclerAdapter;
-import equipe.projetoes.models.Match;
+import equipe.projetoes.controllers.MatchController;
 
 public class MatchListActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+
     private int selectedMenuId;
     private Menu menu;
     private Drawable tempDrawable;
     private RecyclerView mRecyclerView;
     private MatchesRecyclerAdapter adapter;
+    private MatchController mController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +45,18 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ArrayList<Match> matches = new ArrayList<Match>();
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
+        mController = MatchController.getInstance();
 
         // specify an adapter (see also next example)
-        adapter = new MatchesRecyclerAdapter(matches);
+        adapter = new MatchesRecyclerAdapter(mController.getFromDB());
         mRecyclerView.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.updateDataset(mController.getFromDB());
     }
 
     @Override
@@ -151,6 +148,9 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
 
 }
