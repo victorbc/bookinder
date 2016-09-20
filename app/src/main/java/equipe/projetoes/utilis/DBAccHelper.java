@@ -31,6 +31,8 @@ import android.database.sqlite.SQLiteOpenHelper;
                     + ",email TEXT NOT NULL"
                     + ",pass TEXT NOT NULL"
                     + ",firsttime INTERGER NOT NULL"
+                    + ",email_google TEXT"
+                    + ",email_facebook TEXT"
                     + ");";
             db.execSQL(sql);
 

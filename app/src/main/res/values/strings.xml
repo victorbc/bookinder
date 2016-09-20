@@ -29,5 +29,10 @@
     <string name="error_field_required">Required</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="create_account">Register</string>
+
+
+    <string name="associar_conta_face">Associar conta Facebook</string>
+    <string name="associar_conta_google">Associar conta Google</string>
     <string name="facebook_app_id">Your facebook app id</string>
+
 </resources>

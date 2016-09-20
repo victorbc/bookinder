@@ -64,6 +64,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_aguardando);
         if (this instanceof SearchActivity)
             navigationView.setCheckedItem(R.id.nav_buscar);
+        if (this instanceof PreferenciasActivity)
+            navigationView.setCheckedItem(R.id.nav_pref);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
