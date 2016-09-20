@@ -145,16 +145,6 @@ public class LoginActivity extends AppCompatActivity
         }
     }
 
-    private String[] getAccountNames() {
-        mAccountManager = AccountManager.get(this);
-        Account[] accounts = mAccountManager.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
-        String[] names = new String[accounts.length];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = accounts[i].name;
-        }
-
-        return names;
-    }
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
