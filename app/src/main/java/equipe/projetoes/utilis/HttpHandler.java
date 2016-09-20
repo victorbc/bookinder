@@ -10,10 +10,13 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.util.Pair;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,12 +38,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -78,7 +83,7 @@ public class HttpHandler {
 
     }
 
-    public static String GET(String url) {
+    public static String GET(String url, Pair<String, String>... headers) {
         InputStream inputStream = null;
         String result = "";
         try {
@@ -87,7 +92,13 @@ public class HttpHandler {
             HttpClient httpclient = new DefaultHttpClient();
 
             // make GET request to the given URL
-            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
+            HttpGet get = new HttpGet(url);
+
+            for (Pair<String, String> header: headers) {
+                get.setHeader(header.first, header.second);
+            }
+
+            HttpResponse httpResponse = httpclient.execute(get);
 
             // receive response as inputStream
             inputStream = httpResponse.getEntity().getContent();
@@ -102,7 +113,46 @@ public class HttpHandler {
             Log.d("InputStream", e.getLocalizedMessage());
         }
 
+        Log.wtf("LSKJDFKLKKKKKKKKKK", result);
+
         return result;
+    }
+
+    public static String POST(String url, JSONObject body, Pair<String, String>... headers) {
+        HttpClient client = new DefaultHttpClient();
+        HttpPost post = new HttpPost(url);
+
+        // add header
+        for (Pair<String, String> header: headers) {
+            post.setHeader(header.first, header.second);
+        }
+        post.setHeader("Content-Type", "application/json");
+
+        try {
+            post.setEntity(new StringEntity(body.toString()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        StringBuffer result = null;
+        try {
+            HttpResponse response = client.execute(post);
+            BufferedReader rd = new BufferedReader(
+                    new InputStreamReader(response.getEntity().getContent()));
+
+            result = new StringBuffer();
+            String line = "";
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (result == null)
+            return "";
+        else
+            return new String(result);
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
