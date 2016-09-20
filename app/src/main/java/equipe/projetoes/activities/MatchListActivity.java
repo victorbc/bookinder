@@ -81,9 +81,9 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
                 tempList1 = bibliotecaLocal.subList(0, r.nextInt(4)+1);
                 Collections.shuffle(bibliotecaLocal);
                 tempList2 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
-                while (tempList2.size() == 0){
-                    tempList2 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
-                }
+//                while (tempList2.size() == 0){
+//                    tempList2 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
+//                }
             }
                 matches.add(new Match(tempList1, tempList2, "Usuario " + i+1, r.nextInt(1000)));
         }
