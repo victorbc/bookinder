@@ -24,6 +24,7 @@
             android:background="@android:color/white">
 
             <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/match_pic1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/panda"
@@ -34,10 +35,10 @@
                 android:visibility="visible"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:id="@+id/view" />
+                android:layout_marginBottom="10dp"/>
 
             <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/match_pic2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/panda"
@@ -45,20 +46,20 @@
                 app:siBorderColor="@color/greenBB"
                 android:layout_gravity="center_vertical"
                 android:visibility="visible"
-                android:layout_alignTop="@+id/view"
+                android:layout_alignTop="@+id/match_pic1"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/view" />
+                android:layout_toLeftOf="@+id/match_pic1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
+                android:text=""
                 android:id="@+id/txt_qt"
-                android:layout_alignTop="@+id/view"
-                android:layout_toRightOf="@+id/view"
-                android:layout_toEndOf="@+id/view"
+                android:layout_alignTop="@+id/match_pic1"
+                android:layout_toRightOf="@+id/match_pic1"
+                android:layout_toEndOf="@+id/match_pic1"
                 android:textColor="@android:color/secondary_text_light"
                 android:textSize="12sp" />
 
@@ -66,8 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Livro disponivel para troca"
-                android:id="@+id/txt_phrase"
-                android:layout_alignTop="@+id/view"
+                android:id="@+id/match_phrase"
+                android:layout_alignTop="@+id/match_pic1"
                 android:layout_toEndOf="@+id/txt_qt"
                 android:textColor="@android:color/secondary_text_light"
                 android:textSize="12sp"
@@ -76,23 +77,23 @@
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:id="@+id/imageView7"
-                android:layout_alignBottom="@+id/view"
-                android:layout_toRightOf="@+id/view"
-                android:layout_toEndOf="@+id/view"
+                android:id="@+id/pin"
+                android:layout_alignBottom="@+id/match_pic1"
+                android:layout_toRightOf="@+id/match_pic1"
+                android:layout_toEndOf="@+id/match_pic1"
                 android:src="@drawable/ic_pinpoint"
                 android:tint="@color/greenBB" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="300m"
-                android:id="@+id/textView7"
+                android:text=""
+                android:id="@+id/match_distance"
                 android:textColor="@android:color/secondary_text_light"
                 android:textSize="16sp"
-                android:layout_alignBottom="@+id/imageView7"
-                android:layout_toRightOf="@+id/imageView7"
-                android:layout_toEndOf="@+id/imageView7" />
+                android:layout_alignBottom="@+id/pin"
+                android:layout_toRightOf="@+id/pin"
+                android:layout_toEndOf="@+id/pin" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

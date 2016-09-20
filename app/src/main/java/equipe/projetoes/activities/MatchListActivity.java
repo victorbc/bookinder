@@ -1,6 +1,5 @@
 package equipe.projetoes.activities;
 
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -12,11 +11,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.MatchesRecyclerAdapter;
+import equipe.projetoes.models.Account;
+import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Match;
+import equipe.projetoes.utilis.AccDAO;
+import equipe.projetoes.utilis.LivroDAO;
 
 public class MatchListActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private int selectedMenuId;
@@ -24,6 +32,9 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
     private Drawable tempDrawable;
     private RecyclerView mRecyclerView;
     private MatchesRecyclerAdapter adapter;
+    private LivroDAO userDAO;
+    private AccDAO accDAO;
+    ArrayList<Match> matches;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,38 +56,39 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ArrayList<Match> matches = new ArrayList<Match>();
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
-        matches.add(new Match());
+        userDAO = new LivroDAO(this);
+        accDAO = new AccDAO(this);
+        updateMatches();
+
 
         // specify an adapter (see also next example)
         adapter = new MatchesRecyclerAdapter(matches);
         mRecyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (getIntent() != null) {
-            try {
-                Class c = Class.forName("equipe.projetoes."
-                        + getIntent().getStringExtra("previousActivity"));
-                startActivity(new Intent(this, c));
-            } catch (ClassNotFoundException e) {
-                super.onBackPressed();
+    public void updateMatches(){
+        matches = new ArrayList<Match>();
+        Random r = new Random();
+        List<Livro> bibliotecaLocal = userDAO.listaTodos();
+        List<Livro> tempList1 = new ArrayList<Livro>();
+        List<Livro> tempList2  = new ArrayList<Livro>();
+
+
+        for (int i=0; i<10; i++){
+            int j = r.nextInt(10);
+            for (j=0; j<11; j++){
+                Collections.shuffle(bibliotecaLocal);
+                tempList1 = bibliotecaLocal.subList(0, r.nextInt(4)+1);
+                Collections.shuffle(bibliotecaLocal);
+                tempList2 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
+                while (tempList2.size() == 0){
+                    tempList2 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
+                }
             }
-        } else {
-            super.onBackPressed();
+                matches.add(new Match(tempList1, tempList2, "Usuario " + i+1, r.nextInt(1000)));
         }
-        finish();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
