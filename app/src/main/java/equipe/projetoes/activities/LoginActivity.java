@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -59,15 +60,17 @@ import equipe.projetoes.utilis.AccDAO;
 import equipe.projetoes.utilis.Constants;
 import equipe.projetoes.utilis.Global;
 
+//import com.google.android.gms.tasks.OnCompleteListener;
+//import com.google.android.gms.tasks.Task;
+
 public class LoginActivity extends AppCompatActivity
         implements OnConnectionFailedListener, View.OnClickListener {
 
     private final String ERROR_TAG = "ERRO";
-=======
+
 public class LoginActivity extends AppCompatActivity {
 
 
->>>>>>> origin/master
     Context mContext = LoginActivity.this;
     AccountManager mAccountManager;
     TextView nao_tenho_conta;

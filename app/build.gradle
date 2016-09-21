@@ -52,3 +52,7 @@ apply plugin: 'com.google.gms.google-services'
     compile "com.google.android.gms:play-services-gcm:8.3.0"
     compile 'com.squareup.okhttp3:okhttp:3.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
+    
+
