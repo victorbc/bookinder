@@ -2,12 +2,14 @@ package equipe.projetoes.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.BibliotecaRecyclerAdapter;
@@ -76,10 +78,13 @@ public class MatchInfoActivity extends BaseActivity implements NavigationView.On
         findViewById(R.id.bt_trocar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adapter.getSelected();
-                adapter2.getSelected();
-                finish();
+                if (adapter.getSelected().isEmpty() || adapter2.getSelected().isEmpty()) {
+                    Toast toast = Toast.makeText(v.getContext(), "Por favor, selecione os livros que deseja trocar", Toast.LENGTH_LONG);
+                    toast.show();
+                } else {
 
+                    finish();
+                }
             }
         });
 
