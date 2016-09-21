@@ -1,7 +1,9 @@
 package equipe.projetoes.activities;
 
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -73,20 +75,33 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         List<Livro> tempList1 = new ArrayList<Livro>();
         List<Livro> tempList2  = new ArrayList<Livro>();
 
+        if (bibliotecaLocal.size() >= 2){
+            for (int i=0; i<10; i++){ //Número de matches
 
-        for (int i=0; i<10; i++){
-            int j = r.nextInt(10);
-            for (j=0; j<11; j++){
                 Collections.shuffle(bibliotecaLocal);
                 tempList1 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
+                while (tempList1.size() < 1){
+                    tempList1 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
+                }
                 Collections.shuffle(bibliotecaLocal);
                 tempList2 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
-//                while (tempList2.size() == 0){
-//                    tempList2 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
-//                }
+                while (tempList2.size() < 1){
+                    tempList2 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
+                }
+
+                matches.add(new Match(tempList1, tempList2, "Usuario_" + (i+1), r.nextInt(1000), createTumb(tempList1)));
             }
-                matches.add(new Match(tempList1, tempList2, "Usuario " + i+1, r.nextInt(1000)));
         }
+    }
+
+    private LayerDrawable createTumb(List<Livro> tempList1) {
+        Resources r = getResources();
+        Drawable[] layers = new Drawable[3];
+        layers[0] = r.getDrawable(R.drawable.livro);
+        layers[1] = r.getDrawable(R.drawable.livro1);
+        layers[2] = r.getDrawable(R.drawable.livro3);
+        LayerDrawable layerDrawable = new LayerDrawable(layers);
+        return layerDrawable;
     }
 
 

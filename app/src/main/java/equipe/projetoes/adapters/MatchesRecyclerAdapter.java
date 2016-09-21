@@ -1,6 +1,11 @@
 package equipe.projetoes.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,6 +80,9 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
 
         holder.txtDesc.setText(desc);
         holder.distance.setText(distance);
+        holder.pic1.setImageDrawable(mDataset.get(position).getThumbnail());
+
+
 //        holder.pic1.setImageBitmap(mDataset.get(position).getLivro().getDrawable());
 //        holder.pic2.setImageBitmap();
 
@@ -154,5 +162,7 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
             });
         }
     }
+
+
 
 }
