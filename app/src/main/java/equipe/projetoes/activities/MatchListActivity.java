@@ -141,9 +141,9 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
 //            animation.addFrame(r.getDrawable(R.drawable.livro1), 2000);
 //        }
 
-        animation.addFrame(r.getDrawable(R.drawable.livro1), 2000);
-        animation.addFrame(r.getDrawable(R.drawable.livro2), 2000);
-        animation.addFrame(r.getDrawable(R.drawable.livro3), 2000);
+        animation.addFrame(r.getDrawable(R.drawable.livro1), 3000);
+        animation.addFrame(r.getDrawable(R.drawable.livro2), 3000);
+        animation.addFrame(r.getDrawable(R.drawable.livro3), 3000);
 
 //        Drawable[] layers = new Drawable[3];
 //        layers[0] = r.getDrawable(R.drawable.livro);

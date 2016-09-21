@@ -82,6 +82,8 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
         holder.distance.setText(distance);
         holder.pic1.setBackgroundDrawable(mDataset.get(position).getThumbnail());
 
+        mDataset.get(position).getThumbnail().setEnterFadeDuration(1000);
+        mDataset.get(position).getThumbnail().setExitFadeDuration(1000);
         mDataset.get(position).getThumbnail().start();
 
 
