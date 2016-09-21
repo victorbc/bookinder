@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp">
+
+    <ImageView
+        android:id="@+id/livro"
+        android:layout_width="80dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/livro"
+        android:elevation="15dp"/>
+
+    <FrameLayout
+        android:id="@+id/select"
+        android:layout_width="80dp"
+        android:layout_height="120dp"
+        android:background="@color/fade"
+        android:elevation="25dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView14"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_check" />
+    </FrameLayout>
+
+
+</RelativeLayout>

@@ -38,6 +38,7 @@ import equipe.projetoes.models.Account;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Match;
 import equipe.projetoes.utilis.AccDAO;
+import equipe.projetoes.utilis.Global;
 import equipe.projetoes.utilis.LivroDAO;
 import equipe.projetoes.utilis.RecyclerItemClickListener;
 
@@ -88,20 +89,21 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         // specify an adapter (see also next example)
         adapter = new MatchesRecyclerAdapter(matches);
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(),mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-                Intent intent = new Intent(MatchListActivity.this, TrocaActivity.class);
-                startActivity(intent);
-
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-
-            }
-        }));
+//        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(),mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//
+//                Intent intent = new Intent(MatchListActivity.this, MatchInfoActivity.class);
+//                mRecyclerView.getAdapter().g
+//                startActivity(intent);
+//
+//            }
+//
+//            @Override
+//            public void onLongItemClick(View view, int position) {
+//
+//            }
+//        }));
     }
 
     public void updateMatches(){

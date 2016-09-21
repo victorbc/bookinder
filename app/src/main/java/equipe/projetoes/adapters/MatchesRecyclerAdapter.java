@@ -2,6 +2,7 @@ package equipe.projetoes.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -17,8 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import equipe.projetoes.R;
+import equipe.projetoes.activities.MatchInfoActivity;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Match;
+import equipe.projetoes.utilis.Global;
 
 /**
  * Created by Victor on 4/9/2016.
@@ -32,7 +35,6 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
 
 
     }
-
 
 
     public void add(int position, Match item) {
@@ -86,6 +88,25 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
         mDataset.get(position).getThumbMatchBooks().setExitFadeDuration(1000);
         mDataset.get(position).getThumbMatchBooks().setOneShot(false);
         mDataset.get(position).getThumbMatchBooks().start();
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Intent it = new Intent(v.getContext(),);
+                //v.getContext().startActivity(it);
+//                    SelecaoDeSintomasActivity activity = (SelecaoDeSintomasActivity) view.getContext();
+//                    activity.openMenuSubMatch(mDataset.get(getAdapterPosition()));
+                Global.lastMatch = mDataset.get(position);
+                view.getContext().startActivity(new Intent(view.getContext(),
+                        MatchInfoActivity.class));
+
+            }
+        });
+
+
+//        holder.pic1.setImageBitmap(mDataset.get(position).getLivro().getDrawable());
+//        holder.pic2.setImageBitmap();
+
     }
 
 
@@ -97,7 +118,7 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
 
     @Override
     public void onViewRecycled(ViewHolder holder) {
-        if(holder.pic1 != null)
+        if (holder.pic1 != null)
             holder.pic1.setImageDrawable(null);
         super.onViewRecycled(holder);
     }
@@ -113,7 +134,6 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
     }
 
 
-
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -123,7 +143,6 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
         private TextView distance;
         private ImageView pic1;
         private ImageView pic2;
-
 
 
         public TextView getTxtDesc() {
@@ -137,6 +156,7 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
         public ImageView getPic1() {
             return pic1;
         }
+
         public ImageView getPic2() {
             return pic2;
         }
@@ -150,19 +170,9 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
             pic1 = (ImageView) v.findViewById(R.id.match_pic1);
             pic2 = (ImageView) v.findViewById(R.id.match_pic2);
 
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Intent it = new Intent(v.getContext(),);
-                    //v.getContext().startActivity(it);
-//                    SelecaoDeSintomasActivity activity = (SelecaoDeSintomasActivity) view.getContext();
-//                    activity.openMenuSubMatch(mDataset.get(getAdapterPosition()));
 
-                }
-            });
         }
     }
-
 
 
 }
