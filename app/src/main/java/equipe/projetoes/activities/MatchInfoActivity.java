@@ -87,6 +87,8 @@ public class MatchInfoActivity extends BaseActivity implements NavigationView.On
         findViewById(R.id.bt_rejeitar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //intercafedesteno
+                Global.adapter.remove(Global.lastMatch);
                 finish();
             }
         });

@@ -65,6 +65,7 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
 
         // specify an adapter (see also next example)
         adapter = new MatchesRecyclerAdapter(matches);
+        Global.adapter = adapter;
         mRecyclerView.setAdapter(adapter);
 //        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(),mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
 //            @Override

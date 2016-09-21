@@ -1,5 +1,6 @@
 package equipe.projetoes.utilis;
 
+import equipe.projetoes.adapters.MatchesRecyclerAdapter;
 import equipe.projetoes.models.Account;
 import equipe.projetoes.models.Match;
 
@@ -10,5 +11,6 @@ public class Global {
 
     public static Account currentAcc;
     public static Match lastMatch;
+    public  static MatchesRecyclerAdapter adapter;
     public static int numMatches;
 }
