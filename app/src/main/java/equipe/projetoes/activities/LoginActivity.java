@@ -28,6 +28,14 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +55,7 @@ import equipe.projetoes.utilis.Global;
 import equipe.projetoes.utilis.RestDAO;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
 
 
     Context mContext = LoginActivity.this;
@@ -63,6 +71,9 @@ public class LoginActivity extends AppCompatActivity {
     private LoginButton loginButton;//izabella
     private CallbackManager callbackManager;//izabella
     private AccessTokenTracker accessTokenTracker;
+    private static final int RC_SIGN_IN = 9000;
+    private GoogleApiClient mGoogleApiClient;
+
 
 
 
@@ -80,6 +91,20 @@ public class LoginActivity extends AppCompatActivity {
                 updateWithToken(newAccessToken);
             }
         };
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        signInButton.setScopes(gso.getScopeArray());
+        signInButton.setOnClickListener(this);
+
 
 //        syncGoogleAccount();
 
@@ -343,7 +368,95 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) { //izabella
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }else{
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn();
+                break;
+
+        }
+
+    }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d("Login com Google", "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            Global.currentAcc = new Account();
+            Global.currentAcc.setEmail_google(acct.getEmail());
+            Global.currentAcc.setLogin(acct.getEmail());
+            Global.currentAcc.setPass(acct.getServerAuthCode());
+            Global.currentAcc.setFirstTime(true);
+            AccDAO dao = new AccDAO(getApplicationContext());
+            dao.adiciona(Global.currentAcc);
+            login();
+
+            this.finish();
+            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+            //updateUI(true);
+        } else {
+            // Signed out, show unauthenticated UI.
+            //updateUI(false);
+        }
+    }
+
+    private void handleSignInResultLogado(GoogleSignInResult result) {
+        Log.d("Login com Google", "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            AccDAO dao = new AccDAO(getApplicationContext());
+            Global.currentAcc = dao.getAccountByLogin(acct.getEmail());
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            finish();
+
+            this.finish();
+            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+            //updateUI(true);
+        } else {
+            // Signed out, show unauthenticated UI.
+            //updateUI(false);
+        }
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (opr.isDone()) {
+            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+            // and the GoogleSignInResult will be available instantly.
+            Log.d("LoginActivity", "Got cached sign-in");
+            GoogleSignInResult result = opr.get();
+            handleSignInResultLogado(result);
+        } else {
+        }
     }
 
 
