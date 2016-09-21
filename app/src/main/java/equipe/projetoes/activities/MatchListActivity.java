@@ -1,46 +1,30 @@
 package equipe.projetoes.activities;
 
-import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 
-import com.github.siyamed.shapeimageview.CircularImageView;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.MatchesRecyclerAdapter;
-import equipe.projetoes.models.Account;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Match;
 import equipe.projetoes.utilis.AccDAO;
 import equipe.projetoes.utilis.Global;
 import equipe.projetoes.utilis.LivroDAO;
-import equipe.projetoes.utilis.RecyclerItemClickListener;
 
 public class MatchListActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private int selectedMenuId;
@@ -53,12 +37,6 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
     ArrayList<Match> matches;
 
 
-    private ImageView image1;
-    private int[] imageArray;
-    private int currentIndex;
-    private int startIndex;
-    private int endIndex;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +48,6 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_matches);
 
-        image1 = (ImageView) findViewById(R.id.match_pic1);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -109,62 +86,43 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
     public void updateMatches(){
         matches = new ArrayList<Match>();
         Random r = new Random();
-        long seed;
+        Global.numMatches = 0;
         List<Livro> bibliotecaLocal = new ArrayList<Livro>();
         bibliotecaLocal.addAll(userDAO.listaTodos());
         List<Livro> tempList1;
         List<Livro> tempList2;
 
         if (bibliotecaLocal.size() >= 2){
-            for (int i=0; i<10; i++){ //Número de matches
+            for (int i=0; i<10; i++){                   //Número de matches
                 tempList1 = new ArrayList<Livro>();
                 tempList2 = new ArrayList<Livro>();
 
-                seed = System.nanoTime();
-                Collections.shuffle(bibliotecaLocal, new Random(seed));
+                Collections.shuffle(bibliotecaLocal);
                 tempList1.addAll(bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size())));
                 while (tempList1.size() < 1){
                     tempList1.addAll(bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size())));
                 }
-                Log.i("livros temp 1", tempList1.toString());
 
-                seed = System.nanoTime();
-                Collections.shuffle(bibliotecaLocal, new Random(seed));
+                Collections.shuffle(bibliotecaLocal);
                 tempList2.addAll(bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size())));
                 while (tempList2.size() < 1){
                     tempList2.addAll(bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size())));
                 }
-                Log.i("livros temp 2", tempList2.toString());
 
-                matches.add(new Match(tempList1, tempList2, "Usuario_" + (i+1), r.nextInt(1000), createTumb(tempList1), createTumb(tempList2)));
+                matches.add(new Match(tempList1, tempList2, "Usuario_" + (i+1), r.nextInt(1000), createThumb(tempList1), createThumb(tempList2)));
+                Global.numMatches+=1;
             }
         }
     }
 
-    private AnimationDrawable createTumb(List<Livro> tempList) {
+    private AnimationDrawable createThumb(List<Livro> tempList) {
         Drawable d;
         AnimationDrawable animation = new AnimationDrawable();
 
-
-        Resources r = getResources();
         for (Livro livro: tempList){
             d = new BitmapDrawable(getResources(), livro.getDrawable());
             animation.addFrame(d, 2000);
         }
-
-        Log.i("animation obj", animation.toString());
-//        animation.addFrame(r.getDrawable(R.drawable.livro1), 2500);
-//        animation.addFrame(r.getDrawable(R.drawable.livro2), 2500);
-//        animation.addFrame(r.getDrawable(R.drawable.livro3), 2500);
-
-//        Drawable[] layers = new Drawable[3];
-//        layers[0] = r.getDrawable(R.drawable.livro);
-//        layers[1] = r.getDrawable(R.drawable.livro1);
-//        layers[2] = r.getDrawable(R.drawable.livro3);
-
-//        TransitionDrawable transition = new TransitionDrawable(layers);
-//        transition.startTransition(1500);
-//        return transition;
 
         return animation;
     }
