@@ -27,7 +27,6 @@
                 android:id="@+id/match_pic1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/panda"
                 app:siBorderWidth="2dp"
                 app:siBorderColor="@color/greenBB"
                 android:layout_gravity="center_vertical"
@@ -36,6 +35,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"/>
+
 
             <com.github.siyamed.shapeimageview.CircularImageView
                 android:id="@+id/match_pic2"

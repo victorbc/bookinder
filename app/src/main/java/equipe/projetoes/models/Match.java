@@ -1,5 +1,6 @@
 package equipe.projetoes.models;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.LayerDrawable;
 
 import java.util.List;
@@ -13,11 +14,11 @@ public class Match {
     private List<Livro> matchLivros;
     private Integer distance;
     private String matchName; //temporario
-    private LayerDrawable thumbnail;
+    private AnimationDrawable thumbnail;
 //    private Account myAccount; //Precisa ser fornecido pelo bd
 //    private Account matchAccount; //Precisa ser fornecido pelo bd
 
-    public Match(List<Livro> meusLivros, List<Livro> matchLivros, String matchName, Integer distance, LayerDrawable thumbnail){
+    public Match(List<Livro> meusLivros, List<Livro> matchLivros, String matchName, Integer distance, AnimationDrawable thumbnail){
         this.matchName = matchName;
 
         this.meusLivros = meusLivros;
@@ -60,11 +61,11 @@ public class Match {
         this.matchName = matchName;
     }
 
-    public LayerDrawable getThumbnail() {
+    public AnimationDrawable getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(LayerDrawable thumbnail) {
+    public void setThumbnail(AnimationDrawable thumbnail) {
         this.thumbnail = thumbnail;
     }
 }

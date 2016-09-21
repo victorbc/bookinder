@@ -80,7 +80,9 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
 
         holder.txtDesc.setText(desc);
         holder.distance.setText(distance);
-        holder.pic1.setImageDrawable(mDataset.get(position).getThumbnail());
+        holder.pic1.setBackgroundDrawable(mDataset.get(position).getThumbnail());
+
+        mDataset.get(position).getThumbnail().start();
 
 
 //        holder.pic1.setImageBitmap(mDataset.get(position).getLivro().getDrawable());

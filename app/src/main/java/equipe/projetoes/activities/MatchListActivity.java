@@ -2,9 +2,12 @@ package equipe.projetoes.activities;
 
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +15,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+
+import com.github.siyamed.shapeimageview.CircularImageView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -38,6 +46,13 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
     private AccDAO accDAO;
     ArrayList<Match> matches;
 
+
+    private CircularImageView image1;
+    private int[] imageArray;
+    private int currentIndex;
+    private int startIndex;
+    private int endIndex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +63,8 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
             findViewById(R.id.navspace).setVisibility(View.GONE);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_matches);
+
+        image1 = (CircularImageView) findViewById(R.id.match_pic1);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -94,15 +111,36 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         }
     }
 
-    private LayerDrawable createTumb(List<Livro> tempList1) {
+    private AnimationDrawable createTumb(List<Livro> tempList1) {
+
+        AnimationDrawable animation = new AnimationDrawable();
+
+        for (Livro livro: tempList1){
+
+        }
         Resources r = getResources();
-        Drawable[] layers = new Drawable[3];
-        layers[0] = r.getDrawable(R.drawable.livro);
-        layers[1] = r.getDrawable(R.drawable.livro1);
-        layers[2] = r.getDrawable(R.drawable.livro3);
-        LayerDrawable layerDrawable = new LayerDrawable(layers);
-        return layerDrawable;
+//        for (Livro livro: userDAO.listaTodos()){
+//            livro.get
+//            animation.addFrame(r.getDrawable(R.drawable.livro1), 2000);
+//        }
+
+        animation.addFrame(r.getDrawable(R.drawable.livro1), 2000);
+        animation.addFrame(r.getDrawable(R.drawable.livro2), 2000);
+        animation.addFrame(r.getDrawable(R.drawable.livro3), 2000);
+
+//        Drawable[] layers = new Drawable[3];
+//        layers[0] = r.getDrawable(R.drawable.livro);
+//        layers[1] = r.getDrawable(R.drawable.livro1);
+//        layers[2] = r.getDrawable(R.drawable.livro3);
+
+//        TransitionDrawable transition = new TransitionDrawable(layers);
+//        transition.startTransition(1500);
+//        return transition;
+
+        return animation;
     }
+
+
 
 
     @Override
