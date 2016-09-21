@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import equipe.projetoes.R;
+import equipe.projetoes.activities.DetalheLivroActivity;
+import equipe.projetoes.activities.MatchBooksInfoActivity;
 import equipe.projetoes.activities.MatchInfoActivity;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Match;
@@ -89,17 +91,31 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
         mDataset.get(position).getThumbMatchBooks().setOneShot(false);
         mDataset.get(position).getThumbMatchBooks().start();
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.infoClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent it = new Intent(v.getContext(),);
-                //v.getContext().startActivity(it);
-//                    SelecaoDeSintomasActivity activity = (SelecaoDeSintomasActivity) view.getContext();
-//                    activity.openMenuSubMatch(mDataset.get(getAdapterPosition()));
+
                 Global.lastMatch = mDataset.get(position);
                 view.getContext().startActivity(new Intent(view.getContext(),
                         MatchInfoActivity.class));
 
+            }
+        });
+
+        holder.pic1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.lastMatch = mDataset.get(position);
+                Intent intent = new Intent(v.getContext(), MatchBooksInfoActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
+        holder.pic2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.lastMatch = mDataset.get(position);
+                Intent intent = new Intent(v.getContext(), MatchBooksInfoActivity.class);
+                v.getContext().startActivity(intent);
             }
         });
 
@@ -143,6 +159,7 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
         private TextView distance;
         private ImageView pic1;
         private ImageView pic2;
+        private View infoClick;
 
 
         public TextView getTxtDesc() {
@@ -169,6 +186,7 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
             distance = (TextView) v.findViewById(R.id.match_distance);
             pic1 = (ImageView) v.findViewById(R.id.match_pic1);
             pic2 = (ImageView) v.findViewById(R.id.match_pic2);
+            infoClick = v.findViewById(R.id.info_click);
 
 
         }

@@ -74,6 +74,9 @@
         <activity
             android:name=".activities.MatchInfoActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MatchBooksInfoActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="android.app.searchable"

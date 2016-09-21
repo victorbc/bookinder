@@ -23,6 +23,13 @@
             android:layout_height="match_parent"
             android:background="@android:color/white">
 
+            <FrameLayout
+                android:id="@+id/info_click"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_toLeftOf="@+id/match_pic2"
+                android:layout_toRightOf="@+id/match_pic1"></FrameLayout>
+
             <ImageView
                 android:id="@+id/match_pic1"
                 android:layout_width="38dp"
