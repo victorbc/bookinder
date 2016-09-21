@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -13,6 +14,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -50,7 +52,7 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
     ArrayList<Match> matches;
 
 
-    private CircularImageView image1;
+    private ImageView image1;
     private int[] imageArray;
     private int currentIndex;
     private int startIndex;
@@ -67,7 +69,7 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_matches);
 
-        image1 = (CircularImageView) findViewById(R.id.match_pic1);
+        image1 = (ImageView) findViewById(R.id.match_pic1);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -105,45 +107,53 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
     public void updateMatches(){
         matches = new ArrayList<Match>();
         Random r = new Random();
-        List<Livro> bibliotecaLocal = userDAO.listaTodos();
-        List<Livro> tempList1 = new ArrayList<Livro>();
-        List<Livro> tempList2  = new ArrayList<Livro>();
+        long seed;
+        List<Livro> bibliotecaLocal = new ArrayList<Livro>();
+        bibliotecaLocal.addAll(userDAO.listaTodos());
+        List<Livro> tempList1;
+        List<Livro> tempList2;
 
         if (bibliotecaLocal.size() >= 2){
             for (int i=0; i<10; i++){ //Número de matches
+                tempList1 = new ArrayList<Livro>();
+                tempList2 = new ArrayList<Livro>();
 
-                Collections.shuffle(bibliotecaLocal);
-                tempList1 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
+                seed = System.nanoTime();
+                Collections.shuffle(bibliotecaLocal, new Random(seed));
+                tempList1.addAll(bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size())));
                 while (tempList1.size() < 1){
-                    tempList1 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
+                    tempList1.addAll(bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size())));
                 }
-                Collections.shuffle(bibliotecaLocal);
-                tempList2 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
-                while (tempList2.size() < 1){
-                    tempList2 = bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size()));
-                }
+                Log.i("livros temp 1", tempList1.toString());
 
-                matches.add(new Match(tempList1, tempList2, "Usuario_" + (i+1), r.nextInt(1000), createTumb(tempList1)));
+                seed = System.nanoTime();
+                Collections.shuffle(bibliotecaLocal, new Random(seed));
+                tempList2.addAll(bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size())));
+                while (tempList2.size() < 1){
+                    tempList2.addAll(bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size())));
+                }
+                Log.i("livros temp 2", tempList2.toString());
+
+                matches.add(new Match(tempList1, tempList2, "Usuario_" + (i+1), r.nextInt(1000), createTumb(tempList1), createTumb(tempList2)));
             }
         }
     }
 
-    private AnimationDrawable createTumb(List<Livro> tempList1) {
-
+    private AnimationDrawable createTumb(List<Livro> tempList) {
+        Drawable d;
         AnimationDrawable animation = new AnimationDrawable();
 
-        for (Livro livro: tempList1){
 
-        }
         Resources r = getResources();
-//        for (Livro livro: userDAO.listaTodos()){
-//            livro.get
-//            animation.addFrame(r.getDrawable(R.drawable.livro1), 2000);
-//        }
+        for (Livro livro: tempList){
+            d = new BitmapDrawable(getResources(), livro.getDrawable());
+            animation.addFrame(d, 2000);
+        }
 
-        animation.addFrame(r.getDrawable(R.drawable.livro1), 3000);
-        animation.addFrame(r.getDrawable(R.drawable.livro2), 3000);
-        animation.addFrame(r.getDrawable(R.drawable.livro3), 3000);
+        Log.i("animation obj", animation.toString());
+//        animation.addFrame(r.getDrawable(R.drawable.livro1), 2500);
+//        animation.addFrame(r.getDrawable(R.drawable.livro2), 2500);
+//        animation.addFrame(r.getDrawable(R.drawable.livro3), 2500);
 
 //        Drawable[] layers = new Drawable[3];
 //        layers[0] = r.getDrawable(R.drawable.livro);

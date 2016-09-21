@@ -14,18 +14,20 @@ public class Match {
     private List<Livro> matchLivros;
     private Integer distance;
     private String matchName; //temporario
-    private AnimationDrawable thumbnail;
+    private AnimationDrawable thumbMyBooks;
+    private AnimationDrawable thumbMatchBooks;
 //    private Account myAccount; //Precisa ser fornecido pelo bd
 //    private Account matchAccount; //Precisa ser fornecido pelo bd
 
-    public Match(List<Livro> meusLivros, List<Livro> matchLivros, String matchName, Integer distance, AnimationDrawable thumbnail){
+    public Match(List<Livro> meusLivros, List<Livro> matchLivros, String matchName, Integer distance, AnimationDrawable thumbMyBooks, AnimationDrawable thumbMatchBooks){
         this.matchName = matchName;
 
         this.meusLivros = meusLivros;
         this.matchLivros = matchLivros;
         this.distance = distance;
         this.matchName = matchName;
-        this.thumbnail = thumbnail;
+        this.thumbMyBooks = thumbMyBooks;
+        this.thumbMatchBooks = thumbMatchBooks;
     }
 
 
@@ -61,11 +63,20 @@ public class Match {
         this.matchName = matchName;
     }
 
-    public AnimationDrawable getThumbnail() {
-        return thumbnail;
+    public AnimationDrawable getThumbMyBooks() {
+        return thumbMyBooks;
     }
 
-    public void setThumbnail(AnimationDrawable thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setThumbMyBooks(AnimationDrawable thumbMyBooks) {
+        this.thumbMyBooks = thumbMyBooks;
     }
+
+    public AnimationDrawable getThumbMatchBooks() {
+        return thumbMatchBooks;
+    }
+
+    public void setThumbMatchBooks(AnimationDrawable thumbMatchBooks) {
+        this.thumbMatchBooks = thumbMatchBooks;
+    }
+
 }
