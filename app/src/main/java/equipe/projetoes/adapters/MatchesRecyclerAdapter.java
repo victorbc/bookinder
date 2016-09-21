@@ -66,27 +66,28 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
         // - replace the contents of the view with that element
         String desc;
 
-        if (mDataset.get(position).getMeusLivros().size() == 1) {
-            desc = "1 livro seu deu match com ";
-        } else {
-            desc = mDataset.get(position).getMeusLivros().size() + " livros seus deram match com ";
-        }
-
         if (mDataset.get(position).getMatchLivros().size() == 1) {
-            desc += "1 livro de " + mDataset.get(position).getMatchName();
+            desc = "1 livro disponível para troca";
         } else {
-            desc += mDataset.get(position).getMatchLivros().size() + " livros de " + mDataset.get(position).getMatchName();
+            desc = mDataset.get(position).getMatchLivros().size() + " livros disponíveis para troca";
         }
 
         String distance = String.valueOf(mDataset.get(position).getDistance()) + "m";
 
         holder.txtDesc.setText(desc);
         holder.distance.setText(distance);
-        holder.pic1.setBackgroundDrawable(mDataset.get(position).getThumbnail());
 
-        mDataset.get(position).getThumbnail().setEnterFadeDuration(1000);
-        mDataset.get(position).getThumbnail().setExitFadeDuration(1000);
-        mDataset.get(position).getThumbnail().start();
+        holder.pic1.setBackgroundDrawable(mDataset.get(position).getThumbMyBooks());
+        mDataset.get(position).getThumbMyBooks().setEnterFadeDuration(1000);
+        mDataset.get(position).getThumbMyBooks().setExitFadeDuration(1000);
+        mDataset.get(position).getThumbMyBooks().setOneShot(false);
+        mDataset.get(position).getThumbMyBooks().start();
+
+        holder.pic2.setBackgroundDrawable(mDataset.get(position).getThumbMatchBooks());
+        mDataset.get(position).getThumbMatchBooks().setEnterFadeDuration(1000);
+        mDataset.get(position).getThumbMatchBooks().setExitFadeDuration(1000);
+        mDataset.get(position).getThumbMatchBooks().setOneShot(false);
+        mDataset.get(position).getThumbMatchBooks().start();
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,7 +168,7 @@ public class MatchesRecyclerAdapter extends RecyclerView.Adapter<MatchesRecycler
             txtDesc = (TextView) v.findViewById(R.id.match_phrase);
             distance = (TextView) v.findViewById(R.id.match_distance);
             pic1 = (ImageView) v.findViewById(R.id.match_pic1);
-            pic1 = (ImageView) v.findViewById(R.id.match_pic1);
+            pic2 = (ImageView) v.findViewById(R.id.match_pic2);
 
 
         }
