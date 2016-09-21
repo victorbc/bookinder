@@ -1,5 +1,6 @@
 package equipe.projetoes.activities;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.lang.reflect.Array;
@@ -25,6 +27,7 @@ import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Match;
 import equipe.projetoes.utilis.AccDAO;
 import equipe.projetoes.utilis.LivroDAO;
+import equipe.projetoes.utilis.RecyclerItemClickListener;
 
 public class MatchListActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private int selectedMenuId;
@@ -64,6 +67,20 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         // specify an adapter (see also next example)
         adapter = new MatchesRecyclerAdapter(matches);
         mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(),mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                Intent intent = new Intent(MatchListActivity.this, TrocaActivity.class);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
     }
 
     public void updateMatches(){
