@@ -80,9 +80,8 @@
                 android:src="@drawable/ic_pinpoint"
                 android:tint="@color/greenBB"
                 android:layout_alignBottom="@+id/match_pic1"
-                android:layout_toRightOf="@+id/space2"
-                android:layout_toEndOf="@+id/space2"
-                android:layout_marginRight="5dp" />
+                android:layout_alignLeft="@+id/match_phrase"
+                android:layout_alignStart="@+id/match_phrase" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -93,8 +92,7 @@
                 android:textSize="16sp"
                 android:layout_alignBottom="@+id/pin"
                 android:layout_toRightOf="@+id/pin"
-                android:layout_toEndOf="@+id/pin"
-                android:textStyle="bold" />
+                android:layout_toEndOf="@+id/pin" />
 
             <Space
                 android:layout_width="20px"
