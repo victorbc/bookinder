@@ -34,6 +34,8 @@ import java.util.Random;
 import equipe.projetoes.R;
 import equipe.projetoes.gcm.RegistrationIntentService;
 import equipe.projetoes.models.Livro;
+import equipe.projetoes.models.Match;
+import equipe.projetoes.utilis.Global;
 import equipe.projetoes.utilis.HttpHandler;
 import equipe.projetoes.utilis.LivroDAO;
 import equipe.projetoes.utilis.OnSwipeTouchListener;
@@ -382,7 +384,8 @@ public class MainActivity extends BaseActivity {
 
                 hotCountTxt.setVisibility(View.VISIBLE);
                 //hotCountTxt.setText(Integer.toString(GlobalAccess.NOTIFICATION_COUNT));
-                hotCountTxt.setText(Integer.toString(10));
+
+                hotCountTxt.setText(Integer.toString(Global.numMatches));
 
             }
         });

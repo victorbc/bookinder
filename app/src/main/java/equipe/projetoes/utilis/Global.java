@@ -12,4 +12,5 @@ public class Global {
     public static Account currentAcc;
     public static Match lastMatch;
     public  static MatchesRecyclerAdapter adapter;
+    public static int numMatches;
 }
