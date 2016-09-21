@@ -4,12 +4,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
 
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import equipe.projetoes.exceptions.BookinderException;
@@ -22,7 +21,6 @@ import equipe.projetoes.models.LivroUser;
  */
 public class RestDAO implements RestDAOInterface {
     private String token;
-    private String userID;
     private String host;
 
     /**
@@ -33,20 +31,7 @@ public class RestDAO implements RestDAOInterface {
         this.host = host;
     }
 
-    public void test() {
-        HttpGetTask getTask = new HttpGetTask("http://rest-service.guides.spring.io/greeting",
-                new Callback<JSONObject>() {
-
-                    @Override
-                    public void execute(JSONObject result) {
-                        Log.wtf("TEST_____", result.toString());
-                    }
-                });
-
-        getTask.execute();
-    }
-
-    private void getUserToken(String username, String password, final Callback<Account> callback) {
+    private void getUserToken(String username, String password, final Callback<String> callback) {
         JSONObject body = new JSONObject();
 
         try {
@@ -63,12 +48,9 @@ public class RestDAO implements RestDAOInterface {
                     @Override
                     public void execute(JSONObject result) {
                         try {
-                            token = result.get("token").toString();
-
-                            Account acc = createAccountFromJson(result);
-                            callback.execute(acc);
+                            callback.execute(result.get("token").toString());
                         } catch (Exception e) {
-                            callback.execute(null);
+                            callback.execute("");
                         }
                     }
                 });
@@ -78,14 +60,16 @@ public class RestDAO implements RestDAOInterface {
 
     @Override
     public void authenticate(String username, String password, final Callback<Account> callback) {
-        getUserToken(username, password, new Callback<Account>() {
+        getUserToken(username, password, new Callback<String>() {
             @Override
-            public void execute(Account result) {
+            public void execute(String result) {
+                token = result;
                 getUserProfile(callback);
             }
         });
     }
 
+    @Override
     public void getUserProfile(final Callback<Account> callback) {
         HttpGetTask getTask = new HttpGetTask(
                 this.host + "/users_profiles/",
@@ -154,6 +138,23 @@ public class RestDAO implements RestDAOInterface {
         }
     }
 
+    private Livro createLivroFromJson(JSONObject json) {
+        Livro livro = new Livro();
+
+        try {
+            livro.setAutor(json.getString("autor"));
+            livro.setEditora(json.getString("editora"));
+            livro.setISBN(json.getString("isbn"));
+            livro.setImgFilePath(json.getString("img_file_path"));
+            livro.setNome(json.getString("nome"));
+            livro.setPg(json.getInt("paginas"));
+            livro.setResId(json.getInt("res_id"));
+            livro.setUrlImg(json.getString("url_img"));
+        } catch(Exception e) {}
+
+        return livro;
+    }
+
     private JSONObject createJsonFromAccount(Account acc) {
         JSONObject json = new JSONObject();
 
@@ -173,8 +174,43 @@ public class RestDAO implements RestDAOInterface {
         }
     }
 
+    private JSONObject createJsonFromLivro(Livro livro) {
+        JSONObject json = new JSONObject();
+
+        try {
+            json.put("isbn", livro.getISBN());
+            json.put("nome", livro.getNome());
+            json.put("autor", livro.getAutor());
+            json.put("editora", livro.getEditora());
+            json.put("paginas", livro.getPg());
+            json.put("img_file_path", livro.getImgFilePath());
+            json.put("url_img", livro.getUrlImg());
+            json.put("res_id", livro.getResId());
+        } catch (Exception e) {}
+
+        return json;
+    }
+
+    private JSONObject createJsonFromLivroUser(LivroUser livro) {
+        JSONObject json = new JSONObject();
+
+        try {
+            json.put("id", livro.getId());
+            json.put("book", this.host + "/books/" + livro.getLivro().getISBN() + "/");
+            json.put("favorite", livro.isFavorite());
+            json.put("tradeable", livro.isTradeable());
+            json.put("pages_read", livro.getReadPages());
+        } catch (Exception e) {}
+
+        return json;
+    }
+
     private Pair<String, String> tokenHeader() {
-        return new Pair<>("Authorization", "Token "+this.token);
+        return tokenHeader(this.token);
+    }
+
+    private Pair<String, String> tokenHeader(String userToken) {
+        return new Pair<>("Authorization", "Token "+userToken);
     }
 
     @Override
@@ -187,10 +223,10 @@ public class RestDAO implements RestDAOInterface {
                 new Callback<JSONObject>() {
                     @Override
                     public void execute(JSONObject result) {
-                        getUserToken(acc.getLogin(), acc.getPass(), new Callback<Account>() {
+                        getUserToken(acc.getLogin(), acc.getPass(), new Callback<String>() {
                             @Override
-                            public void execute(Account result) {
-                                createProfile(result, new Callback<Account>() {
+                            public void execute(String resultToken) {
+                                createProfile(acc, resultToken, new Callback<Account>() {
                                     @Override
                                     public void execute(Account result) {
                                         callback.execute(result);
@@ -204,15 +240,19 @@ public class RestDAO implements RestDAOInterface {
         postTask.execute();
     }
 
-    private void createProfile(final Account account, final Callback<Account> callback) {
+    private void createProfile(final Account account, String accToken, final Callback<Account> callback) {
+        JSONObject body = createJsonFromAccount(account);
+
         HttpPostTask postTask = new HttpPostTask(
                 this.host + "/users_profiles/",
-                new JSONObject(),
+                body,
                 new Callback<JSONObject>() {
                     @Override
                     public void execute(JSONObject result) {
                         try {
                             result.put("username", account.getLogin());
+                            result.put("email", account.getEmail());
+
                             Account acc = createAccountFromJson(result);
                             callback.execute(acc);
                         } catch (Exception e) {
@@ -220,39 +260,198 @@ public class RestDAO implements RestDAOInterface {
                         }
                     }
                 },
-                tokenHeader());
+                tokenHeader(accToken));
 
         postTask.execute();
     }
 
     @Override
-    public void createBook(Livro livro) throws BookinderException {
+    public void createLivro(final Livro livro, final Callback<Livro> callback) {
+        JSONObject body = createJsonFromLivro(livro);
 
+        HttpPostTask httpPost = new HttpPostTask(
+                this.host + "/books/",
+                body,
+                new Callback<JSONObject>() {
+                    @Override
+                    public void execute(JSONObject result) {
+                        try {
+                            result.getString("nome"); // Se for null vai gerar excecao
+                            callback.execute(createLivroFromJson(result));
+                        } catch (JSONException e) {
+                            getLivro(livro.getISBN(), new Callback<Livro>() {
+                                @Override
+                                public void execute(Livro result) {
+                                    callback.execute(result);
+                                }
+                            });
+                        }
+                    }
+                },
+                tokenHeader()
+        );
+
+        httpPost.execute();
     }
 
     @Override
-    public List<Livro> getLivrosWith(String text) {
-        return null;
+    public void getLivro(String livroUrlOrISBN, final Callback<Livro> callback) {
+        String url = this.host + "/books/" + livroUrlOrISBN;
+
+        if (livroUrlOrISBN.startsWith("http"))
+            url = livroUrlOrISBN;
+
+        HttpGetTask httpGet = new HttpGetTask(
+                url,
+                new Callback<JSONObject>() {
+                    @Override
+                    public void execute(JSONObject result) {
+                        Livro resultLivro = createLivroFromJson(result);
+                        callback.execute(resultLivro);
+                    }
+                },
+                tokenHeader()
+        );
+
+        httpGet.execute();
     }
 
     @Override
-    public Livro getLivro(String isbn) {
-        return null;
+    public void getLivroUser(int id, final Callback<LivroUser> callback) {
+        HttpGetTask httpGet = new HttpGetTask(
+                this.host + "/library/" + id,
+                new Callback<JSONObject>() {
+                    @Override
+                    public void execute(JSONObject result) {
+                        try {
+                            final int id = result.getInt("id");
+                            final Boolean favorite = result.getBoolean("favorite");
+                            final Boolean tradeable = result.getBoolean("tradeable");
+                            final Integer readPages = result.getInt("read_pages");
+
+                            getLivro(result.getString("book"), new Callback<Livro>() {
+                                @Override
+                                public void execute(Livro result) {
+                                    LivroUser livroUser = new LivroUser(result);
+                                    livroUser.setId(id);
+                                    livroUser.setFavorite(favorite);
+                                    livroUser.setTradeable(tradeable);
+                                    livroUser.setReadPages(readPages);
+
+                                    callback.execute(livroUser);
+                                }
+                            });
+                        } catch (Exception e) {}
+                    }
+                },
+                tokenHeader()
+        );
+
+        httpGet.execute();
     }
 
     @Override
-    public List<LivroUser> getLibrary() {
-        return null;
+    public void getLibrary(final Callback<List<LivroUser>> callback) {
+        HttpGetTask httpGet = new HttpGetTask(
+                this.host + "/library",
+                new Callback<JSONObject>() {
+                    @Override
+                    public void execute(JSONObject result) {
+                        try {
+                            final List<LivroUser> livros = new ArrayList<>();
+
+                            JSONArray results = result.getJSONArray("results");
+
+                            final int resultsLength = results.length();
+                            for (int i = 0; i < resultsLength; i++) {
+                                JSONObject jsonLivroUser = results.getJSONObject(i);
+                                final int finalI = i;
+                                getLivroUser(jsonLivroUser.getInt("id"), new Callback<LivroUser>() {
+                                    @Override
+                                    public void execute(LivroUser result) {
+                                        livros.add(result);
+                                        if (livros.size() == resultsLength)
+                                            callback.execute(livros);
+                                    }
+                                });
+                            }
+                        } catch (Exception e) {
+                            callback.execute(null);
+                        }
+                    }
+                },
+                tokenHeader()
+        );
+
+        httpGet.execute();
     }
 
     @Override
-    public LivroUser addBookToLibrary(Livro livro) throws BookinderException {
-        return null;
+    public void addBookToLibrary(Livro livro, final Callback<LivroUser> callback) {
+        String isbn = livro.getISBN();
+
+        JSONObject body = new JSONObject();
+        try {
+            body.put("book", this.host + "/books/" + isbn + "/");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HttpPostTask httpPost = new HttpPostTask(
+                this.host + "/library/",
+                body,
+                new Callback<JSONObject>() {
+                    @Override
+                    public void execute(final JSONObject resultJson) {
+                        try {
+                            getLivro(resultJson.getString("book"), new Callback<Livro>() {
+                                @Override
+                                public void execute(Livro resultLivro) {
+                                    try {
+                                        LivroUser livroUser = new LivroUser(resultLivro);
+                                        livroUser.setId(resultJson.getInt("id"));
+
+                                        callback.execute(livroUser);
+                                    } catch (Exception e){}
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                tokenHeader()
+        );
+
+        httpPost.execute();
     }
 
     @Override
-    public void update(LivroUser livro) throws BookinderException {
+    public void update(LivroUser livro, final Callback<LivroUser> callback) {
+        JSONObject body = createJsonFromLivroUser(livro);
 
+        HttpPutTask httpPut = new HttpPutTask(
+                this.host + "/library/" + livro.getId() + "/",
+                body,
+                new Callback<JSONObject>() {
+                    @Override
+                    public void execute(JSONObject result) {
+                        try {
+                            getLivroUser(result.getInt("id"), new Callback<LivroUser>() {
+                                @Override
+                                public void execute(LivroUser result) {
+                                    callback.execute(result);
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                tokenHeader()
+        );
+
+        httpPut.execute();
     }
 
     private class HttpGetTask extends AsyncTask<String, Void, String> {
@@ -283,7 +482,6 @@ public class RestDAO implements RestDAOInterface {
             } catch (JSONException e) {
                 callback.execute(null);
             }
-
         }
     }
 
@@ -308,9 +506,40 @@ public class RestDAO implements RestDAOInterface {
 
         @Override
         protected void onPostExecute(String result) {
-            JSONObject json = null; // convert String to JSONObject
             try {
-                json = new JSONObject(result);
+                JSONObject json = new JSONObject(result);; // convert String to JSONObject
+                json.put("statusCode", this.getStatus());
+
+                callback.execute(json);
+            } catch (JSONException e) {
+            }
+
+        }
+    }
+
+    private class HttpPutTask extends AsyncTask<String, Void, String> {
+        private String url;
+        private JSONObject body;
+        private Callback<JSONObject> callback;
+        private Pair<String, String> headers[];
+
+        public HttpPutTask(String url, JSONObject body, Callback<JSONObject> callback,
+                            Pair<String, String>... headers) {
+            this.url = url;
+            this.body = body;
+            this.callback = callback;
+            this.headers = headers;
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            return HttpHandler.PUT(this.url, this.body, this.headers);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                JSONObject json = new JSONObject(result);; // convert String to JSONObject
                 json.put("statusCode", this.getStatus());
 
                 callback.execute(json);

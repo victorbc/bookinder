@@ -26,7 +26,13 @@ public interface RestDAOInterface {
      * @param callback A classe com o metodo que sera executado ao final da requisicao
      * @return A conta do usuário
      */
-    public void authenticate(String username, String password, final Callback<Account> callback);
+    void authenticate(String username, String password, final Callback<Account> callback);
+
+    /**
+     * Recupera o perfil do Usuario
+     * @param callback o callback que sera executado
+     */
+    void getUserProfile(Callback<Account> callback);
 
     /**
      * This method can be used without needing to be authenticated. Anyone can create an account
@@ -37,7 +43,7 @@ public interface RestDAOInterface {
      * @param callback The callback function
      * @throws BookinderException In case something goes wrong
      */
-    public void createUser(final Account acc, final Callback<Account> callback);
+    void createUser(final Account acc, final Callback<Account> callback);
 
     /**
      * Cria um livro no banco de dados.
@@ -52,40 +58,37 @@ public interface RestDAOInterface {
      * Essa função deve ser usada caso não exista o livro ao executar o get livro.
      *
      * @param livro O livro a ser criado
-     * @throws BookinderException Se algo der errado
+     * @param callback O callback a ser executado
      */
-    public void createBook(Livro livro) throws BookinderException;
-
-    /**
-     * Returns a list of books that matchs someway **text**
-     *
-     * @param text The text to be matched
-     * @return A list of Livros
-     */
-    public List<Livro> getLivrosWith(String text);
+    void createLivro(Livro livro, Callback<Livro> callback);
 
     /**
      * Pega um livro pelo isbn
      * @param isbn Isbn do livro
-     * @return o livro
+     * @param callback O callback
      */
-    public Livro getLivro(String isbn);
+    void getLivro(String isbn, Callback<Livro> callback);
+
+    /**
+     * Recupera um livro do usuario da biblioteca pelo id do LivroUser na biblioteca
+     * @param id O id do LivroUser na biblioteca (Nao confundir com o id do livro)
+     * @param callback O callback que sera executado
+     */
+    void getLivroUser(int id, Callback<LivroUser> callback);
 
     /**
      * Recupera todos os livros que o usuário tem na biblioteca
      *
      * Precisar estar autenticado.
-     * @return Os livros na biblioteca do usuário
+     * @param callback O callback a ser executado
      */
-    public List<LivroUser> getLibrary();
+    void getLibrary(Callback<List<LivroUser>> callback);
 
     /**
      * Adiciona um livro a biblioteca do usuário
      * @param livro o livro a ser adicionado
-     * @return O livro para o usuário
-     * @throws BookinderException Se algo der errado
      */
-    public LivroUser addBookToLibrary(Livro livro) throws BookinderException;
+    void addBookToLibrary(Livro livro, Callback<LivroUser> callback);
 
     /**
      * Atualiza um dos livros do usuário.
@@ -94,7 +97,7 @@ public interface RestDAOInterface {
      *
      * O livro do LivroUser também tem que ser o mesmo.
      * @param livro O Livro do usuário a ser atualizado
-     * @throws BookinderException Se algo der errado ou as condições ali em cima não forem seguidas
+     * @param callback O callback a ser executado
      */
-    public void update(LivroUser livro) throws BookinderException;
+    void update(LivroUser livro, Callback<LivroUser> callback);
 }

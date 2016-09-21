@@ -32,11 +32,15 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import equipe.projetoes.AbstractGetNameTask;
 import equipe.projetoes.GetNameInForeground;
 import equipe.projetoes.R;
 import equipe.projetoes.exceptions.BookinderException;
 import equipe.projetoes.models.Account;
+import equipe.projetoes.models.Livro;
+import equipe.projetoes.models.LivroUser;
 import equipe.projetoes.utilis.AccDAO;
 import equipe.projetoes.utilis.Callback;
 import equipe.projetoes.utilis.Global;
@@ -105,6 +109,74 @@ public class LoginActivity extends AppCompatActivity {
                 fblogin();
             }
         });
+
+        final RestDAO restDAO = new RestDAO("http://192.168.25.28:8000");
+
+        Account newAccount = new Account();
+        newAccount.setEmail("stenio.araujo@ccc.ufcg.edu.br");
+        newAccount.setLogin("stenio");
+        newAccount.setPass("admin123");
+        newAccount.setEmail_google("steniogames@hotmail.com");
+        newAccount.setEmail_facebook("stenioelson@hotmail.com");
+
+//        restDAO.createUser(newAccount, new Callback<Account>() {
+//            @Override
+//            public void execute(Account result) {
+//                restDAO.authenticate(result.getLogin(), "admin123", new Callback<Account>() {
+//                    @Override
+//                    public void execute(Account result) {
+//                        Log.wtf("Account_CREATED____", result.getId() + " " + result.getEmail_facebook());
+//                    }
+//                });
+//            }
+//        });
+
+/* ISSO aqui [e apenas testando o uso do restDAO
+        final Livro livro = new Livro();
+        livro.setNome("Harry Potter");
+        livro.setISBN("123455");
+        restDAO.authenticate("stenio", "admin123", new Callback<Account>() {
+            @Override
+            public void execute(Account result) {
+                restDAO.createLivro(livro, new Callback<Livro>() {
+                    @Override
+                    public void execute(Livro result) {
+                        Log.wtf("LIVRO CRIADO", result.getISBN() + " " + result.getAutor());
+
+                        restDAO.addBookToLibrary(result, new Callback<LivroUser>() {
+                            @Override
+                            public void execute(final LivroUser resultAdded) {
+                                Log.wtf("LIVRO ADICIONADO A BIBLIOTECA", ""+resultAdded.getId());
+
+                                restDAO.getLivroUser(resultAdded.getId(), new Callback<LivroUser>() {
+                                    @Override
+                                    public void execute(LivroUser resultGet) {
+                                        Log.wtf("O LIVRO EH O MESMO?", new Boolean(resultGet.getId() == resultAdded.getId()).toString());
+
+                                        resultGet.setFavorite(true);
+                                        resultGet.setReadPages(300);
+                                        restDAO.update(resultGet, new Callback<LivroUser>() {
+                                            @Override
+                                            public void execute(LivroUser result) {
+                                                Log.wtf("LIVRO UPDATED!!! Agora eh FAVORITO", new Boolean(result.isFavorite()).toString());
+
+                                                restDAO.getLibrary(new Callback<List<LivroUser>>() {
+                                                    @Override
+                                                    public void execute(List<LivroUser> result) {
+                                                        Log.wtf("LIVROS NA BIBLIOTECA", ""+result.size());
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+*/
     }
 
     private void updateWithToken(AccessToken currentAccessToken) {
