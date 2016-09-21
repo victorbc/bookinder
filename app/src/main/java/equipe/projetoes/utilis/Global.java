@@ -1,6 +1,7 @@
 package equipe.projetoes.utilis;
 
 import equipe.projetoes.models.Account;
+import equipe.projetoes.models.Match;
 
 /**
  * Created by Victor on 06-Sep-16.
@@ -8,4 +9,5 @@ import equipe.projetoes.models.Account;
 public class Global {
 
     public static Account currentAcc;
+    public static Match lastMatch;
 }

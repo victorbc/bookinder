@@ -7,9 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.TextView;
 
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.BibliotecaRecyclerAdapter;
+import equipe.projetoes.adapters.MatchInfoRecyclerAdapter;
+import equipe.projetoes.utilis.Global;
 import equipe.projetoes.utilis.LivroDAO;
 
 /**
@@ -18,9 +21,9 @@ import equipe.projetoes.utilis.LivroDAO;
 public class MatchInfoActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView mRecyclerView;
-    private BibliotecaRecyclerAdapter adapter;
+    private MatchInfoRecyclerAdapter adapter;
     private RecyclerView mRecyclerView2;
-    private BibliotecaRecyclerAdapter adapter2;
+    private MatchInfoRecyclerAdapter adapter2;
     private LivroDAO dao;
 
 
@@ -50,7 +53,7 @@ public class MatchInfoActivity extends BaseActivity implements NavigationView.On
 
 
         // specify an adapter (see also next example)
-        adapter = new BibliotecaRecyclerAdapter(dao.listaTradables(), BibliotecaRecyclerAdapter.NOINFO, this);
+        adapter = new MatchInfoRecyclerAdapter(Global.lastMatch.getMeusLivros());
         mRecyclerView.setAdapter(adapter);
 
 
@@ -61,36 +64,31 @@ public class MatchInfoActivity extends BaseActivity implements NavigationView.On
         mRecyclerView2.setHasFixedSize(true);
         mRecyclerView2.setNestedScrollingEnabled(false);
 
-        // use a linear layout manager
-        int rows = 1;
-        switch (getResources().getDisplayMetrics().densityDpi) {
-            case DisplayMetrics.DENSITY_LOW:
-                rows = 1;
-                break;
-            case DisplayMetrics.DENSITY_MEDIUM:
-                rows = 1;
-                break;
-            case DisplayMetrics.DENSITY_HIGH:
-                rows = 2;
-                break;
-            case DisplayMetrics.DENSITY_XHIGH:
-                rows = 2;
-                break;
-            case DisplayMetrics.DENSITY_XXHIGH:
-                rows = 3;
-                break;
-            case DisplayMetrics.DENSITY_XXXHIGH:
-                rows = 3;
-                break;
-        }
-        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, rows);
-        mGridLayoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
-        mRecyclerView2.setLayoutManager(mGridLayoutManager);
-
+        LinearLayoutManager mLayoutManager2 = new LinearLayoutManager(this);
+        mLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecyclerView2.setLayoutManager(mLayoutManager2);
 
         // specify an adapter (see also next example)
-        adapter2 = new BibliotecaRecyclerAdapter(dao.listaTodos(), BibliotecaRecyclerAdapter.FULL, this);
+        adapter2 = new MatchInfoRecyclerAdapter(Global.lastMatch.getMatchLivros());
         mRecyclerView2.setAdapter(adapter2);
+
+        ((TextView) findViewById(R.id.txt_distancia)).setText(Global.lastMatch.getDistance() + " m");
+        findViewById(R.id.bt_trocar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.getSelected();
+                adapter2.getSelected();
+                finish();
+
+            }
+        });
+
+        findViewById(R.id.bt_rejeitar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
