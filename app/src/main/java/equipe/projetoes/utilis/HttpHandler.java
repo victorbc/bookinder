@@ -14,8 +14,10 @@ import android.util.Pair;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
@@ -113,30 +115,27 @@ public class HttpHandler {
             Log.d("InputStream", e.getLocalizedMessage());
         }
 
-        Log.wtf("LSKJDFKLKKKKKKKKKK", result);
-
         return result;
     }
 
-    public static String POST(String url, JSONObject body, Pair<String, String>... headers) {
+    private static String withBody(HttpEntityEnclosingRequestBase method, JSONObject body, Pair<String, String>... headers) {
         HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost(url);
 
         // add header
         for (Pair<String, String> header: headers) {
-            post.setHeader(header.first, header.second);
+            method.setHeader(header.first, header.second);
         }
-        post.setHeader("Content-Type", "application/json");
+        method.setHeader("Content-Type", "application/json");
 
         try {
-            post.setEntity(new StringEntity(body.toString()));
+            method.setEntity(new StringEntity(body.toString()));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         StringBuffer result = null;
         try {
-            HttpResponse response = client.execute(post);
+            HttpResponse response = client.execute(method);
             BufferedReader rd = new BufferedReader(
                     new InputStreamReader(response.getEntity().getContent()));
 
@@ -153,6 +152,18 @@ public class HttpHandler {
             return "";
         else
             return new String(result);
+    }
+
+    public static String POST(String url, JSONObject body, Pair<String, String>... headers) {
+        HttpPost post = new HttpPost(url);
+
+        return withBody(post, body, headers);
+    }
+
+    public static String PUT(String url, JSONObject body, Pair<String, String>... headers) {
+        HttpPut put = new HttpPut(url);
+
+        return withBody(put, body, headers);
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {

@@ -44,4 +44,8 @@ public class LivroUser {
     public void setReadPages(Integer readPages) {
         this.readPages = readPages;
     }
+
+    public int getId() { return id;}
+
+    public void setId(int id) { this.id = id;}
 }
