@@ -6,6 +6,7 @@ import equipe.projetoes.exceptions.BookinderException;
 import equipe.projetoes.models.Account;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.LivroUser;
+import equipe.projetoes.models.Match;
 import equipe.projetoes.util.Callback;
 
 /**
@@ -101,4 +102,10 @@ public interface RestDAOInterface {
      * @param callback O callback a ser executado
      */
     void update(LivroUser livro, Callback<LivroUser> callback);
+
+
+    void getMatchList(Callback<List<Match>> callback);
+    void getPristineMatchList(Callback<List<Match>> callback);
+    void rejectMatch(Match match, Callback<Integer> callback);
+    void acceptMatch(Match match, Callback<Integer> callback);
 }

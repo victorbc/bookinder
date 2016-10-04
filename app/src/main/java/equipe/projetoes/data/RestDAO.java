@@ -13,6 +13,7 @@ import java.util.List;
 import equipe.projetoes.models.Account;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.LivroUser;
+import equipe.projetoes.models.Match;
 import equipe.projetoes.util.Callback;
 import equipe.projetoes.util.HttpHandler;
 
@@ -452,6 +453,26 @@ public class RestDAO implements RestDAOInterface {
         );
 
         httpPut.execute();
+    }
+
+    @Override
+    public void getMatchList(Callback<List<Match>> callback) {
+
+    }
+
+    @Override
+    public void getPristineMatchList(Callback<List<Match>> callback) {
+
+    }
+
+    @Override
+    public void rejectMatch(Match match, Callback<Integer> callback) {
+
+    }
+
+    @Override
+    public void acceptMatch(Match match, Callback<Integer> callback) {
+
     }
 
     private class HttpGetTask extends AsyncTask<String, Void, String> {

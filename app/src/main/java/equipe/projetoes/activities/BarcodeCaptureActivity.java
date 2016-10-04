@@ -57,7 +57,7 @@ import equipe.projetoes.ui.camera.CameraSource;
 import equipe.projetoes.ui.camera.CameraSourcePreview;
 import equipe.projetoes.ui.camera.GraphicOverlay;
 import equipe.projetoes.util.BarcodeGraphic.BarcodeGraphic;
-import equipe.projetoes.util.BarcodeTrackerFactory;
+import equipe.projetoes.util.BarcodeGraphic.BarcodeTrackerFactory;
 
 
 /**

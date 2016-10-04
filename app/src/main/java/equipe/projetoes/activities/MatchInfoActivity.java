@@ -10,6 +10,10 @@ import android.widget.Toast;
 
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.MatchInfoRecyclerAdapter;
+import equipe.projetoes.data.RestDAO;
+import equipe.projetoes.models.Match;
+import equipe.projetoes.util.Callback;
+import equipe.projetoes.util.Constants;
 import equipe.projetoes.util.Global;
 import equipe.projetoes.data.LivroDAO;
 
@@ -23,6 +27,7 @@ public class MatchInfoActivity extends BaseActivity implements NavigationView.On
     private RecyclerView mRecyclerView2;
     private MatchInfoRecyclerAdapter adapter2;
     private LivroDAO dao;
+    private RestDAO restDAO;
 
 
     @Override
@@ -32,6 +37,7 @@ public class MatchInfoActivity extends BaseActivity implements NavigationView.On
         this.init();
 
         dao = new LivroDAO(this);
+        restDAO = new RestDAO(Constants.DEFAULT_HOST);
 
         if (!this.hasNavBar(getResources()))
             findViewById(R.id.navspace).setVisibility(View.GONE);
@@ -79,7 +85,19 @@ public class MatchInfoActivity extends BaseActivity implements NavigationView.On
                     toast.show();
                 } else {
 
-                    finish();
+                    restDAO.acceptMatch(Global.lastMatch, new Callback<Integer>() {
+                        @Override
+                        public void execute(Integer result) {
+                            if (result == Constants.REQUEST_SUCESSFUL) {
+                                Global.lastMatch = null;
+                                finish();
+                                //chamar tela de contato ou algo do tipo para comunicação entre os usarios
+                            } else if (result == Constants.REQUEST_FAILED) {
+                                Toast.makeText(getBaseContext(), "Falha na solicitação, verifique a conexão com a internet e tente novamente mais tarde.",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -87,9 +105,19 @@ public class MatchInfoActivity extends BaseActivity implements NavigationView.On
         findViewById(R.id.bt_rejeitar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //intercafedesteno
-                Global.adapter.remove(Global.lastMatch);
-                finish();
+                restDAO.rejectMatch(Global.lastMatch, new Callback<Integer>() {
+                    @Override
+                    public void execute(Integer result) {
+                        if (result == Constants.REQUEST_SUCESSFUL) {
+                            Global.lastMatch = null;
+                            finish();
+                        } else if (result == Constants.REQUEST_FAILED) {
+                            Toast.makeText(getBaseContext(), "Falha na solicitação, verifique a conexão com a internet e tente novamente mais tarde.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
             }
         });
 

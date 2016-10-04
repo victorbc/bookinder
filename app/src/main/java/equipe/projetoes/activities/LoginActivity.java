@@ -45,6 +45,7 @@ import equipe.projetoes.GetNameInForeground;
 import equipe.projetoes.R;
 import equipe.projetoes.models.Account;
 import equipe.projetoes.data.AccDAO;
+import equipe.projetoes.util.Constants;
 import equipe.projetoes.util.Global;
 import equipe.projetoes.data.RestDAO;
 
@@ -129,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-        final RestDAO restDAO = new RestDAO("http://192.168.25.28:8000");
+        final RestDAO restDAO = new RestDAO(Constants.DEFAULT_HOST);
 
         Account newAccount = new Account();
         newAccount.setEmail("stenio.araujo@ccc.ufcg.edu.br");

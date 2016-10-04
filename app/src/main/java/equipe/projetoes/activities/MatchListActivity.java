@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,9 +21,12 @@ import java.util.Random;
 
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.MatchesRecyclerAdapter;
+import equipe.projetoes.data.RestDAO;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Match;
 import equipe.projetoes.data.AccDAO;
+import equipe.projetoes.util.Callback;
+import equipe.projetoes.util.Constants;
 import equipe.projetoes.util.Global;
 import equipe.projetoes.data.LivroDAO;
 
@@ -35,6 +39,7 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
     private LivroDAO userDAO;
     private AccDAO accDAO;
     ArrayList<Match> matches;
+    private RestDAO restDAO;
 
 
     @Override
@@ -42,8 +47,9 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matched);
         this.init();
+        restDAO = new RestDAO(Constants.DEFAULT_HOST);
 
-        if(!this.hasNavBar(getResources()))
+        if (!this.hasNavBar(getResources()))
             findViewById(R.id.navspace).setVisibility(View.GONE);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_matches);
@@ -60,13 +66,25 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
 
         userDAO = new LivroDAO(this);
         accDAO = new AccDAO(this);
-        updateMatches();
+        //updateMatches();
+        restDAO.getPristineMatchList(new Callback<List<Match>>() {
+            @Override
+            public void execute(List<Match> result) {
+                if (result == null) {
+                    Toast.makeText(getBaseContext(), "Falha na solicitação, verifique a conexão com a internet e tente novamente mais tarde.",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    matches = (ArrayList<Match>) result;
+                    // specify an adapter (see also next example)
+                    adapter = new MatchesRecyclerAdapter(matches);
+                    Global.adapter = adapter;
+                    mRecyclerView.setAdapter(adapter);
+                    findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+                }
+            }
+        });
 
 
-        // specify an adapter (see also next example)
-        adapter = new MatchesRecyclerAdapter(matches);
-        Global.adapter = adapter;
-        mRecyclerView.setAdapter(adapter);
 //        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(),mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(View view, int position) {
@@ -84,7 +102,7 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
 //        }));
     }
 
-    public void updateMatches(){
+    public void updateMatches() {
         matches = new ArrayList<Match>();
         Random r = new Random();
         Global.numMatches = 0;
@@ -93,25 +111,25 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         List<Livro> tempList1;
         List<Livro> tempList2;
 
-        if (bibliotecaLocal.size() >= 2){
-            for (int i=0; i<10; i++){                   //Número de matches
+        if (bibliotecaLocal.size() >= 2) {
+            for (int i = 0; i < 10; i++) {                   //Número de matches
                 tempList1 = new ArrayList<Livro>();
                 tempList2 = new ArrayList<Livro>();
 
                 Collections.shuffle(bibliotecaLocal);
                 tempList1.addAll(bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size())));
-                while (tempList1.size() < 1){
+                while (tempList1.size() < 1) {
                     tempList1.addAll(bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size())));
                 }
 
                 Collections.shuffle(bibliotecaLocal);
                 tempList2.addAll(bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size())));
-                while (tempList2.size() < 1){
+                while (tempList2.size() < 1) {
                     tempList2.addAll(bibliotecaLocal.subList(0, r.nextInt(bibliotecaLocal.size())));
                 }
 
-                matches.add(new Match(tempList1, tempList2, "Usuario_" + (i+1), r.nextInt(1000), createThumb(tempList1), createThumb(tempList2)));
-                Global.numMatches+=1;
+                matches.add(new Match(tempList1, tempList2, "Usuario_" + (i + 1), r.nextInt(1000), createThumb(tempList1), createThumb(tempList2)));
+                Global.numMatches += 1;
             }
         }
     }
@@ -120,15 +138,13 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         Drawable d;
         AnimationDrawable animation = new AnimationDrawable();
 
-        for (Livro livro: tempList){
+        for (Livro livro : tempList) {
             d = new BitmapDrawable(getResources(), livro.getDrawable());
             animation.addFrame(d, 2000);
         }
 
         return animation;
     }
-
-
 
 
     @Override
@@ -183,7 +199,7 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
             } else if (selectedMenuId == 3) {
                 item.setIcon(R.drawable.ic_order_asc_loc);
                 selectedMenuId = 2;
-            }else if (selectedMenuId < 2) selectedMenuId = 2;
+            } else if (selectedMenuId < 2) selectedMenuId = 2;
 
             tempDrawable = item.getIcon();
             if (tempDrawable != null) {
