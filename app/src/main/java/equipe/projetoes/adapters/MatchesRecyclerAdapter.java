@@ -1,12 +1,6 @@
 package equipe.projetoes.adapters;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import equipe.projetoes.R;
-import equipe.projetoes.activities.DetalheLivroActivity;
 import equipe.projetoes.activities.MatchBooksInfoActivity;
 import equipe.projetoes.activities.MatchInfoActivity;
-import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Match;
-import equipe.projetoes.utilis.Global;
+import equipe.projetoes.util.Global;
 
 /**
  * Created by Victor on 4/9/2016.

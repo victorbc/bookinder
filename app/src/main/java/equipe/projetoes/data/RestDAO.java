@@ -1,7 +1,6 @@
-package equipe.projetoes.utilis;
+package equipe.projetoes.data;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.Pair;
 
 import org.json.JSONArray;
@@ -11,10 +10,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import equipe.projetoes.exceptions.BookinderException;
 import equipe.projetoes.models.Account;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.LivroUser;
+import equipe.projetoes.util.Callback;
+import equipe.projetoes.util.HttpHandler;
 
 /**
  * Created by stenio on 9/18/16.

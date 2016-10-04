@@ -21,8 +21,8 @@ import java.util.List;
 import equipe.projetoes.adapters.CategoriasGridViewAdapter;
 import equipe.projetoes.models.Categoria;
 import equipe.projetoes.R;
-import equipe.projetoes.utilis.AccDAO;
-import equipe.projetoes.utilis.Global;
+import equipe.projetoes.data.AccDAO;
+import equipe.projetoes.util.Global;
 
 public class CategoriasActivity extends AppCompatActivity{
     private static List<Categoria> mCategorias;

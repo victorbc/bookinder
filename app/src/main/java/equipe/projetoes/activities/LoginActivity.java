@@ -40,19 +40,13 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 import equipe.projetoes.AbstractGetNameTask;
 import equipe.projetoes.GetNameInForeground;
 import equipe.projetoes.R;
-import equipe.projetoes.exceptions.BookinderException;
 import equipe.projetoes.models.Account;
-import equipe.projetoes.models.Livro;
-import equipe.projetoes.models.LivroUser;
-import equipe.projetoes.utilis.AccDAO;
-import equipe.projetoes.utilis.Callback;
-import equipe.projetoes.utilis.Global;
-import equipe.projetoes.utilis.RestDAO;
+import equipe.projetoes.data.AccDAO;
+import equipe.projetoes.util.Global;
+import equipe.projetoes.data.RestDAO;
 
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{

@@ -16,12 +16,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -32,14 +30,12 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import java.util.Random;
 
 import equipe.projetoes.R;
-import equipe.projetoes.gcm.RegistrationIntentService;
+import equipe.projetoes.util.gcm.RegistrationIntentService;
 import equipe.projetoes.models.Livro;
-import equipe.projetoes.models.Match;
-import equipe.projetoes.utilis.Global;
-import equipe.projetoes.utilis.HttpHandler;
-import equipe.projetoes.utilis.LivroDAO;
-import equipe.projetoes.utilis.OnSwipeTouchListener;
-import equipe.projetoes.utilis.RestDAO;
+import equipe.projetoes.util.Global;
+import equipe.projetoes.util.HttpHandler;
+import equipe.projetoes.data.LivroDAO;
+import equipe.projetoes.util.OnSwipeTouchListener;
 
 public class MainActivity extends BaseActivity {
     private ImageView livroView;

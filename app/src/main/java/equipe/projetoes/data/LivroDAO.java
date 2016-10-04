@@ -1,4 +1,4 @@
-package equipe.projetoes.utilis;
+package equipe.projetoes.data;
 
 import android.content.ContentValues;
 import android.content.Context;

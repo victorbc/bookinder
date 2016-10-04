@@ -8,8 +8,8 @@ import android.view.View;
 
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.MatchBooksInfoRecyclerAdapter;
-import equipe.projetoes.utilis.Global;
-import equipe.projetoes.utilis.LivroDAO;
+import equipe.projetoes.util.Global;
+import equipe.projetoes.data.LivroDAO;
 
 /**
  * Created by Victor on 20-Sep-16.

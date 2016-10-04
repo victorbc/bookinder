@@ -12,7 +12,7 @@ import android.view.View;
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.BibliotecaRecyclerAdapter;
 import equipe.projetoes.models.Livro;
-import equipe.projetoes.utilis.LivroDAO;
+import equipe.projetoes.data.LivroDAO;
 
 public class BibliotecaActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 

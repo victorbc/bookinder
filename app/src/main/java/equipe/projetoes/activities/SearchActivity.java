@@ -26,8 +26,8 @@ import equipe.projetoes.R;
 import equipe.projetoes.adapters.SearchRecyclerAdapter;
 import equipe.projetoes.models.Filtros;
 import equipe.projetoes.models.Livro;
-import equipe.projetoes.utilis.HttpHandler;
-import equipe.projetoes.utilis.LivroDAO;
+import equipe.projetoes.util.HttpHandler;
+import equipe.projetoes.data.LivroDAO;
 
 /**
  * Created by Victor Batista on 5/5/2016.

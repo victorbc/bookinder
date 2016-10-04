@@ -10,8 +10,8 @@ import android.widget.Toast;
 
 import equipe.projetoes.R;
 import equipe.projetoes.adapters.MatchInfoRecyclerAdapter;
-import equipe.projetoes.utilis.Global;
-import equipe.projetoes.utilis.LivroDAO;
+import equipe.projetoes.util.Global;
+import equipe.projetoes.data.LivroDAO;
 
 /**
  * Created by Victor on 20-Sep-16.

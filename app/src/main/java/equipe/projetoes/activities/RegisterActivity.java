@@ -14,10 +14,10 @@ import android.widget.Toast;
 
 import equipe.projetoes.R;
 import equipe.projetoes.models.Account;
-import equipe.projetoes.utilis.AccDAO;
-import equipe.projetoes.utilis.Constants;
-import equipe.projetoes.utilis.CheckNetwork;
-import equipe.projetoes.utilis.ValidateUserInfo;
+import equipe.projetoes.data.AccDAO;
+import equipe.projetoes.util.Constants;
+import equipe.projetoes.util.CheckNetwork;
+import equipe.projetoes.util.ValidateUserInfo;
 
 
 public class RegisterActivity extends Activity implements View.OnClickListener{

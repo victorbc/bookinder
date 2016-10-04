@@ -22,9 +22,9 @@ import equipe.projetoes.R;
 import equipe.projetoes.adapters.MatchesRecyclerAdapter;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Match;
-import equipe.projetoes.utilis.AccDAO;
-import equipe.projetoes.utilis.Global;
-import equipe.projetoes.utilis.LivroDAO;
+import equipe.projetoes.data.AccDAO;
+import equipe.projetoes.util.Global;
+import equipe.projetoes.data.LivroDAO;
 
 public class MatchListActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private int selectedMenuId;
