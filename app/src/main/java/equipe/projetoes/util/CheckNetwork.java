@@ -1,4 +1,4 @@
-package equipe.projetoes.utilis;
+package equipe.projetoes.util;
 
 import android.app.Activity;
 import android.content.Context;

@@ -1,7 +1,6 @@
 package equipe.projetoes.adapters;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,8 @@ import android.widget.Toast;
 import java.util.List;
 
 import equipe.projetoes.R;
-import equipe.projetoes.activities.SearchActivity;
 import equipe.projetoes.models.Livro;
-import equipe.projetoes.utilis.LivroDAO;
+import equipe.projetoes.data.LivroDAO;
 
 /**
  * Created by Victor on 4/9/2016.

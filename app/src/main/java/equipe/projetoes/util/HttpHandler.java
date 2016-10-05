@@ -1,4 +1,4 @@
-package equipe.projetoes.utilis;
+package equipe.projetoes.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,8 +7,6 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.util.Pair;
 
@@ -38,22 +36,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 
+import equipe.projetoes.data.LivroDAO;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.Filtros;
 

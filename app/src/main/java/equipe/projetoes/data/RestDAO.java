@@ -1,4 +1,4 @@
-package equipe.projetoes.utilis;
+package equipe.projetoes.data;
 
 import android.os.AsyncTask;
 import android.util.Pair;
@@ -13,6 +13,10 @@ import java.util.List;
 import equipe.projetoes.models.Account;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.LivroUser;
+import equipe.projetoes.models.Match;
+import equipe.projetoes.util.Callback;
+import equipe.projetoes.util.Constants;
+import equipe.projetoes.util.HttpHandler;
 
 /**
  * Created by stenio on 9/18/16.
@@ -22,17 +26,20 @@ public class RestDAO implements RestDAOInterface {
     private String host;
     static private RestDAO instancia;
 
-    private RestDAO() {}
+    private RestDAO() {
+        setHost(Constants.DEFAULT_HOST);
+    }
 
     /**
-     *
      * @param host http[s]://hostname:port
      */
     public void setHost(String host) {
         this.host = host;
     }
 
-    public String getHost() {return this.host;}
+    public String getHost() {
+        return this.host;
+    }
 
     static public RestDAO getInstance() {
         if (instancia == null) {
@@ -102,7 +109,8 @@ public class RestDAO implements RestDAOInterface {
                                         Account userAcc = createAccountFromJson(user);
 
                                         callback.execute(userAcc);
-                                    } catch (Exception e){}
+                                    } catch (Exception e) {
+                                    }
                                 }
                             });
                         } catch (Exception e) {
@@ -133,7 +141,7 @@ public class RestDAO implements RestDAOInterface {
     private Account createAccountFromJson(JSONObject json) {
         Account acc = new Account();
 
-        try{
+        try {
             acc.setEmail(json.getString("email"));
             acc.setFirstTime(json.getBoolean("first_time"));
             acc.setEmail_facebook(json.getString("email_facebook"));
@@ -142,8 +150,7 @@ public class RestDAO implements RestDAOInterface {
             acc.setLogin(json.getString("username"));
 
             return acc;
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -160,7 +167,8 @@ public class RestDAO implements RestDAOInterface {
             livro.setPg(json.getInt("paginas"));
             livro.setResId(json.getInt("res_id"));
             livro.setUrlImg(json.getString("url_img"));
-        } catch(Exception e) {}
+        } catch (Exception e) {
+        }
 
         return livro;
     }
@@ -196,7 +204,8 @@ public class RestDAO implements RestDAOInterface {
             json.put("img_file_path", livro.getImgFilePath());
             json.put("url_img", livro.getUrlImg());
             json.put("res_id", livro.getResId());
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         return json;
     }
@@ -214,7 +223,8 @@ public class RestDAO implements RestDAOInterface {
             json.put("liked", livro.isLiked());
             json.put("interested", livro.isInterested());
             json.put("pages_read", livro.getReadPages());
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         return json;
     }
@@ -224,7 +234,7 @@ public class RestDAO implements RestDAOInterface {
     }
 
     private Pair<String, String> tokenHeader(String userToken) {
-        return new Pair<>("Authorization", "Token "+userToken);
+        return new Pair<>("Authorization", "Token " + userToken);
     }
 
     @Override
@@ -363,7 +373,8 @@ public class RestDAO implements RestDAOInterface {
                                     callback.execute(livroUser);
                                 }
                             });
-                        } catch (Exception e) {}
+                        } catch (Exception e) {
+                        }
                     }
                 },
                 tokenHeader()
@@ -375,7 +386,7 @@ public class RestDAO implements RestDAOInterface {
     @Override
     public void getLibrary(final Callback<List<LivroUser>> callback) {
         HttpGetTask httpGet = new HttpGetTask(
-                this.host + "/library",
+                this.host + "/library?blocked=false",
                 new Callback<JSONObject>() {
                     @Override
                     public void execute(JSONObject result) {
@@ -423,43 +434,54 @@ public class RestDAO implements RestDAOInterface {
         });
     }
 
-    private void adicionarLivroBibliotecaApenas(Livro livro, final Callback<LivroUser> callback) {
-        String isbn = livro.getISBN();
+    private void adicionarLivroBibliotecaApenas(final Livro livro, final Callback<LivroUser> callback) {
+        if (isAuthenticated()) {
+            String isbn = livro.getISBN();
+            JSONObject body = new JSONObject();
+            try {
+                body.put("book", this.host + "/books/" + isbn + "/");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        JSONObject body = new JSONObject();
-        try {
-            body.put("book", this.host + "/books/" + isbn + "/");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            HttpPostTask httpPost = new HttpPostTask(
+                    this.host + "/library/",
+                    body,
+                    new Callback<JSONObject>() {
+                        @Override
+                        public void execute(final JSONObject resultJson) {
+                            try {
+                                getLivro(resultJson.getString("book"), new Callback<Livro>() {
+                                    @Override
+                                    public void execute(Livro resultLivro) {
+                                        try {
+                                            LivroUser livroUser = new LivroUser(resultLivro);
+                                            livroUser.setId(resultJson.getInt("id"));
 
-        HttpPostTask httpPost = new HttpPostTask(
-                this.host + "/library/",
-                body,
-                new Callback<JSONObject>() {
-                    @Override
-                    public void execute(final JSONObject resultJson) {
-                        try {
-                            getLivro(resultJson.getString("book"), new Callback<Livro>() {
-                                @Override
-                                public void execute(Livro resultLivro) {
-                                    try {
-                                        LivroUser livroUser = new LivroUser(resultLivro);
-                                        livroUser.setId(resultJson.getInt("id"));
-
-                                        callback.execute(livroUser);
-                                    } catch (Exception e){}
-                                }
-                            });
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                            callback.execute(livroUser);
+                                        } catch (Exception e) {
+                                        }
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                },
-                tokenHeader()
-        );
+                    },
+                    tokenHeader()
+            );
 
-        httpPost.execute();
+            httpPost.execute();
+        } else {
+            authenticate("stenio", "admin123", new Callback<Account>() {
+                @Override
+                public void execute(Account result) {
+                    if (result != null) {
+                        addBookToLibrary(livro, callback);
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -488,6 +510,68 @@ public class RestDAO implements RestDAOInterface {
         );
 
         httpPut.execute();
+    }
+
+    @Override
+    public void getMatchList(Callback<List<Match>> callback) {
+
+    }
+
+    @Override
+    public void getPristineMatchList(final Callback<List<Match>> callback) {
+        if (isAuthenticated()) {
+
+        } else {
+            authenticate("stenio", "admin123", new Callback<Account>() {
+                @Override
+                public void execute(Account result) {
+                    if (result != null)
+                        getPristineMatchList(callback);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void rejectMatch(final Match match, final Callback<Integer> callback) {
+        if (isAuthenticated()) {
+
+        } else {
+            authenticate("stenio", "admin123", new Callback<Account>() {
+                @Override
+                public void execute(Account result) {
+                    if (result != null)
+                        rejectMatch(match, callback);
+
+                }
+            });
+        }
+
+    }
+
+    @Override
+    public void acceptMatch(final Match match, final Callback<Integer> callback) {
+        if (isAuthenticated()) {
+
+        } else {
+            authenticate("stenio", "admin123", new Callback<Account>() {
+                @Override
+                public void execute(Account result) {
+                    if (result != null)
+                        acceptMatch(match, callback);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void logOff() {
+        token = null;
+    }
+
+    @Override
+    public boolean isAuthenticated() {
+        return (token != null);
     }
 
     private class HttpGetTask extends AsyncTask<String, Void, String> {
@@ -543,7 +627,8 @@ public class RestDAO implements RestDAOInterface {
         @Override
         protected void onPostExecute(String result) {
             try {
-                JSONObject json = new JSONObject(result);; // convert String to JSONObject
+                JSONObject json = new JSONObject(result);
+                ; // convert String to JSONObject
                 json.put("statusCode", this.getStatus());
 
                 callback.execute(json);
@@ -560,7 +645,7 @@ public class RestDAO implements RestDAOInterface {
         private Pair<String, String> headers[];
 
         public HttpPutTask(String url, JSONObject body, Callback<JSONObject> callback,
-                            Pair<String, String>... headers) {
+                           Pair<String, String>... headers) {
             this.url = url;
             this.body = body;
             this.callback = callback;
@@ -575,7 +660,8 @@ public class RestDAO implements RestDAOInterface {
         @Override
         protected void onPostExecute(String result) {
             try {
-                JSONObject json = new JSONObject(result);; // convert String to JSONObject
+                JSONObject json = new JSONObject(result);
+                ; // convert String to JSONObject
                 json.put("statusCode", this.getStatus());
 
                 callback.execute(json);

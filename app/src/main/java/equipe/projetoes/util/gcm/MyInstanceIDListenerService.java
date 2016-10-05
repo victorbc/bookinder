@@ -1,4 +1,4 @@
-package equipe.projetoes.gcm;
+package equipe.projetoes.util.gcm;
 
 import android.content.Intent;
 

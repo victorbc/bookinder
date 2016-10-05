@@ -1,4 +1,4 @@
-package equipe.projetoes.utilis;
+package equipe.projetoes.util;
 
 import equipe.projetoes.adapters.MatchesRecyclerAdapter;
 import equipe.projetoes.models.Account;

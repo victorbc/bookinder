@@ -1,4 +1,4 @@
-package equipe.projetoes.utilis;
+package equipe.projetoes.util;
 
 /**
  * Created by AndreBTS on 25/09/2015.

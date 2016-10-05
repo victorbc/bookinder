@@ -12,9 +12,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import equipe.projetoes.R;
-import equipe.projetoes.utilis.AccDAO;
-import equipe.projetoes.utilis.Global;
+import equipe.projetoes.data.AccDAO;
+import equipe.projetoes.util.Global;
 
 public class LoginGoogleActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 

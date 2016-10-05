@@ -16,14 +16,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
@@ -32,14 +31,16 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import java.util.Random;
 
 import equipe.projetoes.R;
-import equipe.projetoes.gcm.RegistrationIntentService;
+import equipe.projetoes.data.RestDAO;
+import equipe.projetoes.models.LivroUser;
+import equipe.projetoes.util.Callback;
+import equipe.projetoes.util.Constants;
+import equipe.projetoes.util.gcm.RegistrationIntentService;
 import equipe.projetoes.models.Livro;
-import equipe.projetoes.models.Match;
-import equipe.projetoes.utilis.Global;
-import equipe.projetoes.utilis.HttpHandler;
-import equipe.projetoes.utilis.LivroDAO;
-import equipe.projetoes.utilis.OnSwipeTouchListener;
-import equipe.projetoes.utilis.RestDAO;
+import equipe.projetoes.util.Global;
+import equipe.projetoes.util.HttpHandler;
+import equipe.projetoes.data.LivroDAO;
+import equipe.projetoes.util.OnSwipeTouchListener;
 
 public class MainActivity extends BaseActivity {
     private ImageView livroView;
@@ -59,6 +60,7 @@ public class MainActivity extends BaseActivity {
     private HttpHandler http;
     private int index;
     private LivroDAO dao;
+    private RestDAO restDAO;
     private boolean isSlideLock = false;
     private Handler handler;
     private Animation animationFadeOut;
@@ -84,6 +86,7 @@ public class MainActivity extends BaseActivity {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+        restDAO = RestDAO.getInstance();
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -157,6 +160,15 @@ public class MainActivity extends BaseActivity {
                             livro.setISBN(dao.listaTodos().size() + "");
                         }
                         dao.adiciona(livro);
+                        restDAO.addBookToLibrary(livro, new Callback<LivroUser>() {
+                            @Override
+                            public void execute(LivroUser result) {
+                                Log.d("Rest","adicionado na biblioteca");
+                                if (result == null)
+                                    Toast.makeText(getBaseContext(), getBaseContext().getText(R.string.request_fail),
+                                            Toast.LENGTH_LONG).show();
+                            }
+                        });
 
                         anim.setImageResource(R.drawable.ic_book_type);
                         typeAnim();
@@ -176,8 +188,22 @@ public class MainActivity extends BaseActivity {
 
             public void onSwipeLeft() {
                 if (!isSlideLock) {
+                    restDAO.getLivro(livro.getISBN(), new Callback<Livro>() {
+                        @Override
+                        public void execute(Livro result) {
+                            if (result == null) {
+                                restDAO.addBookToLibrary(livro, new Callback<LivroUser>() {
+                                    @Override
+                                    public void execute(LivroUser result) {
+                                        if (result != null) {
+                                            // restDAO.update(result.b);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
                     shiftAnim();
-
                     anim.setImageResource(R.drawable.ic_unlike_type);
                     typeAnim();
                 }
@@ -456,13 +482,14 @@ public class MainActivity extends BaseActivity {
         }
     };
 
-    private void registerReceiver(){
-        if(!isReceiverRegistered) {
+    private void registerReceiver() {
+        if (!isReceiverRegistered) {
             LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                     new IntentFilter(REGISTRATION_COMPLETE));
             isReceiverRegistered = true;
         }
     }
+
     /**
      * Check the device to make sure it has the Google Play Services APK. If
      * it doesn't, display a dialog that allows users to download the APK from

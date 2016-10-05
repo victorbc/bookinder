@@ -1,18 +1,15 @@
 package equipe.projetoes.activities;
 
 import android.content.Intent;
-import android.preference.PreferenceActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import equipe.projetoes.R;
 import equipe.projetoes.models.Account;
-import equipe.projetoes.utilis.AccDAO;
-import equipe.projetoes.utilis.Global;
+import equipe.projetoes.data.AccDAO;
+import equipe.projetoes.util.Global;
 
 public class PreferenciasActivity extends BaseActivity {
 

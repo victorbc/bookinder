@@ -34,5 +34,6 @@
     <string name="associar_conta_face">Associar conta Facebook</string>
     <string name="associar_conta_google">Associar conta Google</string>
     <string name="facebook_app_id">1055845061137163</string>
+    <string name="request_fail">Request fail, check you internet connection and try again later.</string>
 
 </resources>

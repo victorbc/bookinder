@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import equipe.projetoes.R;
 import equipe.projetoes.models.Livro;
-import equipe.projetoes.utilis.LivroDAO;
+import equipe.projetoes.data.LivroDAO;
 
 /**
  * Created by Victor on 4/26/2016.

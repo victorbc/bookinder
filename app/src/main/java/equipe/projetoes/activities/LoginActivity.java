@@ -1,13 +1,16 @@
 package equipe.projetoes.activities;
 
+import android.Manifest;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -44,13 +47,15 @@ import equipe.projetoes.AbstractGetNameTask;
 import equipe.projetoes.GetNameInForeground;
 import equipe.projetoes.R;
 import equipe.projetoes.models.Account;
-import equipe.projetoes.utilis.AccDAO;
-import equipe.projetoes.utilis.Callback;
-import equipe.projetoes.utilis.Global;
-import equipe.projetoes.utilis.RestDAO;
+
+import equipe.projetoes.data.AccDAO;
+import equipe.projetoes.util.Callback;
+import equipe.projetoes.util.Constants;
+import equipe.projetoes.util.Global;
+import equipe.projetoes.data.RestDAO;
 
 
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
 
     Context mContext = LoginActivity.this;
@@ -68,8 +73,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private AccessTokenTracker accessTokenTracker;
     private static final int RC_SIGN_IN = 9000;
     private GoogleApiClient mGoogleApiClient;
-
-
 
 
     @Override
@@ -111,7 +114,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         pass_field = (EditText) findViewById(R.id.editText2);
 
 
-        info = (TextView)findViewById(R.id.info); //izabella
+        info = (TextView) findViewById(R.id.info); //izabella
         loginButton = (LoginButton) findViewById(R.id.login_button); //izabella
 
 
@@ -130,8 +133,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
+
         final RestDAO restDAO = RestDAO.getInstance();
-        restDAO.setHost("http://server.stenioelson.com.br:8844");
+
 
 //        Account newAccount = new Account();
 //        newAccount.setEmail("stenio.araujo@ccc.ufcg.edu.br");
@@ -148,6 +152,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
         // Se vc colocar uma chamada pra metodo aqui em baixo, nao significa que ele
         // vai estar autenticado.
+
 
         // Iza, Pra adicionar um livro na biblioteca, primeiro ele tem que ser criado.
         //
@@ -231,20 +236,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void fblogin() {
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
-        { //izabella ate o fim
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() { //izabella ate o fim
 
 
             @Override
-            public void onSuccess (LoginResult loginResult){
+            public void onSuccess(LoginResult loginResult) {
 //                Toast.makeText(LoginActivity.this, "clicou teste", Toast.LENGTH_LONG).show();
-               // info.setText(
-               //         "User ID: "
-               //                 + loginResult.getAccessToken().getUserId()
-               //                 + "\n" +
-               //                 "Auth Token: "
-               //                 + loginResult.getAccessToken().getToken()
-               // );
+                // info.setText(
+                //         "User ID: "
+                //                 + loginResult.getAccessToken().getUserId()
+                //                 + "\n" +
+                //                 "Auth Token: "
+                //                 + loginResult.getAccessToken().getToken()
+                // );
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
@@ -279,19 +283,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
 
             @Override
-            public void onCancel () {
-               // info.setText("Login attempt canceled.");
+            public void onCancel() {
+                // info.setText("Login attempt canceled.");
 
             }
 
             @Override
-            public void onError (FacebookException e){
+            public void onError(FacebookException e) {
                 Toast.makeText(LoginActivity.this, "Login attempt failed.", Toast.LENGTH_LONG).show();
 
             }
         });
     }
-
 
 
 //    @Override
@@ -335,12 +338,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private String[] getAccountNames() {
         mAccountManager = AccountManager.get(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.GET_ACCOUNTS},
+                    01);
+
+            return new String[1];
+        }
         android.accounts.Account[] accounts = mAccountManager.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
         String[] names = new String[accounts.length];
         for (int i = 0; i < names.length; i++) {
             names[i] = accounts[i].name;
         }
         return names;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 01 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            getAccountNames();
+
     }
 
     private AbstractGetNameTask getTask(LoginActivity activity, String email, String scope) {
@@ -371,8 +388,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         return false;
     }
 
-    public void login(){
-        startActivity(new Intent(LoginActivity.this,CategoriasActivity.class));
+    public void login() {
+        startActivity(new Intent(LoginActivity.this, CategoriasActivity.class));
         finish();
     }
 
@@ -382,7 +399,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-        }else{
+        } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -408,7 +425,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-
 
 
     private void handleSignInResult(GoogleSignInResult result) {
@@ -441,7 +457,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInAccount acct = result.getSignInAccount();
             AccDAO dao = new AccDAO(getApplicationContext());
             Global.currentAcc = dao.getAccountByLogin(acct.getEmail());
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
 
             this.finish();
@@ -468,7 +484,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         } else {
         }
     }
-
 
 
 }

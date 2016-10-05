@@ -19,8 +19,8 @@ import equipe.projetoes.R;
 import equipe.projetoes.activities.BibliotecaActivity;
 import equipe.projetoes.activities.DetalheLivroActivity;
 import equipe.projetoes.models.Livro;
-import equipe.projetoes.utilis.HolderOnClickListner;
-import equipe.projetoes.utilis.LivroDAO;
+import equipe.projetoes.util.HolderOnClickListner;
+import equipe.projetoes.data.LivroDAO;
 
 /**
  * Created by Victor on 4/9/2016.

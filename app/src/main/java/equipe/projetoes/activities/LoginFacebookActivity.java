@@ -15,16 +15,14 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
 
-import equipe.projetoes.R;
-import equipe.projetoes.utilis.AccDAO;
-import equipe.projetoes.utilis.Global;
+import equipe.projetoes.data.AccDAO;
+import equipe.projetoes.util.Global;
 
 public class LoginFacebookActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
