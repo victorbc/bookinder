@@ -146,8 +146,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         restDAO.authenticate("stenio", "admin123", new Callback<Account>() {
             @Override
             public void execute(Account result) {
-                // Isso soh eh executado quando recebe do servidor
-                Log.wtf("LOGADO!!!!!!", result.getLogin());
+                if(result != null) {
+                    // Isso soh eh executado quando recebe do servidor
+                    Log.wtf("LOGADO!!!!!!", result.getLogin());
+                }
             }
         });
         // Se vc colocar uma chamada pra metodo aqui em baixo, nao significa que ele

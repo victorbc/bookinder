@@ -163,7 +163,7 @@ public class MainActivity extends BaseActivity {
                         restDAO.addBookToLibrary(livro, new Callback<LivroUser>() {
                             @Override
                             public void execute(LivroUser result) {
-                                Log.d("Rest","adicionado na biblioteca");
+                                Log.d("REST","adicionado na biblioteca");
                                 if (result == null)
                                     Toast.makeText(getBaseContext(), getBaseContext().getText(R.string.request_fail),
                                             Toast.LENGTH_LONG).show();

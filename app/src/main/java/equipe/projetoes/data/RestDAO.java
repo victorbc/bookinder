@@ -1,12 +1,15 @@
 package equipe.projetoes.data;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +37,7 @@ public class RestDAO implements RestDAOInterface {
      * @param host http[s]://hostname:port
      */
     public void setHost(String host) {
+
         this.host = host;
     }
 
@@ -57,6 +61,7 @@ public class RestDAO implements RestDAOInterface {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
 
         HttpPostTask postTask = new HttpPostTask(
                 this.host + "/api-token-auth/",

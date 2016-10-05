@@ -48,6 +48,7 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
         setContentView(R.layout.activity_matched);
         this.init();
         restDAO = RestDAO.getInstance();
+        restDAO.setHost(Constants.DEFAULT_HOST);
 
         if (!this.hasNavBar(getResources()))
             findViewById(R.id.navspace).setVisibility(View.GONE);
