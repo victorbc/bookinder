@@ -8,12 +8,20 @@ public class LivroUser {
     private Livro livro;
     private boolean favorite;
     private boolean tradeable;
+    private boolean blocked;
+    private boolean liked;
+    private boolean owned;
+    private boolean interested;
     private Integer readPages;
 
     public LivroUser(Livro livro) {
         this.livro = livro;
         this.setFavorite(false);
         this.setTradeable(false);
+        this.setBlocked(false);
+        this.setLiked(false);
+        this.setOwned(false);
+        this.setInterested(false);
         this.setReadPages(0);
     }
 
@@ -48,4 +56,36 @@ public class LivroUser {
     public int getId() { return id;}
 
     public void setId(int id) { this.id = id;}
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
+    public boolean isOwned() {
+        return owned;
+    }
+
+    public void setOwned(boolean owned) {
+        this.owned = owned;
+    }
+
+    public boolean isInterested() {
+        return interested;
+    }
+
+    public void setInterested(boolean interested) {
+        this.interested = interested;
+    }
 }

@@ -1,7 +1,6 @@
 package equipe.projetoes.utilis;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.Pair;
 
 import org.json.JSONArray;
@@ -11,7 +10,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import equipe.projetoes.exceptions.BookinderException;
 import equipe.projetoes.models.Account;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.models.LivroUser;
@@ -22,13 +20,25 @@ import equipe.projetoes.models.LivroUser;
 public class RestDAO implements RestDAOInterface {
     private String token;
     private String host;
+    static private RestDAO instancia;
+
+    private RestDAO() {}
 
     /**
      *
      * @param host http[s]://hostname:port
      */
-    public RestDAO(String host) {
+    public void setHost(String host) {
         this.host = host;
+    }
+
+    public String getHost() {return this.host;}
+
+    static public RestDAO getInstance() {
+        if (instancia == null) {
+            instancia = new RestDAO();
+        }
+        return instancia;
     }
 
     private void getUserToken(String username, String password, final Callback<String> callback) {
@@ -199,6 +209,10 @@ public class RestDAO implements RestDAOInterface {
             json.put("book", this.host + "/books/" + livro.getLivro().getISBN() + "/");
             json.put("favorite", livro.isFavorite());
             json.put("tradeable", livro.isTradeable());
+            json.put("blocked", livro.isBlocked());
+            json.put("owned", livro.isOwned());
+            json.put("liked", livro.isLiked());
+            json.put("interested", livro.isInterested());
             json.put("pages_read", livro.getReadPages());
         } catch (Exception e) {}
 
@@ -327,6 +341,10 @@ public class RestDAO implements RestDAOInterface {
                             final int id = result.getInt("id");
                             final Boolean favorite = result.getBoolean("favorite");
                             final Boolean tradeable = result.getBoolean("tradeable");
+                            final Boolean blocked = result.getBoolean("blocked");
+                            final Boolean owned = result.getBoolean("owned");
+                            final Boolean liked = result.getBoolean("liked");
+                            final Boolean interested = result.getBoolean("interested");
                             final Integer readPages = result.getInt("read_pages");
 
                             getLivro(result.getString("book"), new Callback<Livro>() {
@@ -336,6 +354,10 @@ public class RestDAO implements RestDAOInterface {
                                     livroUser.setId(id);
                                     livroUser.setFavorite(favorite);
                                     livroUser.setTradeable(tradeable);
+                                    livroUser.setBlocked(blocked);
+                                    livroUser.setOwned(owned);
+                                    livroUser.setLiked(liked);
+                                    livroUser.setInterested(interested);
                                     livroUser.setReadPages(readPages);
 
                                     callback.execute(livroUser);
@@ -388,6 +410,20 @@ public class RestDAO implements RestDAOInterface {
 
     @Override
     public void addBookToLibrary(Livro livro, final Callback<LivroUser> callback) {
+        createLivro(livro, new Callback<Livro>() {
+            @Override
+            public void execute(Livro result) {
+                adicionarLivroBibliotecaApenas(result, new Callback<LivroUser>() {
+                    @Override
+                    public void execute(LivroUser result) {
+                        callback.execute(result);
+                    }
+                });
+            }
+        });
+    }
+
+    private void adicionarLivroBibliotecaApenas(Livro livro, final Callback<LivroUser> callback) {
         String isbn = livro.getISBN();
 
         JSONObject body = new JSONObject();

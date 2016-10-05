@@ -40,15 +40,10 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 import equipe.projetoes.AbstractGetNameTask;
 import equipe.projetoes.GetNameInForeground;
 import equipe.projetoes.R;
-import equipe.projetoes.exceptions.BookinderException;
 import equipe.projetoes.models.Account;
-import equipe.projetoes.models.Livro;
-import equipe.projetoes.models.LivroUser;
 import equipe.projetoes.utilis.AccDAO;
 import equipe.projetoes.utilis.Callback;
 import equipe.projetoes.utilis.Global;
@@ -135,14 +130,29 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-        final RestDAO restDAO = new RestDAO("http://192.168.25.28:8000");
+        final RestDAO restDAO = RestDAO.getInstance();
+        restDAO.setHost("http://server.stenioelson.com.br:8844");
 
-        Account newAccount = new Account();
-        newAccount.setEmail("stenio.araujo@ccc.ufcg.edu.br");
-        newAccount.setLogin("stenio");
-        newAccount.setPass("admin123");
-        newAccount.setEmail_google("steniogames@hotmail.com");
-        newAccount.setEmail_facebook("stenioelson@hotmail.com");
+//        Account newAccount = new Account();
+//        newAccount.setEmail("stenio.araujo@ccc.ufcg.edu.br");
+//        newAccount.setLogin("stenio");
+//        newAccount.setPass("admin123");
+//        newAccount.setEmail_google("steniogames@hotmail.com");
+//        newAccount.setEmail_facebook("stenioelson@hotmail.com");
+        restDAO.authenticate("stenio", "admin123", new Callback<Account>() {
+            @Override
+            public void execute(Account result) {
+                // Isso soh eh executado quando recebe do servidor
+                Log.wtf("LOGADO!!!!!!", result.getLogin());
+            }
+        });
+        // Se vc colocar uma chamada pra metodo aqui em baixo, nao significa que ele
+        // vai estar autenticado.
+
+        // Iza, Pra adicionar um livro na biblioteca, primeiro ele tem que ser criado.
+        //
+        // Facilitei a vida, sempre que adicionar um livro na biblioteca, ele cria ele. :P
+        //restDAO.addBookToLibrary();
 
 //        restDAO.createUser(newAccount, new Callback<Account>() {
 //            @Override
