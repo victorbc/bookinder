@@ -71,7 +71,7 @@ public class MatchListActivity extends BaseActivity implements NavigationView.On
             @Override
             public void execute(List<Match> result) {
                 if (result == null) {
-                    Toast.makeText(getBaseContext(), "Falha na solicitação, verifique a conexão com a internet e tente novamente mais tarde.",
+                    Toast.makeText(getBaseContext(), getBaseContext().getText(R.string.request_fail),
                             Toast.LENGTH_LONG).show();
                 } else {
                     matches = (ArrayList<Match>) result;

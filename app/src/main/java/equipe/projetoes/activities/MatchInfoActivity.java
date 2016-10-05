@@ -93,7 +93,7 @@ public class MatchInfoActivity extends BaseActivity implements NavigationView.On
                                 finish();
                                 //chamar tela de contato ou algo do tipo para comunicação entre os usarios
                             } else if (result == Constants.REQUEST_FAILED) {
-                                Toast.makeText(getBaseContext(), "Falha na solicitação, verifique a conexão com a internet e tente novamente mais tarde.",
+                                Toast.makeText(getBaseContext(), getBaseContext().getText(R.string.request_fail),
                                         Toast.LENGTH_LONG).show();
                             }
                         }
@@ -112,7 +112,7 @@ public class MatchInfoActivity extends BaseActivity implements NavigationView.On
                             Global.lastMatch = null;
                             finish();
                         } else if (result == Constants.REQUEST_FAILED) {
-                            Toast.makeText(getBaseContext(), "Falha na solicitação, verifique a conexão com a internet e tente novamente mais tarde.",
+                            Toast.makeText(getBaseContext(), getBaseContext().getText(R.string.request_fail),
                                     Toast.LENGTH_LONG).show();
                         }
                     }

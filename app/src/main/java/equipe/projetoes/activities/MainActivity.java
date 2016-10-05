@@ -30,6 +30,10 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import java.util.Random;
 
 import equipe.projetoes.R;
+import equipe.projetoes.data.RestDAO;
+import equipe.projetoes.models.LivroUser;
+import equipe.projetoes.util.Callback;
+import equipe.projetoes.util.Constants;
 import equipe.projetoes.util.gcm.RegistrationIntentService;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.util.Global;
@@ -55,6 +59,7 @@ public class MainActivity extends BaseActivity {
     private HttpHandler http;
     private int index;
     private LivroDAO dao;
+    private RestDAO restDAO;
     private boolean isSlideLock = false;
     private Handler handler;
     private Animation animationFadeOut;
@@ -80,6 +85,7 @@ public class MainActivity extends BaseActivity {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+        restDAO = new RestDAO(Constants.DEFAULT_HOST);
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -172,8 +178,22 @@ public class MainActivity extends BaseActivity {
 
             public void onSwipeLeft() {
                 if (!isSlideLock) {
+                    restDAO.getLivro(livro.getISBN(), new Callback<Livro>() {
+                        @Override
+                        public void execute(Livro result) {
+                            if(result == null){
+                                restDAO.addBookToLibrary(livro, new Callback<LivroUser>() {
+                                    @Override
+                                    public void execute(LivroUser result) {
+                                        if(result != null){
+                                           // restDAO.update(result.b);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
                     shiftAnim();
-
                     anim.setImageResource(R.drawable.ic_unlike_type);
                     typeAnim();
                 }

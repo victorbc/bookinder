@@ -108,4 +108,7 @@ public interface RestDAOInterface {
     void getPristineMatchList(Callback<List<Match>> callback);
     void rejectMatch(Match match, Callback<Integer> callback);
     void acceptMatch(Match match, Callback<Integer> callback);
+
+    void logOff();
+    boolean isAuthenticated();
 }
