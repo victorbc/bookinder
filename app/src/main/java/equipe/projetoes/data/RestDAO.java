@@ -391,44 +391,55 @@ public class RestDAO implements RestDAOInterface {
     }
 
     @Override
-    public void addBookToLibrary(Livro livro, final Callback<LivroUser> callback) {
-        String isbn = livro.getISBN();
+    public void addBookToLibrary(final Livro livro, final Callback<LivroUser> callback) {
+        if(isAuthenticated()) {
+            String isbn = livro.getISBN();
 
-        JSONObject body = new JSONObject();
-        try {
-            body.put("book", this.host + "/books/" + isbn + "/");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            JSONObject body = new JSONObject();
+            try {
+                body.put("book", this.host + "/books/" + isbn + "/");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        HttpPostTask httpPost = new HttpPostTask(
-                this.host + "/library/",
-                body,
-                new Callback<JSONObject>() {
-                    @Override
-                    public void execute(final JSONObject resultJson) {
-                        try {
-                            getLivro(resultJson.getString("book"), new Callback<Livro>() {
-                                @Override
-                                public void execute(Livro resultLivro) {
-                                    try {
-                                        LivroUser livroUser = new LivroUser(resultLivro);
-                                        livroUser.setId(resultJson.getInt("id"));
+            HttpPostTask httpPost = new HttpPostTask(
+                    this.host + "/library/",
+                    body,
+                    new Callback<JSONObject>() {
+                        @Override
+                        public void execute(final JSONObject resultJson) {
+                            try {
+                                getLivro(resultJson.getString("book"), new Callback<Livro>() {
+                                    @Override
+                                    public void execute(Livro resultLivro) {
+                                        try {
+                                            LivroUser livroUser = new LivroUser(resultLivro);
+                                            livroUser.setId(resultJson.getInt("id"));
 
-                                        callback.execute(livroUser);
-                                    } catch (Exception e) {
+                                            callback.execute(livroUser);
+                                        } catch (Exception e) {
+                                        }
                                     }
-                                }
-                            });
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                },
-                tokenHeader()
-        );
+                    },
+                    tokenHeader()
+            );
 
-        httpPost.execute();
+            httpPost.execute();
+        }else{
+            authenticate("stenio", "admin123", new Callback<Account>() {
+                @Override
+                public void execute(Account result) {
+                    if(result != null){
+                        addBookToLibrary(livro,callback);
+                    }
+                }
+            });
+        }
     }
 
     @Override

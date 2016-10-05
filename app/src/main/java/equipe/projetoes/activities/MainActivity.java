@@ -22,6 +22,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
@@ -159,6 +160,15 @@ public class MainActivity extends BaseActivity {
                             livro.setISBN(dao.listaTodos().size() + "");
                         }
                         dao.adiciona(livro);
+                        restDAO.addBookToLibrary(livro, new Callback<LivroUser>() {
+                            @Override
+                            public void execute(LivroUser result) {
+                                Log.d("Rest","adicionado na biblioteca");
+                                if (result == null)
+                                    Toast.makeText(getBaseContext(), getBaseContext().getText(R.string.request_fail),
+                                            Toast.LENGTH_LONG).show();
+                            }
+                        });
 
                         anim.setImageResource(R.drawable.ic_book_type);
                         typeAnim();
@@ -181,12 +191,12 @@ public class MainActivity extends BaseActivity {
                     restDAO.getLivro(livro.getISBN(), new Callback<Livro>() {
                         @Override
                         public void execute(Livro result) {
-                            if(result == null){
+                            if (result == null) {
                                 restDAO.addBookToLibrary(livro, new Callback<LivroUser>() {
                                     @Override
                                     public void execute(LivroUser result) {
-                                        if(result != null){
-                                           // restDAO.update(result.b);
+                                        if (result != null) {
+                                            // restDAO.update(result.b);
                                         }
                                     }
                                 });
@@ -472,13 +482,14 @@ public class MainActivity extends BaseActivity {
         }
     };
 
-    private void registerReceiver(){
-        if(!isReceiverRegistered) {
+    private void registerReceiver() {
+        if (!isReceiverRegistered) {
             LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                     new IntentFilter(REGISTRATION_COMPLETE));
             isReceiverRegistered = true;
         }
     }
+
     /**
      * Check the device to make sure it has the Google Play Services APK. If
      * it doesn't, display a dialog that allows users to download the APK from
