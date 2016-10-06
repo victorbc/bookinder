@@ -41,6 +41,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -67,6 +68,7 @@ public class HttpHandler {
     private int coverQtPass;
     private int lastCoverNum = 0;
     private int lastBookNum = 0;
+    private Random rnd;
 
     private LivroDAO dao;
 
@@ -75,6 +77,7 @@ public class HttpHandler {
 
         livros = new ArrayList<Livro>();
         dao = new LivroDAO(ctx);
+        rnd = new Random();
         getBooks(20);
 
     }
@@ -179,6 +182,20 @@ public class HttpHandler {
             return true;
         else
             return false;
+    }
+
+    public String getKey() {
+        switch (rnd.nextInt(3)){
+            case 0:
+                return "HEMYOGXpqJwvwnwG2AlLuQ";
+            case 1:
+                return "sDyJSG6rhrq3A1ZOUOA";
+            case 2:
+                return "CgLUUc17UuydGyKCxgDyQ";
+            default:
+                return "HEMYOGXpqJwvwnwG2AlLuQ";
+        }
+
     }
 
 
@@ -423,11 +440,11 @@ public class HttpHandler {
     public void getBooks(int qt) {
         System.out.println("getBooks(" + qt + ")");
         //  new HttpJsonAsyncTask().execute("https://www.googleapis.com/books/v1/users/109518442467553217123/bookshelves/1001/volumes?startIndex=" + livros.size() + "&maxResults=" + qt);
-        new HttpXmlAsyncTask().execute("https://www.goodreads.com/search/index.xml?q=paulo+coelho&page=1&key=HEMYOGXpqJwvwnwG2AlLuQ&search[field]=author");
+        new HttpXmlAsyncTask().execute("https://www.goodreads.com/search/index.xml?q=paulo+coelho&page=1&key="+getKey()+"&search[field]=author");
     }
 
     public void getBooks(int qt, Filtros filtro, String search_input) {
-        new HttpXmlAsyncTask().execute("https://www.goodreads.com/search/index.xml?q=" + search_input.replace(" ", "+") + "&page=1&key=HEMYOGXpqJwvwnwG2AlLuQ&search[field]=" + filtro.getName());
+        new HttpXmlAsyncTask().execute("https://www.goodreads.com/search/index.xml?q=" + search_input.replace(" ", "+") + "&page=1&key="+getKey()+"&search[field]=" + filtro.getName());
     }
 
 

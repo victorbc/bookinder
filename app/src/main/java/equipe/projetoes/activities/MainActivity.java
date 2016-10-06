@@ -163,10 +163,21 @@ public class MainActivity extends BaseActivity {
                         restDAO.addBookToLibrary(livro, new Callback<LivroUser>() {
                             @Override
                             public void execute(LivroUser result) {
-                                Log.d("REST","adicionado na biblioteca");
-                                if (result == null)
+
+                                if (result == null) {
                                     Toast.makeText(getBaseContext(), getBaseContext().getText(R.string.request_fail),
                                             Toast.LENGTH_LONG).show();
+                                }else{
+                                    Log.d("REST","adicionado na biblioteca");
+                                    result.setLiked(true);
+                                    result.setOwned(true);
+                                    restDAO.update(result, new Callback<LivroUser>() {
+                                        @Override
+                                        public void execute(LivroUser result) {
+                                            Log.d("REST","livrouser atualizado");
+                                        }
+                                    });
+                                }
                             }
                         });
 
@@ -179,6 +190,33 @@ public class MainActivity extends BaseActivity {
 
             public void onSwipeRight() {
                 if (!isSlideLock) {
+                    if (!dao.listaTodos().contains(livro)) {
+                        if (livro.getISBN() == null || livro.getISBN().equals("")) {
+                            //TODO recuperar ISB da pesquisa
+                            livro.setISBN(dao.listaTodos().size() + "");
+                        }
+                        restDAO.addBookToLibrary(livro, new Callback<LivroUser>() {
+                            @Override
+                            public void execute(LivroUser result) {
+
+                                if (result == null) {
+
+                                } else {
+                                    Log.d("REST", "adicionado na biblioteca");
+                                    result.setLiked(true);
+                                    result.setInterested(true);
+                                    restDAO.update(result, new Callback<LivroUser>() {
+                                        @Override
+                                        public void execute(LivroUser result) {
+                                            Log.d("REST", "livrouser atualizado");
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+
+
                     shiftAnim();
 
                     anim.setImageResource(R.drawable.ic_trade_type);
@@ -187,22 +225,33 @@ public class MainActivity extends BaseActivity {
             }
 
             public void onSwipeLeft() {
+
                 if (!isSlideLock) {
-                    restDAO.getLivro(livro.getISBN(), new Callback<Livro>() {
+                    if (!dao.listaTodos().contains(livro)) {
+                        if (livro.getISBN() == null || livro.getISBN().equals("")) {
+                            //TODO recuperar ISB da pesquisa
+                            livro.setISBN(dao.listaTodos().size() + "");
+                        }
+                    restDAO.addBookToLibrary(livro, new Callback<LivroUser>() {
                         @Override
-                        public void execute(Livro result) {
+                        public void execute(LivroUser result) {
+
                             if (result == null) {
-                                restDAO.addBookToLibrary(livro, new Callback<LivroUser>() {
+
+                            } else {
+                                Log.d("REST", "adicionado na biblioteca");
+                                result.setLiked(false);
+                                result.setBlocked(true);
+                                restDAO.update(result, new Callback<LivroUser>() {
                                     @Override
                                     public void execute(LivroUser result) {
-                                        if (result != null) {
-                                            // restDAO.update(result.b);
-                                        }
+                                        Log.d("REST", "livrouser atualizado");
                                     }
                                 });
                             }
                         }
                     });
+                }
                     shiftAnim();
                     anim.setImageResource(R.drawable.ic_unlike_type);
                     typeAnim();
@@ -211,6 +260,32 @@ public class MainActivity extends BaseActivity {
 
             public void onSwipeBottom() {
                 if (!isSlideLock) {
+
+                    if (!dao.listaTodos().contains(livro)) {
+                        if (livro.getISBN() == null || livro.getISBN().equals("")) {
+                            //TODO recuperar ISB da pesquisa
+                            livro.setISBN(dao.listaTodos().size() + "");
+                        }
+                        restDAO.addBookToLibrary(livro, new Callback<LivroUser>() {
+                            @Override
+                            public void execute(LivroUser result) {
+
+                                if (result == null) {
+
+                                } else {
+                                    Log.d("REST", "adicionado na biblioteca");
+                                    result.setLiked(true);
+                                    restDAO.update(result, new Callback<LivroUser>() {
+                                        @Override
+                                        public void execute(LivroUser result) {
+                                            Log.d("REST", "livrouser atualizado");
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+
                     anim.setImageResource(R.drawable.ic_info_type);
                     typeAnim();
                     handler.postDelayed(detailDelay, 1000);

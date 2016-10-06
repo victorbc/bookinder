@@ -2,6 +2,7 @@ package equipe.projetoes.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,11 @@ import android.widget.Toast;
 import java.util.List;
 
 import equipe.projetoes.R;
+import equipe.projetoes.data.RestDAO;
 import equipe.projetoes.models.Livro;
 import equipe.projetoes.data.LivroDAO;
+import equipe.projetoes.models.LivroUser;
+import equipe.projetoes.util.Callback;
 
 /**
  * Created by Victor on 4/9/2016.
@@ -22,6 +26,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     private List<Livro> mDataset;
     private LivroDAO dao;
     private Context ctx;
+    private RestDAO restDAO;
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public SearchRecyclerAdapter(List<Livro> myDataset, Context ctx) {
@@ -29,6 +34,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
         dao = new LivroDAO(ctx);
         this.ctx = ctx;
+        restDAO = RestDAO.getInstance();
     }
 
 
@@ -120,7 +126,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         private View btAdd;
 
 
-        public ViewHolder(View v) {
+        public ViewHolder(final View v) {
             super(v);
 
             txtNome = (TextView) v.findViewById(R.id.txt_title);
@@ -133,6 +139,33 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 public void onClick(View view) {
                     dao.adiciona(mDataset.get(getAdapterPosition()));
                     Toast.makeText(ctx, "Livro adicionado a biblioteca", Toast.LENGTH_SHORT);
+                    Livro livro = mDataset.get(getAdapterPosition());
+                    if (!dao.listaTodos().contains(livro)) {
+                        if (livro.getISBN() == null || livro.getISBN().equals("")) {
+                            //TODO recuperar ISB da pesquisa
+                            livro.setISBN(dao.listaTodos().size() + "");
+                        }
+                        restDAO.addBookToLibrary(livro, new Callback<LivroUser>() {
+                            @Override
+                            public void execute(LivroUser result) {
+
+                                if (result == null) {
+                                    Toast.makeText(v.getContext(), v.getContext().getText(R.string.request_fail),
+                                            Toast.LENGTH_LONG).show();
+                                } else {
+                                    Log.d("REST", "adicionado na biblioteca");
+                                    result.setLiked(true);
+                                    result.setOwned(true);
+                                    restDAO.update(result, new Callback<LivroUser>() {
+                                        @Override
+                                        public void execute(LivroUser result) {
+                                            Log.d("REST", "livrouser atualizado");
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
                 }
             });
         }
