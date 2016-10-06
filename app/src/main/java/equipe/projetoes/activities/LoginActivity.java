@@ -43,12 +43,16 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import equipe.projetoes.AbstractGetNameTask;
 import equipe.projetoes.GetNameInForeground;
 import equipe.projetoes.R;
 import equipe.projetoes.models.Account;
 
 import equipe.projetoes.data.AccDAO;
+import equipe.projetoes.models.Livro;
+import equipe.projetoes.models.Match;
 import equipe.projetoes.util.Callback;
 import equipe.projetoes.util.Constants;
 import equipe.projetoes.util.Global;
@@ -135,6 +139,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
         final RestDAO restDAO = RestDAO.getInstance();
+        restDAO.setHost("http://server.stenioelson.com.br:8844");
 
 
 //        Account newAccount = new Account();
@@ -148,7 +153,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void execute(Account result) {
                 if(result != null) {
                     // Isso soh eh executado quando recebe do servidor
-                    Log.wtf("LOGADO!!!!!!", result.getLogin());
+                    restDAO.getPristineMatchList(new Callback<List<Match>>() {
+                        @Override
+                        public void execute(List<Match> result) {
+                            if (result != null) {
+                                Log.wtf("LOGADDOOOOO!!!!", result.get(0).getMatchName() + "");
+                                String meus = "meus";
+                                for(Livro l: result.get(0).getMeusLivros()) {
+                                    meus += " | " + l.getNome();
+                                }
+                                String matches = "matches";
+                                for(Livro l: result.get(0).getMatchLivros()) {
+                                    matches += " | " + l.getNome();
+                                }
+                                Log.wtf("LOGADDOOOOO!!!!", meus);
+                                Log.wtf("LOGADDOOOOO!!!!", matches);
+                            } else {
+                                Log.wtf("LOGADDOOOOO!!!!", "É NULLL CARAIII");
+                            }
+                        }
+                    });
                 }
             }
         });

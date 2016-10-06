@@ -8,9 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import equipe.projetoes.models.Account;
@@ -28,6 +27,7 @@ public class RestDAO implements RestDAOInterface {
     private String token;
     private String host;
     static private RestDAO instancia;
+    private String loggedUser;
 
     private RestDAO() {
         setHost(Constants.DEFAULT_HOST);
@@ -81,11 +81,12 @@ public class RestDAO implements RestDAOInterface {
     }
 
     @Override
-    public void authenticate(String username, String password, final Callback<Account> callback) {
+    public void authenticate(final String username, String password, final Callback<Account> callback) {
         getUserToken(username, password, new Callback<String>() {
             @Override
             public void execute(String result) {
                 token = result;
+                loggedUser = username;
                 getUserProfile(callback);
             }
         });
@@ -166,7 +167,11 @@ public class RestDAO implements RestDAOInterface {
         try {
             livro.setAutor(json.getString("autor"));
             livro.setEditora(json.getString("editora"));
-            livro.setISBN(json.getString("isbn"));
+            try {
+                livro.setISBN(json.getString("isbn"));
+            } catch (Exception e) {
+                livro.setISBN(""+ getBookIdFromUrl(json.getString("url")));
+            }
             livro.setImgFilePath(json.getString("img_file_path"));
             livro.setNome(json.getString("nome"));
             livro.setPg(json.getInt("paginas"));
@@ -518,14 +523,91 @@ public class RestDAO implements RestDAOInterface {
     }
 
     @Override
-    public void getMatchList(Callback<List<Match>> callback) {
+    public void getMatchList(final Callback<List<Match>> callback) {
+        if (isAuthenticated()) {
 
+        } else {
+            authenticate("stenio", "admin123", new Callback<Account>() {
+                @Override
+                public void execute(Account result) {
+                    if (result != null)
+                        getMatchList(callback);
+                }
+            });
+        }
+    }
+
+    private int getBookIdFromUrl(String url) {
+        if(url != null)
+            return new Integer(url.split("books/")[1].split("/")[0]);
+        return 0;
     }
 
     @Override
     public void getPristineMatchList(final Callback<List<Match>> callback) {
         if (isAuthenticated()) {
+            HttpGetTask httpGet = new HttpGetTask(
+                    this.host + "/matches_read/?rejected=false&accepted=false",
+                    new Callback<JSONObject>() {
+                        @Override
+                        public void execute(JSONObject result) {
+                            try {
+                                HashMap<String, Match> matches = new HashMap<>();
 
+                                JSONArray results = result.getJSONArray("results");
+
+                                int resultsLength = results.length();
+                                JSONObject json = null;
+                                String user2 = null;
+                                Livro livro1, livro2;
+                                List<Livro> meusLivros, matchLivros;
+                                for (int i = 0; i < resultsLength; i++) {
+                                    json = results.getJSONObject(i);
+                                    if (json.getJSONObject("user1")
+                                            .getString("username")
+                                            .equals(getLoggedUser())) {
+                                        user2 = json.getJSONObject("user2").getString("username");
+                                        livro1 = createLivroFromJson(json.getJSONObject("book1"));
+                                        livro2 = createLivroFromJson(json.getJSONObject("book2"));
+                                    } else {
+                                        user2 = json.getJSONObject("user1").getString("username");
+                                        livro1 = createLivroFromJson(json.getJSONObject("book2"));
+                                        livro2 = createLivroFromJson(json.getJSONObject("book1"));
+                                    }
+
+                                    if(matches.containsKey(user2)) {
+                                        meusLivros = matches.get(user2).getMeusLivros();
+                                        matchLivros = matches.get(user2).getMatchLivros();
+
+                                        if(!meusLivros.contains(livro1)) meusLivros.add(livro1);
+                                        if(!matchLivros.contains(livro2)) matchLivros.add(livro2);
+                                    } else {
+                                        meusLivros = new ArrayList<>();
+                                        matchLivros = new ArrayList<>();
+
+                                        meusLivros.add(livro1);
+                                        matchLivros.add(livro2);
+
+                                        Match match = new Match(meusLivros, matchLivros, user2, 0, null, null);
+                                        matches.put(user2, match);
+                                    }
+                                }
+
+                                List<Match> resultMatches = new ArrayList<>();
+                                for (Match match: matches.values()) {
+                                    resultMatches.add(match);
+                                }
+
+                                callback.execute(resultMatches);
+                            } catch (Exception e) {
+                                callback.execute(null);
+                            }
+                        }
+                    },
+                    tokenHeader()
+            );
+
+            httpGet.execute();
         } else {
             authenticate("stenio", "admin123", new Callback<Account>() {
                 @Override
@@ -554,6 +636,8 @@ public class RestDAO implements RestDAOInterface {
 
     }
 
+    public String getLoggedUser() {return loggedUser;}
+
     @Override
     public void acceptMatch(final Match match, final Callback<Integer> callback) {
         if (isAuthenticated()) {
@@ -572,6 +656,7 @@ public class RestDAO implements RestDAOInterface {
     @Override
     public void logOff() {
         token = null;
+        loggedUser = null;
     }
 
     @Override
