@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Bookinder</string>
-    <string name="request_fail">Falha na solicitação, verifique a conexão com a internet e tente novamente mais tarde.</string>
-</resources>
